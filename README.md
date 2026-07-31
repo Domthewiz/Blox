@@ -5,7 +5,7 @@ This is a template repo for quickly getting a new NSMBU mod project up and runni
 
 ## Setup Guide
 ### Compiling
-Install the [Tachyon SDK](https://github.com/Zenith-Team/Tachyon) (requires [Node.js](https://nodejs.org/) v24+)
+Install [Tachyon](https://github.com/Zenith-Team/Tachyon) (requires [Node.js](https://nodejs.org/) v24+)
 ```yml
 npm i -g https://github.com/Zenith-Team/Tachyon/releases/latest/download/Tachyon.tgz
 ```
