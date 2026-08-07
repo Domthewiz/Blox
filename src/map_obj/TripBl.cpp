@@ -61,6 +61,7 @@ const ActorCreateInfo TripBl::cCreateInfo = {
 
 Profile* TripBl::cProfile = blox::getRegistrar()->newProfile<TripBl>("tripbk")
     .resources<"blocklong">(ProfileInfo::cResType_Course)
+    .drawPriority(1)
     .createInfo(&cCreateInfo)
     .build();
 
@@ -78,6 +79,7 @@ ActorBase::Result TripBl::create() {
     mTripModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
     mTripModel->getTexAnim(0)->getFrameCtrl().setRate(0.0f);
     mTripModel->getShuAnim(0)->getFrameCtrl().setRate(0.0f);
+    //mTripModel->getShuAnim(0)->getFrameCtrl().setRate(0.33333333333f);
 
     _1c68 = 1;
     _1ab4 = 0;
@@ -181,6 +183,7 @@ ActorBase::Result TripBl::create() {
 bool TripBl::execute() {
 
     // This is to replicate the 20fps of the regular ? block
+    
     if (frameCounter < 2) {
         this->frameCounter ++;
         mTripModel->getShuAnim(0)->getFrameCtrl().setRate(0.0f);

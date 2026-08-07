@@ -1,0 +1,9 @@
+0//< Version
+"e_Isiyama"//< enemy
+"b_Isiyama"//< boss
+"mo_Isiyama"//< mapobj
+"i_Isiyama"//< item
+"p_Isiyama"//< player
+"m_Black"//< DV
+"ef_default"//< effect
+"lm_Isiyama_3"//< lightmap

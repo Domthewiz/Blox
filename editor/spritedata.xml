@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <sprites>
 	<sprite string_id="blox:tripbk" name="Triple Block">
-		<value nybble="1-2" title="Target Event ID"/>
-		<list nybble="8-9" title="Contents">
+		<value nybble="1-2" title="Target Event ID" category="events"/>
+		<list nybble="8-9" title="Contents" category="behavior">
 			<entry value="0">None</entry>
 			<entry value="1">1 Coin</entry>
 			<entry value="2">Fire Flower</entry>
@@ -23,8 +23,8 @@
 			<entry value="17">3-UP</entry>
 			<entry value="18">Coin Shower</entry>
 		</list>
-		<checkbox nybble="10" title="Spawn Side Coins"/>
-		<list nybble="11" title="Model">
+		<checkbox nybble="10" title="Spawn Side Coins" category="behavior"/>
+		<list nybble="11" title="Model" category="behavior">
 			<entry value="0">Overworld</entry>
 			<entry value="1">Underground</entry>
 			<entry value="2">Lava</entry>
