@@ -42,6 +42,7 @@ public:
     u8 frameCounter = 0;
     bool isBumpFromBelow = false;
     bool gotBonkedModel = false;
+    f32 zPosOffset = 0.0f;
 
 private:
     AnimModel* mTripModel;
@@ -193,8 +194,6 @@ bool TripBl::execute() {
         mTripModel->getShuAnim(0)->getFrameCtrl().setRate(1.0f);
     }
 
-    mTripModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + std::fmodf(mPos.x, 128.0f)), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.0f));
-
     if (!ActorBlockBase::execute()) {
         return false;
     }
@@ -207,17 +206,18 @@ bool TripBl::execute() {
         }
     }
 
+    updateModel();
+
     return true;
 }
 
-bool TripBl::draw() { 
-    mTripModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + std::fmodf(mPos.x, 128.0f)), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.0f), false);
+bool TripBl::draw() {
     mTripModel->draw();
     return true;
 }
 
 void TripBl::updateModel() {
-    mTripModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + std::fmodf(mPos.x, 128.0f)), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.0f));
+    mTripModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + std::fmodf(mPos.x, 128.0f) + zPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f), false);
 }
 void TripBl::spawnCoinShower() {
     // This function is overridden so it won't spawn a coin shower from the 10 coins
@@ -228,6 +228,7 @@ void TripBl::spawnCoinShower() {
 void TripBl::preSpawnItem() {
     // isBumpFromBelow only exists because onDownMoveStart() doesn't get called when mario groundpounds the block strangely
     // luckily onUpMoveStart() gets called before this does so i made a bool
+    zPosOffset = 100.0f;
     if (this->isBumpFromBelow) {
         this->mSpawnDirection = cDirType_Up;
     } else {
@@ -257,6 +258,7 @@ void TripBl::spawnItemDown() {
 
 void TripBl::spawnItem() {
     // Certain contents don't spawn normally, so i have to make exceptions for those
+    zPosOffset = 0.0f;
     bool isSmall = 0;
     u32 playerCount = PlayerMgr::instance()->getNumInGame();
     for (u32 i = 0; i < 4; i++) {
