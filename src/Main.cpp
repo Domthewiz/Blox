@@ -1,11 +1,11 @@
 #include <telkin/Print.h>
-#include <example/ExampleMod.h>
+#include <blox/Blox.h>
 
-red::Registrar* example::getRegistrar() {
-    static red::Registrar sRegistrar("examplemod");
+red::Registrar* blox::getRegistrar() {
+    static red::Registrar sRegistrar("blox");
     return &sRegistrar;
 }
 
 void main() {
-    tk::println("Welcome to Example Mod");
+    tk::println("Welcome to Domthewiz' Blox!");
 }

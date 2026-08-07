@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
-<game name="Example Mod" version="1.0" description="This is a template for RedCore">
+<game name="Blox" version="1.0" description="an actor pack for NSMBU that adds various block-type actors">
     <file name="spritedata" path="spritedata.xml" />
+    <folder name="sprites" path="sprites" patch="true" />
+    <file name="sprites" path="sprites.py" patch="true" />
 </game>

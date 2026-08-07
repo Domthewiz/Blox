@@ -1,6 +1,34 @@
 <?xml version="1.0"?>
 <sprites>
-	<sprite string_id="examplemod:demo" name="Demo Actor">
-        <!-- Settings go here -->
+	<sprite string_id="blox:tripbk" name="Triple Block">
+		<value nybble="1-2" title="Target Event ID"/>
+		<list nybble="8-9" title="Contents">
+			<entry value="0">None</entry>
+			<entry value="1">1 Coin</entry>
+			<entry value="2">Fire Flower</entry>
+			<entry value="3">Fire Flower</entry>
+			<entry value="4">Propeller Mushroom</entry>
+			<entry value="5">Penguin Suit</entry>
+			<entry value="6">Mini Mushroom</entry>
+			<entry value="7">Star</entry>
+			<entry value="8">Continuous Star</entry>
+			<entry value="9">Yoshi egg</entry>
+			<entry value="10">10 Coin</entry>
+			<entry value="11">1-UP</entry>
+			<entry value="12">Vine</entry>
+			<entry value="13">Spring</entry>
+			<entry value="14">Super Mushroom (if small)</entry>
+			<entry value="15">Ice Flower</entry>
+			<entry value="16">Acorn Mushroom</entry>
+			<entry value="17">3-UP</entry>
+			<entry value="18">Coin Shower</entry>
+		</list>
+		<checkbox nybble="10" title="Spawn Side Coins"/>
+		<list nybble="11" title="Model">
+			<entry value="0">Overworld</entry>
+			<entry value="1">Underground</entry>
+			<entry value="2">Lava</entry>
+			<entry value="3">Lava Underground</entry>
+		</list>
 	</sprite>
 </sprites>

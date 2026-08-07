@@ -1,10 +1,10 @@
 {
     WURPLSVersion: "1.0",
     
-    Name: "ExampleMod",
+    Name: "Blox",
     Type: "Standard",
     Version: "1.0.0",
-    Description: "This is the RedCore example mod!",
+    Description: "Blox is a actor pack for NSMBU that adds various block-type actors",
     
     SourceDirs: [
         "src"
