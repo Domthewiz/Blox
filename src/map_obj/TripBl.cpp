@@ -1,5 +1,6 @@
 #include <actor/Actor.h>
 #include <blox/Blox.h>
+#include <graphics/AnimModel.h>
 #include <telkin/Print.h>
 #include <graphics/JointBlendModel.h>
 #include <red/util/SpriteUtil.h>
@@ -43,7 +44,7 @@ public:
     bool gotBonkedModel = false;
 
 private:
-    JointBlendModel* mTripModel;
+    AnimModel* mTripModel;
 };
 
 using ACI = ActorCreateInfo;
@@ -72,7 +73,7 @@ TripBl::TripBl(const ActorCreateParam& param)
 
 ActorBase::Result TripBl::create() {
 
-    mTripModel = JointBlendModel::create("blocklong", "block_DRC", 0, 2, 2);
+    mTripModel = AnimModel::create("blocklong", "block_DRC", 0, 2, 2);
     mTripModel->playTexAnim("block_DRC");
     mTripModel->playTexSrtAnim("player99");
     mTripModel->playTexSrtAnim("coin");
@@ -192,6 +193,7 @@ bool TripBl::execute() {
         mTripModel->getShuAnim(0)->getFrameCtrl().setRate(1.0f);
     }
 
+    mTripModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + std::fmodf(mPos.x, 128.0f)), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.0f));
 
     if (!ActorBlockBase::execute()) {
         return false;
@@ -205,12 +207,11 @@ bool TripBl::execute() {
         }
     }
 
-    updateModel();
-
     return true;
 }
 
-bool TripBl::draw() {
+bool TripBl::draw() { 
+    mTripModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + std::fmodf(mPos.x, 128.0f)), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.0f), false);
     mTripModel->draw();
     return true;
 }
