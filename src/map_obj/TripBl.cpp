@@ -2,7 +2,6 @@
 #include <blox/Blox.h>
 #include <graphics/AnimModel.h>
 #include <telkin/Print.h>
-#include <graphics/JointBlendModel.h>
 #include <red/util/SpriteUtil.h>
 #include <map_obj/ActorBlockBase.h>
 #include <map_obj/ActorCoinMgr.h>
