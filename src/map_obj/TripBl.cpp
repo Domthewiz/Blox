@@ -81,32 +81,21 @@ ActorBase::Result TripBl::create() {
     mTripModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
     mTripModel->getTexAnim(0)->getFrameCtrl().setRate(0.0f);
     mTripModel->getShuAnim(0)->getFrameCtrl().setRate(0.0f);
-    //mTripModel->getShuAnim(0)->getFrameCtrl().setRate(0.33333333333f);
 
     _1c68 = 1;
     _1ab4 = 0;
     _1aec = 0;
     _1cc0 = 0;
-    
-    mCollisionMask.setDirect(0x01);
 
     mType = cType_Hatena;
     mBoxBgCollision.setType(BgCollision::cType_QuestionBlock);
-
     mContent = cContent_Empty;
-
-    ActorBlockBase::init(true,true);
+    
+    if (!ActorBlockBase::init(true,true)) {
+        return cResult_Failed;
+    }
 
     registerColliderActiveInfo();
-
-    mBoxBgCollision.setFlag(0x00000018);
-    mBoxBgCollision.setCallback(
-        &BlockCoinBase::callbackFoot,
-        &BlockCoinBase::callbackHead,
-        &BlockCoinBase::callBackWall
-    );
-    mBoxBgCollision.setDrcTouchCallback(&mDrcTouchCallback);
-
     changeState(StateID_Wait);
 
     mBoxBgCollision.getPoints()[0].x -= 16.0f;
@@ -171,7 +160,7 @@ ActorBase::Result TripBl::create() {
             mContent = cContent_Empty;
             break;
     }
-
+    
     if (mType == cType_Hit) {
         changeState(StateID_HitWait);
         mTripModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
@@ -185,7 +174,6 @@ ActorBase::Result TripBl::create() {
 bool TripBl::execute() {
 
     // This is to replicate the 20fps of the regular ? block
-    
     if (frameCounter < 2) {
         this->frameCounter ++;
         mTripModel->getShuAnim(0)->getFrameCtrl().setRate(0.0f);
@@ -198,6 +186,7 @@ bool TripBl::execute() {
         return false;
     }
 
+    // update visuals
     if (mType == cType_Hit) {
         changeState(StateID_HitWait);
         if (!gotBonkedModel) {
@@ -212,23 +201,27 @@ bool TripBl::execute() {
 }
 
 bool TripBl::draw() {
-    mTripModel->draw();
+    if (mTripModel != nullptr) {
+        mTripModel->draw();
+    }
     return true;
 }
 
 void TripBl::updateModel() {
-    mTripModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + std::fmodf(mPos.x, 128.0f) + zPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f), false);
+    if (mTripModel != nullptr) {
+        mTripModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + std::fmodf(mPos.x, 128.0f) + zPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
+    }
 }
 void TripBl::spawnCoinShower() {
     // This function is overridden so it won't spawn a coin shower from the 10 coins
     // This is how it works in nsmb2, it only spawns the side coins on the last hit.
-    tk::println("Coin Shower Cancelled");
+    if (!((red::SpriteUtil::getNybble10(this)) & 0x1)) {BlockCoinBase::spawnCoinShower();}
 }
 
 void TripBl::preSpawnItem() {
     // isBumpFromBelow only exists because onDownMoveStart() doesn't get called when mario groundpounds the block strangely
     // luckily onUpMoveStart() gets called before this does so i made a bool
-    zPosOffset = 100.0f;
+    zPosOffset = 128.0f;
     if (this->isBumpFromBelow) {
         this->mSpawnDirection = cDirType_Up;
     } else {
