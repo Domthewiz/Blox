@@ -48,8 +48,80 @@ class SpriteImage_TripleT(SLib.SpriteImage_Static):  # 819
 
         super().dataChanged()
 
+class SpriteImage_oos(SLib.SpriteImage_Static):  # 819
+    def __init__(self, parent):
+        super().__init__(
+            parent,
+            3.75,
+        )
+
+        self.xOffset = -8
+        self.yOffset = -16
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('OnOffSwitch_standard', 'on_off_switch_standard.png')
+        SLib.loadIfNotInImageCache('OnOffSwitch_chika', 'on_off_switch_chika.png')
+        SLib.loadIfNotInImageCache('OnOffSwitch_yougan', 'on_off_switch_yougan.png')
+        SLib.loadIfNotInImageCache('OnOffSwitch_yougan2', 'on_off_switch_yougan2.png')
+          
+    def dataChanged(self):
+        animationStyle = self.parent.spritedata[5] >> 4 & 0xF
+            
+        if animationStyle == 1:
+            self.image = ImageCache['OnOffSwitch_chika']
+
+        elif animationStyle == 2:
+            self.image = ImageCache['OnOffSwitch_yougan']
+
+        elif animationStyle == 3:
+            self.image = ImageCache['OnOffSwitch_yougan2']
+    
+        else:
+            self.image = ImageCache['OnOffSwitch_standard']
+
+        super().dataChanged()
+
+class SpriteImage_oob(SLib.SpriteImage_Static):  # 819
+    def __init__(self, parent):
+        super().__init__(
+            parent,
+            3.75,
+        )
+
+        self.xOffset = -8
+        self.yOffset = -8
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('OnOffBlockRed_standard', 'on_off_block_red_standard.png')
+        SLib.loadIfNotInImageCache('OnOffBlockRed_chika', 'on_off_block_red_chika.png')
+        SLib.loadIfNotInImageCache('OnOffBlockRed_yougan', 'on_off_block_red_yougan.png')
+        SLib.loadIfNotInImageCache('OnOffBlockRed_yougan2', 'on_off_block_red_yougan2.png')
+        SLib.loadIfNotInImageCache('OnOffBlockBlue', 'on_off_block_blue.png')
+          
+    def dataChanged(self):
+        animationStyle = self.parent.spritedata[5] >> 4 & 0xF
+        isBlue = self.parent.spritedata[2] >> 4 & 0xF
+            
+        if isBlue == 1:
+            self.image = ImageCache['OnOffBlockBlue']
+        else:
+            if animationStyle == 1:
+                self.image = ImageCache['OnOffBlockRed_chika']
+            elif animationStyle == 2:
+                self.image = ImageCache['OnOffBlockRed_yougan']
+            elif animationStyle == 3:
+                self.image = ImageCache['OnOffBlockRed_yougan2']
+            else:
+                self.image = ImageCache['OnOffBlockRed_standard']
+
+        super().dataChanged()
+
 
 
 ImageClasses = {
     "blox:tripbk": SpriteImage_TripleT,
+    "blox:oos": SpriteImage_oos,
+    "blox:oob": SpriteImage_oob,
 }

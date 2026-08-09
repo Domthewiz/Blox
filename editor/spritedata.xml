@@ -31,4 +31,23 @@
 			<entry value="3">Lava Underground</entry>
 		</list>
 	</sprite>
+	<sprite string_id="blox:oos" name="On/Off Switch">
+		<value nybble="1-2" title="Target Event ID" category="events"/>
+		<list nybble="11" title="Model" category="behavior">
+			<entry value="0">Overworld</entry>
+			<entry value="1">Underground</entry>
+			<entry value="2">Lava</entry>
+			<entry value="3">Lava Underground</entry>
+		</list>
+	</sprite>
+	<sprite string_id="blox:oob" name="On/Off Block">
+		<value nybble="1-2" title="Target Event ID" category="events"/>
+		<dualbox nybble="5" title1="Red" title2="Blue"/>
+		<list nybble="11" title="Model" category="behavior">
+			<entry value="0">Overworld</entry>
+			<entry value="1">Underground</entry>
+			<entry value="2">Lava</entry>
+			<entry value="3">Lava Underground</entry>
+		</list>
+	</sprite>
 </sprites>
