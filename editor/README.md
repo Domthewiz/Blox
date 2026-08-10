@@ -14,4 +14,4 @@
 
 The custom actors should now be available to search and place in your level. (Note that to view them in-game you must have the actual mod installed as well.)
 
-Help & support is available in our [Discord](https://go.nsmbu.net/discord) server.
+Help & support is available in the Zenith [Discord](https://go.nsmbu.net/discord) server.
