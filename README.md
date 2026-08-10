@@ -1,4 +1,4 @@
-<img alt="banner" src="https://github.com/user-attachments/assets/9e0799ea-8825-4bf7-ab9b-274d035ed6e9" />
+<img alt="banner" src="https://github.com/user-attachments/assets/620a638e-5253-47e6-a0d8-76d49ada15ed" />
 
 ## Overview
 **Blox** is a **New Super Mario Bros. U** actor pack that adds a collection of mostly block-related actors, aswell as some non-block-related actors for modders to use.
