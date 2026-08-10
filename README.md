@@ -1,7 +1,12 @@
-# Blox
+<img alt="banner" src="https://github.com/user-attachments/assets/9e0799ea-8825-4bf7-ab9b-274d035ed6e9" />
 
 ## Overview
 **Blox** is a **New Super Mario Bros. U** actor pack that adds a collection of mostly block-related actors, aswell as some non-block-related actors for modders to use.
+
+## Features
+- **Triple Block**: It's exactly what it sounds like, a question block that's triple the width! But this time, the model doesn't crash! 😉
+- **On/Off Switch**: It's a switch, that toggles an event, Can be used in conjunction with the On/Off Block, as it uses events.
+- **On/Off block**: It's a block, that's (depending on the state of the event) either solid or not. Can be used in conjunction with the On/Off Switch, as it uses events.
 
 ### For Modders
 - Download the **`bundle`** from the [latest release](https://github.com/Domthewiz/Blox/releases/latest) and extract it to your mod folder, merging the `content` and `code` folders into your project. The actors will now be available in-game.
