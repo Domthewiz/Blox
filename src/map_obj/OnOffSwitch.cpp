@@ -8,6 +8,7 @@
 #include <player/PlayerMgr.h>
 #include <player/PlayerObject.h>
 #include <map/SwitchFlagMgr.h>
+#include <audio/GameAudio.h>
 
 namespace blox {
 
@@ -135,11 +136,13 @@ void OnOffSwitch::preSpawnItem() {
 }
 
 void OnOffSwitch::spawnItemUp() {
+    this->mVSpawnType = 0;
     zPosOffset = 0.0f;
     changeState(StateID_Wait);
 }
 
 void OnOffSwitch::spawnItemDown() {
+    this->mVSpawnType = 0;
     zPosOffset = 0.0f;
     changeState(StateID_Wait);
 }
@@ -149,17 +152,18 @@ bool OnOffSwitch::isBlockActive() {
 }
 
 void OnOffSwitch::destroy() {
-    //changeState(StateID_UpMove); // TODO
+    //changeState(StateID_UpMove_Diff); // TODO
     changeState(StateID_Wait);
     toggleEvent();
 }
 void OnOffSwitch::destroy2() {
-    //changeState(StateID_UpMove); // TODO
+    //changeState(StateID_UpMove_Diff); // TODO
     changeState(StateID_Wait);
     toggleEvent();
 }
 
 void OnOffSwitch::toggleEvent() {
+    GameAudio::getAudioObjMap()->startSound("SE_OBJ_STEP_ON_SWITCH", mPos);
     if (SwitchFlagMgr::instance()->isActivated(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1)) {
         SwitchFlagMgr::instance()->set(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1, 0, false);
     } else {

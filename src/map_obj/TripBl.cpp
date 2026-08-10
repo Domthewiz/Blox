@@ -45,6 +45,7 @@ public:
 
 private:
     AnimModel* mTripModel;
+    ParentMovementMgr mMovementMgr;
 };
 
 using ACI = ActorCreateInfo;
@@ -72,7 +73,6 @@ TripBl::TripBl(const ActorCreateParam& param)
 { }
 
 ActorBase::Result TripBl::create() {
-
     mTripModel = AnimModel::create("blocklong", "block_DRC", 0, 2, 2);
     mTripModel->playTexAnim("block_DRC");
     mTripModel->playTexSrtAnim("player99");
@@ -85,6 +85,8 @@ ActorBase::Result TripBl::create() {
     _1ab4 = 0;
     _1aec = 0;
     _1cc0 = 0;
+
+    _1ace = 1; // spawn powerup as child
 
     mType = cType_Hatena;
     mBoxBgCollision.setType(BgCollision::cType_QuestionBlock);
@@ -166,12 +168,21 @@ ActorBase::Result TripBl::create() {
         this->gotBonkedModel = true;
     }
     
+    const u8 movementType = red::SpriteUtil::getNybble20(this);
+    if (movementType > ParentMovementType::cPos_KinokoLift) {
+        tk::fatal("Invalid movement type");
+    }
+    u32 movementMask = mMovementMgr.getTypeMask(static_cast<ParentMovementType>(movementType));
+    mMovementMgr.link(mPos, movementMask, mParamEx.course.movement_id);
+
+    initMover();
+
     execute();
     return cResult_Success;
 }
 
 bool TripBl::execute() {
-
+    //if (!ActorBlockBase::execute()) {return false;}
     // This is to replicate the 20fps of the regular ? block
     if (frameCounter < 2) {
         this->frameCounter ++;
@@ -181,8 +192,16 @@ bool TripBl::execute() {
         mTripModel->getShuAnim(0)->getFrameCtrl().setRate(1.0f);
     }
 
-    if (!ActorBlockBase::execute()) {
-        return false;
+    // TODO: Fix this janky collider nonsense
+    if (red::SpriteUtil::getNybble20(this) != 0) {
+        mMovementMgr.execute();
+        mPos.x = mMovementMgr.getPosition().x;
+        mAngle.z() = mMovementMgr.getAngle();
+        mBoxBgCollision.execute();
+    }
+    if (!ActorBlockBase::execute()) {return false;}
+    if (red::SpriteUtil::getNybble20(this) != 0) {
+        mPos.y = mMovementMgr.getPosition().y + _1a7c;
     }
 
     // update visuals
@@ -207,8 +226,14 @@ bool TripBl::draw() {
 }
 
 void TripBl::updateModel() {
+    f32 angleSin, angleCos;
+    sead::Mathf::sinCosIdx(&angleSin, &angleCos, mAngle.z());
+
+    const f32 rotatedX = -8 * angleSin;
+    const f32 rotatedY = -8 * angleCos;
+
     if (mTripModel != nullptr) {
-        mTripModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + std::fmodf(mPos.x, 128.0f) + zPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
+        mTripModel->update(sead::Vector3f(mPos.x + rotatedX, mPos.y - rotatedY, mPos.z + std::fmodf(mPos.x, 128.0f) + zPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
     }
 }
 void TripBl::spawnCoinShower() {
@@ -223,8 +248,14 @@ void TripBl::preSpawnItem() {
     zPosOffset = 128.0f;
     if (this->isBumpFromBelow) {
         this->mSpawnDirection = cDirType_Up;
+        if (red::SpriteUtil::getNybble20(this) == 1) {
+            mVSpawnType = cVSpawnType_MoveUp;
+        }
     } else {
         this->mSpawnDirection = cDirType_Down;
+        if (red::SpriteUtil::getNybble20(this) == 1) {
+            mVSpawnType = cVSpawnType_MoveDown;
+        }
     }
     if (((red::SpriteUtil::getNybble10(this)) & 0x1) && red::SpriteUtil::getNybbleRange(this, 8, 9) != 18) {this->spawnSideCoins();}
     spawnCoins();
@@ -282,16 +313,6 @@ void TripBl::spawnItem() {
 void TripBl::spawnCoins() {
     // Activate the event
     SwitchFlagMgr::instance()->set(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1, 0, true);
-
-    // Coins get spawned immediately when the block is hit
-    switch (red::SpriteUtil::getNybbleRange(this, 8, 9)) {
-        default:
-            return;
-        case 1:
-            mContent = cContent_Coin;
-            ActorCoinMgr::instance()->spawnItemCoin(mPos, this->mSpawnDirection, this->hitPlayerID);
-            return;
-    }
 }
 
 void TripBl::spawnSideCoins() {
