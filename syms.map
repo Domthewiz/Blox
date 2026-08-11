@@ -1,0 +1,6 @@
+@addresses_from "00050000-10101D00" // US v1.3.0 (v64)
+
+// ActorBlockBase
+    _ZN14ActorBlockBase9initMoverEv = 0x0269fb30;
+    _ZN14ActorBlockBase15StateID_HitWaitE = 0x1021E904;
+    _ZN19ActorBgCollisionMgr7releaseERK11BgCollision = 0x0219282C;
