@@ -7,6 +7,7 @@
 - **Triple Block**: It's exactly what it sounds like, a question block that's triple the width! But this time, the model doesn't crash! 😉
 - **On/Off Switch**: It's a switch, that toggles an event, Can be used in conjunction with the On/Off Block, as it uses events.
 - **On/Off block**: It's a block, that's (depending on the state of the event) either solid or not. Can be used in conjunction with the On/Off Switch, as it uses events.
+- **Flip Block**: It's a classic block from Super Mario World that's making a return!
 
 ### For Modders
 - Download the **`bundle`** from the [latest release](https://github.com/Domthewiz/Blox/releases/latest) and extract it to your mod folder, merging the `content` and `code` folders into your project. The actors will now be available in-game.
