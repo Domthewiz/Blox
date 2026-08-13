@@ -4,3 +4,4 @@
     _ZN14ActorBlockBase9initMoverEv = 0x0269fb30;
     _ZN14ActorBlockBase15StateID_HitWaitE = 0x1021E904;
     _ZN19ActorBgCollisionMgr7releaseERK11BgCollision = 0x0219282C;
+    _ZN27LoopRideLineBgCollisionUtil6setOfsEP23LoopRideLineBgCollisionRKN4sead7Vector2IfEES6_ = 0x021AD25C;

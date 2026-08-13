@@ -64,4 +64,7 @@
 			<entry value="3">Lava Underground</entry>
 		</list>
 	</sprite>
+	<sprite string_id="blox:flip" name="Flip Block">
+		<value nybble="1-2" title="Target Event ID" category="events"/>
+	</sprite>
 </sprites>
