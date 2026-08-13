@@ -66,5 +66,6 @@
 	</sprite>
 	<sprite string_id="blox:flip" name="Flip Block">
 		<value nybble="1-2" title="Target Event ID" category="events"/>
+		<checkbox nybble="5" title="Flips Instantly" category="behavior" comment="Skip the bumping animation and flip instantly"/>
 	</sprite>
 </sprites>

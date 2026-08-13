@@ -42,6 +42,7 @@ private:
     void initializeFootSensor_();
     void setBoxBgCollisionOfs_();
     s32 mFlipsRemaining;
+    bool flipInstantly;
 };
 
 using CC = ActorCollisionCheck;
@@ -98,6 +99,8 @@ void FlipBlock::setBoxBgCollisionOfs_()
 ActorBase::Result FlipBlock::create() {
     mModel = AnimModel::create("block_flipp", "block_slide", 0, 0, 0);
 
+    flipInstantly = red::SpriteUtil::getNybble5(this);
+
     _1c68 = 1;
     _1ab4 = 0;
     _1aec = 0;
@@ -146,17 +149,25 @@ void FlipBlock::updateModel() {
 }
 
 void FlipBlock::preSpawnItem() {
-    changeState(StateID_Flipping);
+    if (flipInstantly) {
+        changeState(StateID_Flipping);
+    }
     SwitchFlagMgr::instance()->set(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1, 0, true);
     return ActorBlockBase::preSpawnItem();
 }
 
 void FlipBlock::spawnItemUp() {
     this->mVSpawnType = 0;
+    if (!flipInstantly) {
+        changeState(StateID_Flipping);
+    }
 }
 
 void FlipBlock::spawnItemDown() {
     this->mVSpawnType = 0;
+    if (!flipInstantly) {
+        changeState(StateID_Flipping);
+    }
 }
 
 bool FlipBlock::isBlockActive() {
