@@ -3,7 +3,7 @@
     
     Name: "Blox",
     Type: "Standard",
-    Version: "1.1.0",
+    Version: "1.1.1",
     Description: "Blox is a actor pack for NSMBU that adds various block-type actors",
     
     SourceDirs: [
