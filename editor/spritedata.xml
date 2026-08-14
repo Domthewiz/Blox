@@ -2,6 +2,7 @@
 <sprites>
 	<sprite string_id="blox:tripbk" name="Triple Block">
 		<value nybble="1-2" title="Target Event ID" category="events"/>
+		<checkbox nybble="5" title="60fps Animation" category="behavior"/>
 		<list nybble="8-9" title="Contents" category="behavior">
 			<entry value="0">None</entry>
 			<entry value="1">1 Coin</entry>
@@ -55,7 +56,7 @@
 		</list>
 	</sprite>
 	<sprite string_id="blox:oob" name="On/Off Block">
-		<value nybble="1-2" title="Target Event ID" category="events"/>
+		<value nybble="1-2" title="Triggering Event ID" category="events"/>
 		<dualbox nybble="5" title1="Red" title2="Blue"/>
 		<list nybble="11" title="Model" category="behavior">
 			<entry value="0">Overworld</entry>
@@ -67,5 +68,58 @@
 	<sprite string_id="blox:flip" name="Flip Block">
 		<value nybble="1-2" title="Target Event ID" category="events"/>
 		<checkbox nybble="5" title="Flips Instantly" category="behavior" comment="Skip the bumping animation and flip instantly"/>
+	</sprite>
+	<sprite string_id="blox:psb" name="P Switch Block">
+		<dualbox nybble="5" title1="Solid" title2="Dotted"/>
+		<list nybble="11" title="Model" category="behavior">
+			<entry value="0">Overworld</entry>
+			<entry value="1">Underground</entry>
+			<entry value="2">Lava</entry>
+			<entry value="3">Lava Underground</entry>
+		</list>
+	</sprite>
+	<sprite string_id="blox:htnamimic" name="60fps Question Block">
+		<value nybble="1-2" title="Target Event ID" category="events"/>
+		<list nybble="8-9" title="Contents" category="behavior">
+			<entry value="0">None</entry>
+			<entry value="1">1 Coin</entry>
+			<entry value="2">Fire Flower</entry>
+			<entry value="3">Fire Flower</entry>
+			<entry value="4">Propeller Mushroom</entry>
+			<entry value="5">Penguin Suit</entry>
+			<entry value="6">Mini Mushroom</entry>
+			<entry value="7">Star</entry>
+			<entry value="8">Continuous Star</entry>
+			<entry value="9">Yoshi egg</entry>
+			<entry value="10">10 Coin</entry>
+			<entry value="11">1-UP</entry>
+			<entry value="12">Vine</entry>
+			<entry value="13">Spring</entry>
+			<entry value="14">Super Mushroom (if small)</entry>
+			<entry value="15">Ice Flower</entry>
+			<entry value="16">Acorn Mushroom</entry>
+			<entry value="17">3-UP</entry>
+			<entry value="18">Coin Shower</entry>
+		</list>
+		<list nybble="11" title="Model" category="behavior">
+			<entry value="0">Overworld</entry>
+			<entry value="1">Underground</entry>
+			<entry value="2">Lava</entry>
+			<entry value="3">Lava Underground</entry>
+		</list>
+		<list nybble="20" title="Movement Type*" comment="*Not implemented properly yet, expect buggy behavior" category="movement">
+			<entry value="0">None</entry>
+			<entry value="1">Sway Or Spin (68, 69, 116, 118)</entry>
+			<entry value="2">Bolt (238)</entry>
+			<entry value="3">Path (100)</entry>
+			<entry value="4">Two-Way (70)</entry>
+			<entry value="6">BoltMushroom (241)</entry>
+			<entry value="7">No-bolt Mushroom (242)</entry>
+			<entry value="8">Shifting Platform (132)</entry>
+			<entry value="9">Spinning (214, 484)</entry>
+			<entry value="10">Rolling Hill (265)</entry>
+			<entry value="11">Moving Mushroom Lift (210)</entry>
+		</list>
+        <value nybble="21-22" title="Movement ID*" comment="*Not implemented properly yet, expect buggy behavior" category="movement"/>
 	</sprite>
 </sprites>

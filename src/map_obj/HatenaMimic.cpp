@@ -11,15 +11,15 @@
 
 namespace blox {
 
-class TripBl : public ActorBlockBase {
+class HatenaMimic : public ActorBlockBase {
 
 public:
     static Profile* cProfile;
     static const ActorCreateInfo cCreateInfo;
 
 public:
-    TripBl(const ActorCreateParam& param);
-    ~TripBl() override = default;
+    HatenaMimic(const ActorCreateParam& param);
+    ~HatenaMimic() override = default;
     
     Result create() override;
     bool execute() override;
@@ -33,23 +33,21 @@ public:
 
     void onUpMoveStart() override;
 
-    void spawnSideCoins();
     void spawnCoinShower() override;
     void preSpawnItem() override;
 
     s32 hitPlayerID = 0;
-    u8 frameCounter = 0;
     bool isBumpFromBelow = false;
     bool gotBonkedModel = false;
     f32 zPosOffset = 0.0f;
 
 private:
-    AnimModel* mTripModel;
+    AnimModel* mModel;
     ParentMovementMgr mMovementMgr;
 };
 
 using ACI = ActorCreateInfo;
-const ActorCreateInfo TripBl::cCreateInfo = {
+const ActorCreateInfo HatenaMimic::cCreateInfo = {
     .offset_x = 0, .offset_y = 0,
     .spawn_range = {
         .offset_x = 0, .offset_y = 0,
@@ -61,29 +59,24 @@ const ActorCreateInfo TripBl::cCreateInfo = {
     .flag = 0
 };
 
-Profile* TripBl::cProfile = blox::getRegistrar()->newProfile<TripBl>("tripbk")
-    .resources<"blocklong">(ProfileInfo::cResType_Course)
+Profile* HatenaMimic::cProfile = blox::getRegistrar()->newProfile<HatenaMimic>("htnamimic")
+    .resources<"blockhtna">(ProfileInfo::cResType_Course)
     .drawPriority(1)
     .createInfo(&cCreateInfo)
     .build();
 
-TripBl::TripBl(const ActorCreateParam& param)
+HatenaMimic::HatenaMimic(const ActorCreateParam& param)
     : ActorBlockBase(param)
-    , mTripModel(nullptr)
+    , mModel(nullptr)
 { }
 
-ActorBase::Result TripBl::create() {
-    mTripModel = AnimModel::create("blocklong", "block_DRC", 0, 2, 2);
-    mTripModel->playTexAnim("block_DRC");
-    mTripModel->playTexSrtAnim("player99");
-    mTripModel->playTexSrtAnim("coin");
-    mTripModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
-    mTripModel->getTexAnim(0)->getFrameCtrl().setRate(0.0f);
-    if (!red::SpriteUtil::getNybble5(this)) {
-        mTripModel->getShuAnim(0)->getFrameCtrl().setRate(0.0f);
-    } else {
-        mTripModel->getShuAnim(0)->getFrameCtrl().setRate(0.3333333333333333f);
-    }
+ActorBase::Result HatenaMimic::create() {
+    mModel = AnimModel::create("blockhtna", "block_DRC", 0, 2, 2);
+    mModel->playTexAnim("block_DRC");
+    mModel->playTexSrtAnim("player99");
+    mModel->playTexSrtAnim("coin");
+    mModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
+    mModel->getTexAnim(0)->getFrameCtrl().setRate(0.0f);
 
     _1c68 = 1;
     _1ab4 = 0;
@@ -102,11 +95,6 @@ ActorBase::Result TripBl::create() {
 
     registerColliderActiveInfo();
     changeState(StateID_Wait);
-
-    mBoxBgCollision.getPoints()[0].x -= 16.0f;
-    mBoxBgCollision.getPoints()[1].x += 16.0f;
-    mBoxBgCollision.getPoints()[2].x += 16.0f;
-    mBoxBgCollision.getPoints()[3].x -= 16.0f;
 
     switch (red::SpriteUtil::getNybbleRange(this, 8, 9)) {
         default:
@@ -168,7 +156,7 @@ ActorBase::Result TripBl::create() {
     
     if (mType == cType_Hit) {
         changeState(StateID_HitWait);
-        mTripModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
+        mModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
         this->gotBonkedModel = true;
     }
     
@@ -185,18 +173,8 @@ ActorBase::Result TripBl::create() {
     return cResult_Success;
 }
 
-bool TripBl::execute() {
-    //if (!ActorBlockBase::execute()) {return false;}
-    // This is to replicate the 20fps of the regular ? block
-    if (!red::SpriteUtil::getNybble5(this)) {
-        if (frameCounter < 2) {
-            this->frameCounter ++;
-            mTripModel->getShuAnim(0)->getFrameCtrl().setRate(0.0f);
-        } else {
-            this->frameCounter = 0;
-            mTripModel->getShuAnim(0)->getFrameCtrl().setRate(1.0f);
-        }
-    }
+bool HatenaMimic::execute() {
+
     // TODO: Fix this janky collider nonsense
     if (red::SpriteUtil::getNybble20(this) != 0) {
         mMovementMgr.execute();
@@ -213,7 +191,7 @@ bool TripBl::execute() {
     if (mType == cType_Hit) {
         changeState(StateID_HitWait);
         if (!gotBonkedModel) {
-            mTripModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
+            mModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
             this->gotBonkedModel = true;
         }
     }
@@ -223,31 +201,31 @@ bool TripBl::execute() {
     return true;
 }
 
-bool TripBl::draw() {
-    if (mTripModel != nullptr) {
-        mTripModel->draw();
+bool HatenaMimic::draw() {
+    if (mModel != nullptr) {
+        mModel->draw();
     }
     return true;
 }
 
-void TripBl::updateModel() {
+void HatenaMimic::updateModel() {
     f32 angleSin, angleCos;
     sead::Mathf::sinCosIdx(&angleSin, &angleCos, mAngle.z());
 
     const f32 rotatedX = -8 * angleSin;
     const f32 rotatedY = -8 * angleCos;
 
-    if (mTripModel != nullptr) {
-        mTripModel->update(sead::Vector3f(mPos.x + rotatedX, mPos.y - rotatedY, mPos.z + std::fmodf(mPos.x, 128.0f) + zPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
+    if (mModel != nullptr) {
+        mModel->update(sead::Vector3f(mPos.x + rotatedX, mPos.y - rotatedY, mPos.z + std::fmodf(mPos.x, 128.0f) + zPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
     }
 }
-void TripBl::spawnCoinShower() {
+void HatenaMimic::spawnCoinShower() {
     // This function is overridden so it won't spawn a coin shower from the 10 coins
     // This is how it works in nsmb2, it only spawns the side coins on the last hit.
     if (!((red::SpriteUtil::getNybble10(this)) & 0x1)) {BlockCoinBase::spawnCoinShower();}
 }
 
-void TripBl::preSpawnItem() {
+void HatenaMimic::preSpawnItem() {
     // isBumpFromBelow only exists because onDownMoveStart() doesn't get called when mario groundpounds the block strangely
     // luckily onUpMoveStart() gets called before this does so i made a bool
     zPosOffset = 128.0f;
@@ -262,29 +240,28 @@ void TripBl::preSpawnItem() {
             mVSpawnType = cVSpawnType_MoveDown;
         }
     }
-    if (((red::SpriteUtil::getNybble10(this)) & 0x1) && red::SpriteUtil::getNybbleRange(this, 8, 9) != 18) {this->spawnSideCoins();}
     spawnCoins();
 
     this->isBumpFromBelow = false;
     return ActorBlockBase::preSpawnItem();
 }
 
-void TripBl::onUpMoveStart() {
+void HatenaMimic::onUpMoveStart() {
     this->isBumpFromBelow = true;
     return ActorBlockBase::onUpMoveStart();
 }
 
-void TripBl::spawnItemUp() {
+void HatenaMimic::spawnItemUp() {
     spawnItem();
     return ActorBlockBase::spawnItemUp();
 }
 
-void TripBl::spawnItemDown() {
+void HatenaMimic::spawnItemDown() {
     spawnItem();
     return ActorBlockBase::spawnItemDown();
 }
 
-void TripBl::spawnItem() {
+void HatenaMimic::spawnItem() {
     // Certain contents don't spawn normally, so i have to make exceptions for those
     zPosOffset = 0.0f;
     bool isSmall = 0;
@@ -315,14 +292,9 @@ void TripBl::spawnItem() {
     }
 }
 
-void TripBl::spawnCoins() {
+void HatenaMimic::spawnCoins() {
     // Activate the event
     SwitchFlagMgr::instance()->set(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1, 0, true);
-}
-
-void TripBl::spawnSideCoins() {
-    ActorCoinMgr::instance()->spawnItemCoin(mPos + sead::Vector3f(-16.0f, 0.0f, 0.0f), this->mSpawnDirection, this->hitPlayerID);
-    ActorCoinMgr::instance()->spawnItemCoin(mPos + sead::Vector3f( 16.0f, 0.0f, 0.0f), this->mSpawnDirection, this->hitPlayerID);
 }
 
 }
