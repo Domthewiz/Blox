@@ -89,6 +89,8 @@ ActorBase::Result PSwitchBlock::create() {
         }
     }
 
+    execute();
+    
     return cResult_Success;
 }
 

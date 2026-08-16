@@ -82,6 +82,8 @@ ActorBase::Result OnOffBlock::create() {
         ActorBgCollisionMgr::instance()->entry(mCollider);
     }
 
+    execute();
+    
     return cResult_Success;
 }
 

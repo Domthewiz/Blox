@@ -317,7 +317,8 @@ void TripBl::spawnItem() {
 
 void TripBl::spawnCoins() {
     // Activate the event
-    SwitchFlagMgr::instance()->set(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1, 0, true);
+    if (red::SpriteUtil::getNybbleRange(this, 1, 2) != 0)
+        SwitchFlagMgr::instance()->set(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1, 0, true);
 }
 
 void TripBl::spawnSideCoins() {

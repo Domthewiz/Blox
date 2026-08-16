@@ -38,15 +38,19 @@ public:
     DECLARE_STATE_ID(FlipBlock, Flipping)
 
 private:
-    AnimModel* mModel;
+    AnimModel* mCModel;
+    AnimModel* mLModel;
+    AnimModel* mRModel;
+    AnimModel* mEModel;
     void initializeFootSensor_();
     void setBoxBgCollisionOfs_();
     s32 mFlipsRemaining;
     bool flipInstantly;
+    f32 mColliderExtra;
 };
 
 using CC = ActorCollisionCheck;
-static const CC::CollisionData cCcData = {
+static CC::CollisionData cCcData = {
     .center_offset = { 0.0f, 8.0f },
     .half_size = { 8.0f, 8.0f },
     .shape_type = CC::cShapeType_Box,
@@ -81,7 +85,11 @@ Profile* FlipBlock::cProfile = blox::getRegistrar()->newProfile<FlipBlock>("flip
 
 FlipBlock::FlipBlock(const ActorCreateParam& param)
     : ActorBlockBase(param)
-    , mModel(nullptr)
+    , mCModel(nullptr)
+    , mLModel(nullptr)
+    , mRModel(nullptr)
+    , mEModel(nullptr)
+    , mColliderExtra(0.0f)
 { }
 
 void FlipBlock::initializeFootSensor_()
@@ -93,11 +101,10 @@ void FlipBlock::initializeFootSensor_()
 
 void FlipBlock::setBoxBgCollisionOfs_()
 {
-    setBoxBgCollisionOfs(-8, 16, 8, 0);
+    setBoxBgCollisionOfs(-8 - (8.0f * mColliderExtra), 16, 8 + (8.0f * mColliderExtra), 0);
 }
 
 ActorBase::Result FlipBlock::create() {
-    mModel = AnimModel::create("block_flipp", "block_slide", 0, 0, 0);
 
     flipInstantly = red::SpriteUtil::getNybble5(this);
 
@@ -116,6 +123,25 @@ ActorBase::Result FlipBlock::create() {
 
     registerColliderActiveInfo();
     changeState(StateID_Wait);
+
+    mColliderExtra = (f32)(red::SpriteUtil::getNybble6(this));
+    if (red::SpriteUtil::getNybble6(this) == 0) {
+        mLModel = AnimModel::create("block_flipp", "block_flipL", 0, 0, 0);
+        mRModel = AnimModel::create("block_flipp", "block_flipR", 0, 0, 0);
+        mEModel = AnimModel::create("block_flipp", "block_flipE", 0, 0, 0);
+    } else {
+        mCModel = AnimModel::create("block_flipp", "block_flipC", 0, 0, 0);
+        mLModel = AnimModel::create("block_flipp", "block_flipL", 0, 0, 0);
+        mRModel = AnimModel::create("block_flipp", "block_flipR", 0, 0, 0);
+        mEModel = AnimModel::create("block_flipp", "block_flipE", 0, 0, 0);
+    }
+
+    mBoxBgCollision.getPoints()[0].x -= (8.0f * mColliderExtra);
+    mBoxBgCollision.getPoints()[1].x += (8.0f * mColliderExtra);
+    mBoxBgCollision.getPoints()[2].x += (8.0f * mColliderExtra);
+    mBoxBgCollision.getPoints()[3].x -= (8.0f * mColliderExtra);
+
+    cCcData.half_size = {(8.0f * mColliderExtra) + 8.0f, 8.0f};
 
     mCollisionCheck.set(this, cCcData);
     reviveCollisionCheck();
@@ -136,15 +162,34 @@ bool FlipBlock::execute() {
 }
 
 bool FlipBlock::draw() {
-    if (mModel != nullptr) {
-        mModel->draw();
+    if (mCModel != nullptr) {
+        mCModel->draw();
+    }
+    if (mLModel != nullptr) {
+        mLModel->draw();
+    }
+    if (mRModel != nullptr) {
+        mRModel->draw();
+    }
+    if (mEModel != nullptr) {
+        mEModel->draw();
     }
     return true;
 }
 
 void FlipBlock::updateModel() {
-    if (mModel != nullptr) {
-        mModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z), mAngle, sead::Vector3f(mScale.x,mScale.y,0.5));
+
+    if (mCModel != nullptr) {
+        mCModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z), mAngle, sead::Vector3f(mColliderExtra,mScale.y,0.5));
+    }
+    if (mLModel != nullptr) {
+        mLModel->update(sead::Vector3f(mPos.x - (8.0f * mColliderExtra), mPos.y + 8.0f, mPos.z), mAngle, sead::Vector3f(mScale.x,mScale.y,0.5));
+    }
+    if (mRModel != nullptr) {
+        mRModel->update(sead::Vector3f(mPos.x + (8.0f * mColliderExtra), mPos.y + 8.0f, mPos.z), mAngle, sead::Vector3f(mScale.x,mScale.y,0.5));
+    }
+    if (mEModel != nullptr) {
+        mEModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z), mAngle, sead::Vector3f(mScale.x,mScale.y,0.5));
     }
 }
 
@@ -152,7 +197,8 @@ void FlipBlock::preSpawnItem() {
     if (flipInstantly) {
         changeState(StateID_Flipping);
     }
-    SwitchFlagMgr::instance()->set(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1, 0, true);
+    if (red::SpriteUtil::getNybbleRange(this, 1, 2) != 0)
+        SwitchFlagMgr::instance()->set(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1, 0, true);
     return ActorBlockBase::preSpawnItem();
 }
 

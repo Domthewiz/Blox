@@ -68,6 +68,7 @@
 	<sprite string_id="blox:flip" name="Flip Block">
 		<value nybble="1-2" title="Target Event ID" category="events"/>
 		<checkbox nybble="5" title="Flips Instantly" category="behavior" comment="Skip the bumping animation and flip instantly"/>
+		<value nybble="6" title="Width" category="behavior"/>
 	</sprite>
 	<sprite string_id="blox:psb" name="P Switch Block">
 		<dualbox nybble="5" title1="Solid" title2="Dotted"/>
