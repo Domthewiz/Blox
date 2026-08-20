@@ -18,5 +18,8 @@
     - Place the `code`/`content` folders in `sd:/wiiu/telkin/TITLEID/` where `TITLEID` is the [title ID](https://wiiubrew.org/wiki/Title_database#00050000:_Game_Application_Titles) of your game's region (without dashes).
 - Running on Cemu: Load and distribute your mod as a GraphicPack by placing it in Cemu's `graphicPacks` folder and activating it in the game's settings.
 
+> [!WARNING]
+> Make sure to use a 2.7+ version of Cemu, which can be found [here](https://cemu.info/ActionBuilds.php).
+
 > [!IMPORTANT]
 > Make sure to also install the [editor patch](https://github.com/Domthewiz/Blox/tree/main/editor) so that you can place the actors in your levels!
