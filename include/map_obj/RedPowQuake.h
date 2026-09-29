@@ -121,7 +121,7 @@ private:
                 targetActor->destroy();
             } else {
                 // TODO: Make the actor bump up to be consistent with tileset blocks, or do it the other way around
-                targetActor->forceSpawnItemUp(0, mHitPlayerNo);
+                targetActor->forceSpawnItemUp(mHitPlayerNo, mHitPlayerNo);
                 targetActor->postBump();
                 targetActor->getScale() = sead::Vector3f::ones;
             }
