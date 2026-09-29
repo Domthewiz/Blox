@@ -1,3 +1,5 @@
+#include "map_obj/BlockCoinBase.h"
+#include "map_obj/ChangeBlockCoinBase.h"
 #include <actor/Actor.h>
 #include <blox/Blox.h>
 #include <graphics/AnimModel.h>
@@ -56,13 +58,13 @@ const ActorCreateInfo HatenaMimic::cCreateInfo = {
     .cull_range = { 
         .up = 0, .down = 0, .left = 0, .right = 0
     },
-    .flag = 0
+    .flag = ACI::cFlag_None
 };
 
 Profile* HatenaMimic::cProfile = blox::getRegistrar()->newProfile<HatenaMimic>("htnamimic")
     .resources<"blockhtna">(ProfileInfo::cResType_Course)
     .drawPriority(1)
-    .createInfo(&cCreateInfo)
+    .createInfo(cCreateInfo)
     .build();
 
 HatenaMimic::HatenaMimic(const ActorCreateParam& param)
@@ -78,12 +80,12 @@ ActorBase::Result HatenaMimic::create() {
     mModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
     mModel->getTexAnim(0)->getFrameCtrl().setRate(0.0f);
 
-    _1c68 = 1;
+    mForm = cForm_Block;
     _1ab4 = 0;
     _1aec = 0;
     _1cc0 = 0;
 
-    _1ace = 1; // spawn powerup as child
+    mSpawnContentAsChild = true; // spawn powerup as child
 
     mType = cType_Hatena;
     mBoxBgCollision.setType(BgCollision::cType_QuestionBlock);
@@ -141,7 +143,7 @@ ActorBase::Result HatenaMimic::create() {
             mContent = cContent_MushroomIfSmall;
             break;
         case 15:
-            mContent = cContent_IceMushroom;
+            mContent = cContent_IceFlower;
             break;
         case 16:
             mContent = cContent_SquirrelMushroom;
@@ -184,7 +186,7 @@ bool HatenaMimic::execute() {
     }
     if (!ActorBlockBase::execute()) {return false;}
     if (red::SpriteUtil::getNybble20(this) != 0) {
-        mPos.y = mMovementMgr.getPosition().y + _1a7c;
+        mPos.y = mMovementMgr.getPosition().y + mBumpOffsetY;
     }
 
     // update visuals
@@ -232,12 +234,12 @@ void HatenaMimic::preSpawnItem() {
     if (this->isBumpFromBelow) {
         this->mSpawnDirection = cDirType_Up;
         if (red::SpriteUtil::getNybble20(this) == 1) {
-            mVSpawnType = cVSpawnType_MoveUp;
+            this->mBumpMode = cBumpMode_Up;
         }
     } else {
         this->mSpawnDirection = cDirType_Down;
         if (red::SpriteUtil::getNybble20(this) == 1) {
-            mVSpawnType = cVSpawnType_MoveDown;
+            this->mBumpMode = cBumpMode_Down;
         }
     }
     spawnCoins();

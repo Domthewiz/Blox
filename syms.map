@@ -6,3 +6,39 @@
     _ZN19ActorBgCollisionMgr7releaseERK11BgCollision = 0x0219282C;
     _ZN27LoopRideLineBgCollisionUtil6setOfsEP23LoopRideLineBgCollisionRKN4sead7Vector2IfEES6_ = 0x021AD25C;
     _ZN13SwitchFlagMgr12checkPSwitchENS_11PSwitchTypeE = 0x0269BF04;
+    _ZN14ActorBlockBase10getContentEj = 0x0269FAB0;
+
+// ChangeBlockCoinBase
+    _ZN19ChangeBlockCoinBase17getMultiCoinStateEv = 0x02726644;
+
+// ActorBlockHatena
+    _ZN16ActorBlockHatenaC2ERK16ActorCreateParam = 0x026A4FAC;
+    _ZN16ActorBlockHatena6createEv = 0x026A5010;
+    _ZN16ActorBlockHatena19updateLiquidEffectsEv = 0x026A52EC;
+    _ZN16ActorBlockHatena10onBumpDiffEv = 0x026A5330;
+    _ZN16ActorBlockHatena8postBumpEv = 0x026A5394;
+    _ZN16ActorBlockHatena5vf32CEv = 0x026A5434;
+
+// BlockMgr
+    _ZN8BlockMgr9sInstanceE = 0x101DB964;
+    _ZN8BlockMgr7destroyERN14ActorBlockBase14DestroyedParamEb = 0x0270B90C;
+    _ZN8BlockMgr19getBlockActiveStateERN4sead7Vector3IfEEj = 0x0270D2F4;
+    _ZN8BlockMgr18setStateForBlockAtERN4sead7Vector3IfEEN14ActorBlockBase12ActiveStatesEj = 0x0270D420;
+    _ZN8BlockMgr11doDestroyAtERNS_12DestroyParamE = 0x0270C798;
+    _ZN8BlockMgr10hitBlockAtERN4sead7Vector2IfEE = 0x0270C9D0;
+    _ZN8BlockMgr10hitBlockAtERNS_8HitParamE = 0x0270C9D0;
+    _ZN8BlockMgr19feverModeHitBlockAtERN4sead7Vector2IfEE = 0x0270BBB4;
+
+// RumbleMgr
+    _ZN9RumbleMgr9sInstanceE = 0x101D1660;
+    _ZN9RumbleMgr6rumbleEiaaa = 0x024C4D3C;
+
+// Bg
+    _ZN2Bg20getUnitCurrentCdFileEtthPi = 0x02685000;
+    _ZN2Bg9sInstanceE = 0x101DAB94;
+    _ZN2Bg20setTileAtCurrentAreaEttNS_8LayersU8Ej = 0x026854A8;
+    _ZN2Bg11getUnitTypeEtth = 0x02685230; // not sure
+    _ZN2Bg20setUnitCurrentCdFileEttht = 0x026854A8;
+
+// ProfileInfo
+    _ZN11ProfileInfo16cProfileID_BlockE = 0x100041D0;

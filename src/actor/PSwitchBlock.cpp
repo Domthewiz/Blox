@@ -39,13 +39,13 @@ const ActorCreateInfo PSwitchBlock::cCreateInfo = {
     .cull_range = { 
         .up = 0, .down = 0, .left = 0, .right = 0
     },
-    .flag = 0
+    .flag = ACI::cFlag_None
 };
 
 Profile* PSwitchBlock::cProfile = blox::getRegistrar()->newProfile<PSwitchBlock>("psb")
     .resources<"block_psb">(ProfileInfo::cResType_Course)
     .drawPriority(1)
-    .createInfo(&cCreateInfo)
+    .createInfo(cCreateInfo)
     .build();
 
 PSwitchBlock::PSwitchBlock(const ActorCreateParam& param)

@@ -14,7 +14,7 @@ ImageCache = SLib.ImageCache
 Rotations = [0, 0, 0]
 StoneRotation = 0
 
-class SpriteImage_TripleT(SLib.SpriteImage_Static):  # 819
+class BloxSpriteImage_TripleT(SLib.SpriteImage_Static):  # 819
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -48,7 +48,7 @@ class SpriteImage_TripleT(SLib.SpriteImage_Static):  # 819
 
         super().dataChanged()
 
-class SpriteImage_oos(SLib.SpriteImage_Static):  # 819
+class BloxSpriteImage_oos(SLib.SpriteImage_Static):  # 819
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -82,7 +82,7 @@ class SpriteImage_oos(SLib.SpriteImage_Static):  # 819
 
         super().dataChanged()
 
-class SpriteImage_oob(SLib.SpriteImage_Static):  # 819
+class BloxSpriteImage_oob(SLib.SpriteImage_Static):  # 819
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -118,7 +118,7 @@ class SpriteImage_oob(SLib.SpriteImage_Static):  # 819
 
         super().dataChanged()
 
-class SpriteImage_flipblock(SLib.SpriteImage_Static):  # 819
+class BloxSpriteImage_flipblock(SLib.SpriteImage_Static):  # 819
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -131,7 +131,7 @@ class SpriteImage_flipblock(SLib.SpriteImage_Static):  # 819
     def loadImages():
         SLib.loadIfNotInImageCache('flipblock', 'flipblock.png')
 
-class SpriteImage_psb(SLib.SpriteImage_Static):  # 819
+class BloxSpriteImage_psb(SLib.SpriteImage_Static):  # 819
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -165,7 +165,7 @@ class SpriteImage_psb(SLib.SpriteImage_Static):  # 819
             else:
                 self.image = ImageCache['PBlockRed_standard']
 
-class SpriteImage_HatenaMimic(SLib.SpriteImage_Static):  # 819
+class BloxSpriteImage_HatenaMimic(SLib.SpriteImage_Static):  # 819
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -192,10 +192,10 @@ class SpriteImage_HatenaMimic(SLib.SpriteImage_Static):  # 819
 
 
 ImageClasses = {
-    "blox:tripbk": SpriteImage_TripleT,
-    "blox:flip": SpriteImage_flipblock,
-    "blox:oos": SpriteImage_oos,
-    "blox:oob": SpriteImage_oob,
-    "blox:psb": SpriteImage_psb,
-    "blox:htnamimic": SpriteImage_HatenaMimic,
+    "blox:tripbk": BloxSpriteImage_TripleT,
+    "blox:flip": BloxSpriteImage_flipblock,
+    "blox:oos": BloxSpriteImage_oos,
+    "blox:oob": BloxSpriteImage_oob,
+    "blox:psb": BloxSpriteImage_psb,
+    "blox:htnamimic": BloxSpriteImage_HatenaMimic,
 }

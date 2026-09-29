@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<game name="Blox" version="1.0" description="an actor pack for NSMBU that adds various block-type actors">
+<game name="Blox 2.0.0" version="1.0" description="an actor pack for NSMBU that adds various block-type actors">
     <file name="spritedata" path="spritedata.xml" />
     <folder name="sprites" path="sprites" patch="true" />
     <file name="sprites" path="sprites.py" patch="true" />

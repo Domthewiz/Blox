@@ -1,3 +1,5 @@
+#include "map_obj/BlockCoinBase.h"
+#include "utility/Direction.h"
 #include <actor/Actor.h>
 #include <blox/Blox.h>
 #include <graphics/AnimModel.h>
@@ -26,7 +28,7 @@ public:
     bool execute() override;
     bool draw() override;
     void updateModel();
-    bool isBlockActive() override;
+    bool restoreState() override;
     void destroy() override;
     void destroy2() override;
     void toggleEvent();
@@ -51,13 +53,13 @@ const ActorCreateInfo OnOffSwitch::cCreateInfo = {
     .cull_range = { 
         .up = 0, .down = 0, .left = 0, .right = 0
     },
-    .flag = 0
+    .flag = ACI::cFlag_None
 };
 
 Profile* OnOffSwitch::cProfile = blox::getRegistrar()->newProfile<OnOffSwitch>("oos")
     .resources<"block_oos">(ProfileInfo::cResType_Course)
     .drawPriority(1)
-    .createInfo(&cCreateInfo)
+    .createInfo(cCreateInfo)
     .build();
 
 OnOffSwitch::OnOffSwitch(const ActorCreateParam& param)
@@ -79,7 +81,7 @@ ActorBase::Result OnOffSwitch::create() {
     mTripModel->getTexAnim(0)->getFrameCtrl().setRate(0.0f);
     mTripModel->getShuAnim(0)->getFrameCtrl().setRate(1.0f);
 
-    _1c68 = 1;
+    mForm = Form::cForm_Block;
     _1ab4 = 0;
     _1aec = 0;
     _1cc0 = 0;
@@ -136,18 +138,18 @@ void OnOffSwitch::preSpawnItem() {
 }
 
 void OnOffSwitch::spawnItemUp() {
-    this->mVSpawnType = 0;
+    this->mBumpMode = cBumpMode_None;
     zPosOffset = 0.0f;
     changeState(StateID_Wait);
 }
 
 void OnOffSwitch::spawnItemDown() {
-    this->mVSpawnType = 0;
+    this->mBumpMode = cBumpMode_None;
     zPosOffset = 0.0f;
     changeState(StateID_Wait);
 }
 
-bool OnOffSwitch::isBlockActive() {
+bool OnOffSwitch::restoreState() {
     return true;
 }
 

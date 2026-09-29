@@ -38,13 +38,13 @@ const ActorCreateInfo OnOffBlock::cCreateInfo = {
     .cull_range = { 
         .up = 0, .down = 0, .left = 0, .right = 0
     },
-    .flag = 0
+    .flag = ACI::cFlag_None
 };
 
 Profile* OnOffBlock::cProfile = blox::getRegistrar()->newProfile<OnOffBlock>("oob")
     .resources<"block_oob">(ProfileInfo::cResType_Course)
     .drawPriority(1)
-    .createInfo(&cCreateInfo)
+    .createInfo(cCreateInfo)
     .build();
 
 OnOffBlock::OnOffBlock(const ActorCreateParam& param)

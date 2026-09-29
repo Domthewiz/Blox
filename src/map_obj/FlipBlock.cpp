@@ -1,3 +1,5 @@
+#include "map_obj/BlockCoinBase.h"
+#include "map_obj/ChangeBlockCoinBase.h"
 #include <actor/Actor.h>
 #include <blox/Blox.h>
 #include <graphics/AnimModel.h>
@@ -26,7 +28,7 @@ public:
     bool execute() override;
     bool draw() override;
     void updateModel();
-    bool isBlockActive() override;
+    bool restoreState() override;
     void destroy() override;
     void destroy2() override;
     bool playerOverlaps();
@@ -74,13 +76,13 @@ const ActorCreateInfo FlipBlock::cCreateInfo = {
     .cull_range = { 
         .up = 0, .down = 0, .left = 0, .right = 0
     },
-    .flag = 0
+    .flag = ACI::cFlag_None
 };
 
 Profile* FlipBlock::cProfile = blox::getRegistrar()->newProfile<FlipBlock>("flip")
     .resources<"block_flipp">(ProfileInfo::cResType_Course)
     .drawPriority(1)
-    .createInfo(&cCreateInfo)
+    .createInfo(cCreateInfo)
     .build();
 
 FlipBlock::FlipBlock(const ActorCreateParam& param)
@@ -108,7 +110,7 @@ ActorBase::Result FlipBlock::create() {
 
     flipInstantly = red::SpriteUtil::getNybble5(this);
 
-    _1c68 = 1;
+    mForm = cForm_Block;
     _1ab4 = 0;
     _1aec = 0;
     _1cc0 = 0;
@@ -203,20 +205,20 @@ void FlipBlock::preSpawnItem() {
 }
 
 void FlipBlock::spawnItemUp() {
-    this->mVSpawnType = 0;
+    this->mBumpMode = cBumpMode_None;
     if (!flipInstantly) {
         changeState(StateID_Flipping);
     }
 }
 
 void FlipBlock::spawnItemDown() {
-    this->mVSpawnType = 0;
+    this->mBumpMode = cBumpMode_None;
     if (!flipInstantly) {
         changeState(StateID_Flipping);
     }
 }
 
-bool FlipBlock::isBlockActive() {
+bool FlipBlock::restoreState() {
     return true;
 }
 
@@ -257,7 +259,7 @@ void FlipBlock::executeState_Flipping()
 
 void FlipBlock::finalizeState_Flipping()
 {
-    mVSpawnType = cVSpawnType_None;
+    this->mBumpMode = cBumpMode_None;
     mAngle.x() = 0;
 
     setBoxBgCollisionOfs_();
