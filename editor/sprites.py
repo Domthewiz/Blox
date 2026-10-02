@@ -14,7 +14,7 @@ ImageCache = SLib.ImageCache
 Rotations = [0, 0, 0]
 StoneRotation = 0
 
-class BloxSpriteImage_TripleT(SLib.SpriteImage_Static):  # 819
+class BloxSpriteImage_ActorBlockHatenaLong(SLib.SpriteImage_Static):  # 819
     def __init__(self, parent):
         super().__init__(
             parent,
@@ -192,7 +192,7 @@ class BloxSpriteImage_HatenaMimic(SLib.SpriteImage_Static):  # 819
 
 
 ImageClasses = {
-    "blox:tripbk": BloxSpriteImage_TripleT,
+    "blox:tripbk": BloxSpriteImage_ActorBlockHatenaLong,
     "blox:flip": BloxSpriteImage_flipblock,
     "blox:oos": BloxSpriteImage_oos,
     "blox:oob": BloxSpriteImage_oob,

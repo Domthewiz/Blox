@@ -3,10 +3,13 @@
 // ActorBlockBase
     _ZN14ActorBlockBase9initMoverEv = 0x0269fb30;
     _ZN14ActorBlockBase15StateID_HitWaitE = 0x1021E904;
-    _ZN19ActorBgCollisionMgr7releaseERK11BgCollision = 0x0219282C;
     _ZN27LoopRideLineBgCollisionUtil6setOfsEP23LoopRideLineBgCollisionRKN4sead7Vector2IfEES6_ = 0x021AD25C;
     _ZN13SwitchFlagMgr12checkPSwitchENS_11PSwitchTypeE = 0x0269BF04;
     _ZN14ActorBlockBase10getContentEj = 0x0269FAB0;
+
+// ActorBgCollisionMgr
+    _ZN19ActorBgCollisionMgr7releaseERK11BgCollision = 0x0219282C;
+    _ZN19ActorBgCollisionMgr10doDrcTouchERKN4sead7Vector2IfEEf = 0x02192E84;
 
 // ChangeBlockCoinBase
     _ZN19ChangeBlockCoinBase17getMultiCoinStateEv = 0x02726644;
@@ -30,8 +33,8 @@
     _ZN8BlockMgr19feverModeHitBlockAtERN4sead7Vector2IfEE = 0x0270BBB4;
 
 // RumbleMgr
-    _ZN9RumbleMgr9sInstanceE = 0x101D1660;
-    _ZN9RumbleMgr6rumbleEiaaa = 0x024C4D3C;
+    _ZN5Quake9sInstanceE = 0x101D1660;
+    _ZN5Quake13startShockAllENS_9ShockTypeEiib = 0x024C4D3C;
 
 // Bg
     _ZN2Bg20getUnitCurrentCdFileEtthPi = 0x02685000;
@@ -42,3 +45,24 @@
 
 // ProfileInfo
     _ZN11ProfileInfo16cProfileID_BlockE = 0x100041D0;
+
+// TouchDrcMgr
+    _ZN11TouchDrcMgr9sInstanceE = 0x101E10C0;
+    _ZN11TouchDrcMgr11isFeverModeEv = 0x02895BE8;
+
+// Cursed Shit
+    _ZN8AreaTask11getLoopPosXEf = 0x024B8034;
+    _ZN8BlockMgr10unitToTypeEt = 0x0270B6E0;
+    _ZN2Bg12FUN_026854c0Etthb = 0x026854c0;
+    _ZN9PlayerMgr11getYoshiNumEv = 0x02918144;
+    _ZN9PlayerMgr12FUN_02919458Ev = 0x02919458;
+    _Z12FUN_0270bb28v = 0x0270bb28;
+    _ZN8BlockMgr19getMultiCoinStateAtERN4sead7Vector3IfEE = 0x0270B7EC;
+
+// Block
+    _ZN5BlockC2ERK16ActorCreateParam = 0x02701DE4;
+    _ZN5Block6createEv = 0x02701FD4;
+    _ZN5Block7executeEv = 0x02702318;
+    _ZN5Block9sTypeInfoE = 0x101EB220;
+
+    _ZN13BlockCoinBaseC2ERK16ActorCreateParam = 0x027044B4;
