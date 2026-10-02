@@ -1,5 +1,6 @@
 #include "map_obj/BlockMgr.h"
 #include "red/profile/ProfileEx.h"
+#include "system/TouchDrcMgr.h"
 #include "telkin/Hooks.h"
 #include <telkin/Print.h>
 #include <blox/Blox.h>
@@ -13,4 +14,4 @@ void main() {
     tk::println("Welcome to Domthewiz' Blox!");
 }
 
-tPatch8u(0x024D3A63, 0);
+// tPatch8u(0x024D3A63, 0);
