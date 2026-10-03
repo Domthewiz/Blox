@@ -190,6 +190,112 @@ class BloxSpriteImage_HatenaMimic(SLib.SpriteImage_Static):  # 819
         else:
             self.image = ImageCache['qbl{0}'.format(qblCts)]
 
+class BloxSpriteImage_ActorBlockShock(SLib.SpriteImage_Static):  # 819
+    def __init__(self, parent):
+        super().__init__(
+            parent,
+            3.75,
+            ImageCache['ActorBlockShock'],
+            (-8, -16),
+        )
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('ActorBlockShock', 'block_red_pow.png')
+
+class BloxSpriteImage_ActorBlockHatenaSwitch(SLib.SpriteImage_Static):  # 819
+    def __init__(self, parent):
+        super().__init__(
+            parent,
+            3.75,
+        )
+
+        self.xOffset = -8
+        self.yOffset = -16
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('ActorBlockHatenaSwitch_p', 'block_hat_p_switch.png')
+        SLib.loadIfNotInImageCache('ActorBlockHatenaSwitch_q', 'block_hat_q_switch.png')
+          
+    def dataChanged(self):
+        switchtype = self.parent.spritedata[11] & 0x1
+            
+        if switchtype == 1:
+            self.image = ImageCache['ActorBlockHatenaSwitch_p']
+        else:
+            self.image = ImageCache['ActorBlockHatenaSwitch_q']
+
+class BloxSpriteImage_TileGod(SLib.SpriteImage_StaticMultiple):  # 237, 673
+    def __init__(self, parent):
+        super().__init__(parent, 3.75)
+        self.aux2 = [SLib.AuxiliaryRectOutline(parent, 0, 0)]
+        self.aux = self.aux2
+        self.checkType = 0
+
+    def dataChanged(self):
+        super().dataChanged()
+
+        self.checkType = (self.parent.spritedata[3] & 0xF)
+        if self.checkType > 2:
+            self.checkType = 1
+
+        type_ = self.parent.spritedata[7] & 0xFF
+        type_ = type_ + ((self.parent.spritedata[6] & 0x3) << 8)
+
+        self.alpha = 1 if (self.parent.spritedata[4] >> 4 & 0xF) != 0 else 0.5
+        
+        self.width = (self.parent.spritedata[8] & 0xF) * 16
+        self.height = (self.parent.spritedata[9] & 0xF) * 16
+
+        if not self.width:
+            self.width = 16
+
+        if not self.height:
+            self.height = 16
+
+        if type_ > 0x3FF:
+            self.aux = self.aux2
+            self.spritebox.shown = True
+            self.image = None
+
+            if [self.width, self.height] == [16, 16]:
+                self.aux2[0].setSize(0, 0)
+                return
+        else:
+            self.aux = []
+            self.spritebox.shown = False
+
+            tile = SLib.Tiles[type_]
+
+            if tile.exists:
+                self.image = tile.main
+
+            else:
+                self.image = SLib.Tiles[0x200 * 4].main
+
+        self.aux2[0].setSize(self.width * 3.75, self.height * 3.75)
+
+    def paint(self, painter):
+        if self.image is None:
+            return
+
+        painter.save()
+
+        painter.setOpacity(self.alpha)
+        painter.setRenderHint(painter.SmoothPixmapTransform)
+
+        for yTile in range(self.height // 16):
+            for xTile in range(self.width // 16):
+                if ( self.checkType == 0                                                                                     # Solid Fill
+                     or self.checkType == 1 and (xTile % 2 == 0 and yTile % 2 == 0 or xTile % 2 != 0 and yTile % 2 != 0)     # Checkers
+                     or self.checkType == 2 and (xTile % 2 != 0 and yTile % 2 == 0 or xTile % 2 == 0 and yTile % 2 != 0) ):  # Inverted Checkers
+                    painter.drawPixmap(xTile * 60, yTile * 60, self.image)
+
+        aux = self.aux2
+        aux[0].paint(painter, None, None)
+
+        painter.restore()
 
 ImageClasses = {
     "blox:tripbk": BloxSpriteImage_ActorBlockHatenaLong,
@@ -198,4 +304,7 @@ ImageClasses = {
     "blox:oob": BloxSpriteImage_oob,
     "blox:psb": BloxSpriteImage_psb,
     "blox:htnamimic": BloxSpriteImage_HatenaMimic,
+    "blox:actor_block_shock": BloxSpriteImage_ActorBlockShock,
+    "blox:actor_block_hatena_switch": BloxSpriteImage_ActorBlockHatenaSwitch,
+    "blox:change_block_plus": BloxSpriteImage_TileGod
 }

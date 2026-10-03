@@ -6,11 +6,11 @@
 #include <map/Bg.h>
 
 static constexpr u8 cRingTimeInterval = 5;
-static constexpr u8 cInitialDelay = 10;
+static constexpr u8 cInitialDelay = 12;
 static constexpr u8 cMaximumRingRadius = 4;
 
 static constexpr f32 cPowEffectScale = 0.5f;
-static constexpr f32 cQuake1EffectScale = 2.0f;
+static constexpr f32 cQuake1EffectScale = 1.5f;
 static constexpr f32 cQuake2EffectScale = 3.0f;
 
 // Not a port from NSMB2, made completely from scratch 
@@ -69,7 +69,7 @@ class ShockBlockHitter {
                 mTimer--;
                 return;
             }
-            
+
             tryTilesetBlocks(mRingRadius);
             tryActorBlocks(mRingRadius);
             mTimer = cRingTimeInterval;

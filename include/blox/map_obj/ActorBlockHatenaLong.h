@@ -47,6 +47,5 @@ namespace blox {
         f32 mZPosOffset;
         f32 mZInitialPosOffset;
         AnimModel* mModel;
-        ParentMovementMgr mMovementMgr;
     };
 }

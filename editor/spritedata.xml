@@ -235,6 +235,181 @@
         <value nybble="21-22" title="Movement ID" category="movement"/>
 	</sprite>
 	<sprite string_id="blox:actor_block_shock" name="Red Pow Block">
+		<value nybble="1-2" title="Target Event ID" comment="The red pow will trigger this event ID when hit" id_type="event" category="events" />
 		<checkbox nybble="5" title="No Residue" comment="When checked, the red pow block won't leave a used block behind"/>
+	</sprite>
+	<sprite string_id="blox:actor_block_hatena_switch" name="(WIP) Event Controller - Question Block Switch " notes="A question block containing a switch of your choice.">
+		<value nybble="3-4" title="Target Event ID" comment="The switch will trigger this event ID when pressed. If the event if already active when this switch spawns, it'll be pressed from the get-go." id_type="event" category="events" />
+		<checkbox nybble="5" title="Affected by gravity" comment="If this is checked, the switch will be movable by the environment." category="behavior" />
+		<list nybble="6" title="Delay on Multi Use" comment="This will set how long the switch takes to pop up after the timer expires on a Multi Use switch" category="behavior">
+			<entry value="0">No Delay</entry>
+			<entry value="1">Very Long</entry>
+			<entry value="2">Short</entry>
+			<entry value="3">Long</entry>
+		</list>
+		<checkbox nybble="7" title="Non-timed" comment="When checked, the event will not be timed when it's switched." category="behavior" />
+		<checkbox nybble="8" title="Shift a tile vertically*" comment="Shift the switch a tile in the direction it's facing. Used by the game internally." category="behavior" />
+		<checkbox nybble="8" mask="2" title="Owned by Clampy" comment="Used by the game internally. Do not use this!" category="behavior" />
+		<checkbox nybble="9" title="Deactivates Target" comment="When checked, the switch will deactivate it's target. If the switch is timed, the event will reactivate after the timer is up." category="behavior" />
+		<checkbox nybble="10" title="Multiple uses" comment="If this is ticked, the switch will pop up after a while, and you can press it again." category="behavior" />
+		<checkbox nybble="11" title="Shift a half-tile right" comment="Ticking this will place the switch a half a tile to the right. This is a largely pointless leftover from New Super Mario Bros. DS." category="behavior" />
+		<checkbox nybble="12" title="Upside-down*" comment="If this is ticked, the switch will be upside-down. Used by the game internally." category="behavior" />
+		<checkbox nybble="17" title="Z-order" comment="Changes z-pos to 128.0" category="behavior" />
+		<value nybble="21-22" title="Unused Value 21-22" />
+		<value nybble="23-24" title="Unused Value 23-24" />
+		<list nybble="24" title="Switch Type" category="behavior">
+			<entry value="0">"?" Switch (Orange)</entry>
+			<entry value="1">"P" Switch (Blue)</entry>
+		</list>
+	</sprite>
+	<sprite string_id="blox:change_block_plus" name="Magic Tile God" notes="This sprite can spawn in tiles, or destroy tiles.">
+		<value nybble="3-4" title="Triggering Event ID" comment="When this Event ID is activated, the tiles affected by the sprite's area will be created/destroyed (depending on the Mode)." id_type="event" category="events" />
+		<checkbox nybble="6" mask="8" title="Don't destroy" comment="If this option is checked, if the current method is to destroy tiles, it won't" category="behavior" />
+		<checkbox nybble="5" title="Permanent" comment="If this option is checked, the effect of the sprite (creation / destruction) will remain even after the event is deactivated. If this is not checked, previously destroyed tiles will 'respawn' (with their 'Block Type' set) after the initial event is deactivated again." category="behavior" />
+		<checkbox nybble="5" mask="2" title="Silent" comment="If this option is checked, no sounds will play." category="behavior"/>
+		<checkbox nybble="5" mask="4" title="No Particles" comment="If this option is checked, no effects will play." category="behavior"/>
+		<checkbox nybble="5" mask="8" title="Use Location" comment="If this option is checked, no effects will play." category="behavior"/>
+		<value nybble="23-24" title="Location ID" comment="If using location id" category="behavior" requirednybble="5.1" requiredval="8-15"/>
+		<list nybble="22" title="Scan location on layer" comment="Choose which layer of the location to scan" requirednybble="5.1" requiredval="8-15" category="behavior">
+			<entry value="0">Layer 1</entry>
+			<entry value="1">Layer 2</entry>
+			<entry value="2">Layer 0</entry>
+		</list>
+		<list nybble="8" title="Fill Pattern" comment="Determines the pattern the area will be filled with." category="behavior">
+			<entry value="0">Solid Fill</entry>
+			<entry value="1">Checkers</entry>
+			<entry value="2">Inverted Checkers</entry>
+		</list>
+		<dualbox nybble="9" title1="Destroys Tiles" title2="Spawns Tiles" comment="Determines the effect that is triggered when the event is activated. 'Destroy Tiles' can destroy all kinds of objects. It cannot destroy sprites. 'Spawns Tiles' will even create new tiles above other tiles or objects." category="behavior"/>
+		<value nybble="13-16" title="Raw: Tile ID" comment="*ONLY USE THIS IF YOU KNOW WHAT YOU'RE DOING!!!. The unmodified u16 that gets fed into Bg"/>
+		<value bit="51-54" title="Raw: Tile Content Index" comment="If the tile is a 48 or 49, you can use this to give it contents"/>
+		<list bit="55-56" title="Tile: Palette" comment="The palette of the target tile" category="behavior">
+			<entry value="0">Pa0 (Main)</entry>
+			<entry value="1">Pa1</entry>
+			<entry value="2">Pa2</entry>
+			<entry value="3">Pa3</entry>
+		</list>
+		<list nybble="15-16" title="Tile: Common values" requirednybble="14.3" requiredval="0" category="behavior">
+			<entry value="0">Blank tile</entry>
+			<entry value="1">Invisible tile</entry>
+			<entry value="2">Vine Stop</entry>
+			<entry value="3">Hidden Block Containing a Coin</entry>
+			<entry value="4">Hidden Block Containing a Fire Flower</entry>
+			<entry value="5">Hidden Block Containing a Super Star</entry>
+			<entry value="6">Hidden Block Containing a 1-Up Mushroom</entry>
+			<entry value="7">Hidden Block Containing a Vine</entry>
+			<entry value="8">Hidden Block Containing a Mini Mushroom</entry>
+			<entry value="9">Hidden Block Containing a Propeller Mushroom</entry>
+			<entry value="10">Hidden Block Containing a Penguin Suit</entry>
+			<entry value="11">Invisible Solid-on-Top tile</entry>
+			<entry value="12">Invisible Mini Mario Passageway [Broken]</entry>
+			<entry value="13">Hidden Block Containing an Ice Flower</entry>
+			<entry value="14">Invisible pole collisions tile</entry>
+			<entry value="15">Invisible tile 2</entry>
+
+			<entry value="16">Invisible steep upslope tile</entry>
+			<entry value="17">Invisible steep downslope tile</entry>
+			<entry value="18">Invisible upslope tile 1</entry>
+			<entry value="19">Invisible upslope tile 2</entry>
+			<entry value="20">Invisible downslope tile 1</entry>
+			<entry value="21">Invisible downslope tile 2</entry>
+			<entry value="22">Invisible gentle upslope tile 1</entry>
+			<entry value="23">Invisible gentle upslope tile 2</entry>
+			<entry value="24">Invisible gentle upslope tile 3</entry>
+			<entry value="25">Invisible gentle upslope tile 4</entry>
+			<entry value="26">Invisible gentle downslope tile 1</entry>
+			<entry value="27">Invisible gentle downslope tile 2</entry>
+			
+			<!-- <entry value="16">Brick Block Containing a Coin</entry>
+			<entry value="17">Brick Block Containing 10 Coins</entry>
+			<entry value="18">Brick Block Containing a Fire Flower</entry>
+			<entry value="19">Brick Block Containing a Super Star</entry>
+			<entry value="20">Brick Block Containing a 1-Up Mushroom</entry>
+			<entry value="21">Brick Block Containing a Vine</entry>
+			<entry value="22">Brick Block Containing a Mini Mushroom</entry>
+			<entry value="23">Brick Block Containing a Propeller Mushroom</entry>
+			<entry value="24">Brick Block Containing a Penguin Suit</entry>
+			<entry value="25">Brick Block Containing a Yoshi Egg</entry>
+			<entry value="26">Brick Block Containing an Ice Flower</entry>
+			<entry value="27">Brick Block Containing a Super Acorn</entry> -->
+			<entry value="28">Coin Battle-only Dash Coin</entry>
+			<entry value="29">Hidden Block Containing a Super Acorn</entry>
+			<entry value="30">Coin</entry>
+			<entry value="31">Dash Coin (Turns Into a Coin When Touched)</entry>
+
+			<entry value="32">Invisible steep reverse upslope tile</entry>
+			<entry value="33">Invisible steep reverse downslope tile</entry>
+			<entry value="34">Invisible reverse upslope tile 1</entry>
+			<entry value="35">Invisible reverse upslope tile 2</entry>
+			<entry value="36">Invisible reverse downslope tile 1</entry>
+			<entry value="37">Invisible reverse downslope tile 2</entry>
+			<entry value="38">Invisible gentle reverse upslope tile 1</entry>
+			<entry value="39">Invisible gentle reverse upslope tile 2</entry>
+			<entry value="40">Invisible gentle reverse upslope tile 3</entry>
+			<entry value="41">Invisible gentle reverse upslope tile 4</entry>
+			<entry value="42">Invisible gentle reverse downslope tile 1</entry>
+
+			<!-- <entry value="15">Brick Block</entry>
+			<entry value="28">? Block Containing a Coin</entry>
+			<entry value="29">? Block Containing a Fire Flower</entry>
+			<entry value="30">? Block Containing a Super Star</entry>
+			<entry value="31">? Block Containing a Continuous Super Star</entry>
+			<entry value="32">? Block Containing a Vine</entry>
+			<entry value="33">? Block Containing a Spring</entry>
+			<entry value="34">? Block Containing a Mini Mushroom</entry>
+			<entry value="35">? Block Containing a Propeller Mushroom</entry>
+			<entry value="36">? Block Containing a Penguin Suit</entry>
+			<entry value="37">? Block Containing a Yoshi Egg</entry>
+			<entry value="38">? Block Containing an Ice Flower</entry>
+			<entry value="39">? Block Containing a Super Acorn</entry> -->
+			<entry value="43">Bridge</entry>
+			<entry value="44">Mini Mario Passageway [Broken]</entry>
+			<entry value="45">Muncher Collision tile</entry>
+			<entry value="46">Blue Coin</entry>
+
+			<entry value="48">Brick Block</entry>
+			<entry value="49">? Block</entry>
+			<entry value="50">Empty Block</entry>
+			<entry value="51">Wooden Block</entry>
+			<entry value="52">Stone Block</entry>
+			<entry value="53">Donut Block</entry>
+			<entry value="54">Steel Block</entry>
+		<!-- TODO: \n<entry value="64">Green Pipe Top</entry>\n<entry value="64">Green Pipe Top</entry>\n<entry value="62">Yellow Pipe Top</entry>\n<entry value="62">Yellow Pipe Top</entry>\n<entry value="68">Red Pipe Top</entry>\n<entry value="68">Red Pipe Top</entry>\n<entry value="57">Green Pipe Bottom</entry>\n<entry value="58">Green Pipe Left</entry>\n<entry value="59">Green Pipe Right</entry>\n<entry value="60">Green Pipe Vertical Center</entry>\n<entry value="61">Green Pipe Horizontal Center</entry>\n<entry value="63">Yellow Pipe Bottom</entry>\n<entry value="64">Yellow Pipe Left</entry>\n<entry value="65">Yellow Pipe Right</entry>\n<entry value="66">Yellow Pipe Vertical Center</entry>\n<entry value="67">Yellow Pipe Horizontal Center</entry>\n<entry value="69">Red Pipe Bottom</entry>\n<entry value="70">Red Pipe Left</entry>\n<entry value="71">Red Pipe Right</entry>\n<entry value="72">Red Pipe Vertical Center</entry>\n<entry value="73">Red Pipe Horizontal Center</entry>\n<entry value="74">Pipe Joint</entry>\n<entry value="75">Green Mini Pipe Top</entry>\n<entry value="76">Green Mini Pipe Bottom</entry>\n<entry value="77">Green Mini Pipe Left</entry>\n<entry value="78">Green Mini Pipe Right</entry>\n<entry value="79">Green Mini Pipe Vertical Center</entry>\n<entry value="80">Green Mini Pipe Horizontal Center</entry>\n<entry value="81">Mini Pipe Joint</entry>\n<entry value="83">Brick Block (Doesn't Break When Hit)</entry>\n<entry value="84">Rail: Horizontal</entry>\n<entry value="85">Rail: Vertical</entry>\n<entry value="86">Rail: Bottom-Right Corner</entry>\n<entry value="87">Rail: Top-Left Corner</entry>\n<entry value="88">Rail: Steep Upslope</entry>\n<entry value="89">Rail: Steep Downslope</entry>\n<entry value="90">Rail: Upslope</entry>\n<entry value="91">Rail: Downslope</entry>\n<entry value="92">Rail: Gentle Upslope</entry>\n<entry value="93">Rail: Gentle Downslope</entry>\n<entry value="94">Rail: 1x1 Circle</entry>\n<entry value="95">Rail: 2x2 Circle</entry>\n<entry value="96">Rail: 4x4 Circle</entry>\n<entry value="97">Rail: 2x2 Circle (Top-Left)</entry>\n<entry value="98">Rail: 2x2 Circle (Top-Right)</entry>\n<entry value="99">Rail: 2x2 Circle (Bottom-Left)</entry>\n<entry value="100">Rail: 2x2 Circle (Bottom-Right)</entry>\n<entry value="101">Rail: 4x4 Circle (Top-Left)</entry>\n<entry value="102">Rail: 4x4 Circle (Top-Right)</entry>\n<entry value="103">Rail: 4x4 Circle (Bottom-Left)</entry>\n<entry value="104">Rail: 4x4 Circle (Bottom-Right)</entry>\n<entry value="105">Rail: End (Top)</entry>\n<entry value="106">Rail: End (Bottom)</entry>\n<entry value="107">Rail: End (Left)</entry>\n<entry value="108">Rail: End (Right)</entry>\n<entry value="109">Rail: End (Top-Left)</entry>\n<entry value="110">Rail: End (Bottom-Left)</entry>\n<entry value="111">Rail: End (Top-Right)</entry>\n<entry value="112">Rail: End (Bottom-Right)</entry>\n<entry value="113">Rightward Conveyor Belt</entry>\n<entry value="114">Leftward Conveyor Belt</entry>\n<entry value="115">Rightward Conveyor Belt (Fast)</entry>\n<entry value="116">Leftward Fast Conveyor Belt (Fast)</entry>\n<entry value="117">Grass</entry>\n<entry value="118">Yellow Flower</entry>\n<entry value="119">Red Flower</entry>\n<entry value="120">Blue Flower</entry>\n<entry value="121">Yellow Flower with Grass</entry>\n<entry value="122">Red Flower with Grass</entry>\n<entry value="123">Blue Flower with Grass</entry>\n<entry value="124">Grass (Left)</entry>\n<entry value="125">Grass (Middle-Left)</entry>\n<entry value="126">Grass (Middle)</entry>\n<entry value="127">Grass (Middle-Right)</entry>\n<entry value="128">Grass (Right)</entry>\n<entry value="129">Destroyed Sky Grass Edge (Right)</entry>\n<entry value="130">Destroyed Sky Ground Edge (Right 1)</entry>\n<entry value="131">Destroyed Sky Ground Edge (Right 2)</entry>\n<entry value="132">Destroyed Sky Ground Edge (Right 3)</entry>\n<entry value="133">Destroyed Sky Ground Edge (Right 4)</entry>\n<entry value="134">Destroyed Sky Grass Edge (Left)</entry>\n<entry value="135">Destroyed Sky Ground Edge (Left 1)</entry>\n<entry value="136">Destroyed Sky Ground Edge (Left 2)</entry>\n<entry value="137">Destroyed Sky Ground Edge (Left 3)</entry>\n<entry value="138">Destroyed Sky Ground Edge (Left 4)</entry>\n<entry value="139">Steep Upsloped Bridge</entry>\n<entry value="140">Steep Downsloped Bridge</entry>\n<entry value="141">Gentle Upsloped Bridge</entry>\n<entry value="142">Gentle Downsloped Bridge</entry>\n<entry value="143">Red Block</entry>\n<entry value="144">Muncher Collision entry 2</entry>\n<entry value="145">Swinging Chain Anchor</entry>\n<entry value="146">Destroyed Airship Floor Edge (Right)</entry>\n<entry value="147">Destroyed Airship Plank Edge (Right 1)</entry>\n<entry value="148">Destroyed Airship Plank Edge (Right 2)</entry>\n<entry value="149">Destroyed Airship Plank Edge (Right 3)</entry>\n<entry value="150">Destroyed Airship Plank Edge (Right 4)</entry>\n<entry value="151">Destroyed Airship Floor Edge (Left)</entry>\n<entry value="152">Destroyed Airship Plank Edge (Left 1)</entry>\n<entry value="153">Destroyed Airship Plank Edge (Left 2)</entry>\n<entry value="154">Destroyed Airship Plank Edge (Left 3)</entry>\n<entry value="155">Destroyed Airship Plank Edge (Left 4)</entry> -->
+		</list>
+		<value nybble="15-16" title="Tile: ID" comment="The X position of the target tile on the palette" requirednybble="14.3" requiredval="0"/>
+		<value nybble="16" title="Tile: X on palette" comment="The X position of the target tile on the palette" requirednybble="14.3" requiredval="1-3"/>
+		<value nybble="15" title="Tile: Y on palette" comment="The Y position of the target tile on the palette" requirednybble="14.3" requiredval="1-3"/>
+		<list bit="51-54" title="Pa0 Brick: Content" comment="If the tile is 48, you can use this to give it content" requirednybble="15-16" requiredval="48">
+			<entry value="0">Empty</entry>
+			<entry value="1">Coin</entry>
+			<entry value="2">MultiCoin</entry>
+			<entry value="3">FireFlower</entry>
+			<entry value="4">Star</entry>
+			<entry value="5">1UP</entry>
+			<entry value="6">Vine</entry>
+			<entry value="7">MiniMushroom</entry>
+			<entry value="8">Propeller</entry>
+			<entry value="9">Penguin</entry>
+			<entry value="10">Yoshi</entry>
+			<entry value="11">IceFlower</entry>
+			<entry value="12">Thinks-its-empty</entry>
+			<entry value="13">SquirrelMushroom</entry>
+		</list>
+		<list bit="51-54" title="Pa0 ? Block: Content" comment="If the tile is 49, you can use this to give it content" requirednybble="15-16" requiredval="49">
+			<entry value="0">Coin</entry>
+			<entry value="1">FireFlower</entry>
+			<entry value="2">Star</entry>
+			<entry value="3">ContinuousStar</entry>
+			<entry value="4">Vine</entry>
+			<entry value="5">Spring</entry>
+			<entry value="6">MiniMushroom</entry>
+			<entry value="7">Propeller</entry>
+			<entry value="8">Penguin</entry>
+			<entry value="9">Yoshi</entry>
+			<entry value="10">IceFlower</entry>
+			<entry value="11">SquirrelMushroom</entry>
+		</list>
+		<value nybble="18" title="Width" comment="Determines the width of the area that is affected." category="behavior" />
+		<value nybble="20" title="Height" comment="Determines the height of the area that is affected." category="behavior" />
 	</sprite>
 </sprites>

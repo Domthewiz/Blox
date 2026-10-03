@@ -2,14 +2,13 @@
 #include <collision/ActorBgCollisionMgr.h>
 #include <red/util/SpriteUtil.h>
 #include <map/SwitchFlagMgr.h>
-#include <blox/actor/ActorBlockSwitchP.h>
+#include <blox/actor/DottedBlockOnOff.h>
 
 namespace blox {
-
-    SEAD_RTTI_OVERRIDE_IMPL(ActorBlockSwitchP, Actor);
+    SEAD_RTTI_OVERRIDE_IMPL(DottedBlockOnOff, Actor);
 
     using ACI = ActorCreateInfo;
-    const ActorCreateInfo ActorBlockSwitchP::cCreateInfo = {
+    const ActorCreateInfo DottedBlockOnOff::cCreateInfo = {
         .offset_x = 0, .offset_y = 0,
         .spawn_range = {
             .offset_x = 0, .offset_y = 0,
@@ -21,22 +20,32 @@ namespace blox {
         .flag = ACI::cFlag_None
     };
 
-    Profile* ActorBlockSwitchP::sProfile = blox::getRegistrar()->newProfile<ActorBlockSwitchP>("psb")
-        .resources<"block_psb">(ProfileInfo::cResType_Course)
+    Profile* DottedBlockOnOff::sProfile = blox::getRegistrar()->newProfile<DottedBlockOnOff>("oob")
+        .resources<"block_oob">(ProfileInfo::cResType_Course)
         .drawPriority(232)
         .createInfo(cCreateInfo)
         .build();
 
-    ActorBlockSwitchP::ActorBlockSwitchP(const ActorCreateParam& param)
+    DottedBlockOnOff::DottedBlockOnOff(const ActorCreateParam& param)
         : Actor(param)
         , mModel(nullptr)
     { }
 
-    ActorBase::Result ActorBlockSwitchP::create() {
-        mModel = AnimModel::create("block_psb", "block_DRC", 0, 2, 2);
+    ActorBase::Result DottedBlockOnOff::create() {
+        mModel = AnimModel::create("block_oob", "block_DRC", 0, 2, 2);
         mModel->playTexAnim("block_DRC");
+        mModel->playTexSrtAnim("player99");
+        mModel->playTexSrtAnim("coin");
+
+        if (SwitchFlagMgr::instance()->isActivated(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1)) {
+            mModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
+        } else {
+            mModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
+        }
+        mModel->getShuAnim(0)->getFrameCtrl().setFrame(red::SpriteUtil::getNybble5(this));
 
         mModel->getTexAnim(0)->getFrameCtrl().setRate(0.0f);
+        mModel->getShuAnim(0)->getFrameCtrl().setRate(0.0f);
 
         sead::Vector2f mTileSize = sead::Vector2f(1.0f,1.0f);
         
@@ -50,22 +59,6 @@ namespace blox {
         
         if (!red::SpriteUtil::getNybble5(this)) {
             ActorBgCollisionMgr::instance()->entry(mCollider);
-        } else {
-            mDotted = true;
-        }
-
-        if (mDotted) {
-            if (!SwitchFlagMgr::instance()->isPSwitch()) {
-                mModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
-            } else {
-                mModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
-            }
-        } else {
-            if (SwitchFlagMgr::instance()->isPSwitch()) {
-                mModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
-            } else {
-                mModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
-            }
         }
 
         execute();
@@ -73,23 +66,21 @@ namespace blox {
         return cResult_Success;
     }
 
-    bool ActorBlockSwitchP::execute() {
+    bool DottedBlockOnOff::execute() {
         mCollider.execute();
         
-        if (SwitchFlagMgr::instance()->isPSwitch()) {
+        if (SwitchFlagMgr::instance()->isActivated(red::SpriteUtil::getNybbleRange(this, 1, 2) - 1)) {
+            mModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
             if (red::SpriteUtil::getNybble5(this)) {
-                mModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
                 ActorBgCollisionMgr::instance()->entry(mCollider);
             } else {
-                mModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
                 ActorBgCollisionMgr::instance()->release(mCollider);
             }
         } else {
+            mModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
             if (red::SpriteUtil::getNybble5(this)) {
-                mModel->getTexAnim(0)->getFrameCtrl().setFrame(1 + (2 * red::SpriteUtil::getNybble11(this)));
                 ActorBgCollisionMgr::instance()->release(mCollider);
             } else {
-                mModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
                 ActorBgCollisionMgr::instance()->entry(mCollider);
             }
         } 
@@ -99,14 +90,14 @@ namespace blox {
         return true;
     }
 
-    bool ActorBlockSwitchP::draw() {
+    bool DottedBlockOnOff::draw() {
         if (mModel != nullptr) {
             mModel->draw();
         }
         return true;
     }
 
-    void ActorBlockSwitchP::calcMdl() {
+    void DottedBlockOnOff::calcMdl() {
         if (mModel != nullptr) {
             mModel->update(mPos, mAngle, mScale);
         }

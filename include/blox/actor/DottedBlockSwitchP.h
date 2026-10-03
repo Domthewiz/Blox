@@ -7,15 +7,15 @@
 
 namespace blox {
     
-    class ActorBlockOnOff : public Actor {
-        SEAD_RTTI_OVERRIDE(ActorBlockOnOff, Actor);
+    class DottedBlockSwitchP : public Actor {
+        SEAD_RTTI_OVERRIDE(DottedBlockSwitchP, Actor);
     public:
         static Profile* sProfile;
         static const ActorCreateInfo cCreateInfo;
     
     public:
-        ActorBlockOnOff(const ActorCreateParam& param);
-        ~ActorBlockOnOff() override = default;
+        DottedBlockSwitchP(const ActorCreateParam& param);
+        ~DottedBlockSwitchP() override = default;
         
     public:
         Result create() override;
@@ -26,5 +26,6 @@ namespace blox {
     protected:
         AnimModel* mModel;
         ActorBoxBgCollision mCollider;
+        bool mDotted;
     };
 }

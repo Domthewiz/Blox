@@ -27,21 +27,24 @@ namespace blox {
         void destroy() override;
         void destroy2() override;
         void doRedPowQuake();
+        
+        void onBumpDiff() override;
 
         void preSpawnItem() override;
         void spawnItemUp() override;
         void spawnItemDown() override;
+
         static void collisionCallback(ActorCollisionCheck* cc_self, ActorCollisionCheck* cc_other);
         
-        f32 zPosOffset = 0.0f;
-
-    protected:
-        AnimModel* mModel;
-        ShockBlockHitter mShock;
-        bool mExplosionActive;
-        u8 mExplosionTimer;
-        bool mHitAlready;
-        u8 mResidueRemovalTimer;
+        
+        protected:
+            f32 mZPosOffset;
+            AnimModel* mModel;
+            ShockBlockHitter mShock;
+            bool mExplosionActive;
+            u8 mExplosionTimer;
+            bool mHitAlready;
+            u8 mResidueRemovalTimer;
     };
 
 }

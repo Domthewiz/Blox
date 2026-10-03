@@ -67,3 +67,18 @@
     _ZN5Block9sTypeInfoE = 0x101EB220;
 
     _ZN13BlockCoinBaseC2ERK16ActorCreateParam = 0x027044B4;
+
+// ActorBlockSwitch
+    _ZN16ActorBlockSwitchC2ERK16ActorCreateParam = 0x026BA304;
+    _ZN16ActorBlockSwitch6createEv = 0x026BA370;
+    _ZN16ActorBlockSwitch9sTypeInfoE = 0x101EB054;
+    _ZN16ActorBlockSwitch11spawnItemUpEv = 0x026BA8D4;
+    _ZN16ActorBlockSwitch13spawnItemDownEv = 0x026BA8DC;
+
+// FlagCtrl
+    _ZN8FlagCtrl9sInstanceE = 0x101D160C;
+    _ZN8FlagCtrl11getFlagDataEtff = 0x024C2B10;
+    _ZN8FlagCtrl11setFlagDataEtfft = 0x024C2B78;
+
+// Actor
+    _ZN5Actor14screenOutCheckENS_13ScreenOutFlagE = 0x020007A0;

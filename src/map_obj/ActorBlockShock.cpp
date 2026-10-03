@@ -1,3 +1,4 @@
+#include <map/SwitchFlagMgr.h>
 #include <blox/Blox.h>
 #include <red/util/SpriteUtil.h>
 #include <player/PlayerObject.h>
@@ -44,6 +45,8 @@ namespace blox {
         , mModel(nullptr)
         , mExplosionActive(false)
         , mExplosionTimer(0)
+        , mResidueRemovalTimer(0)
+        , mZPosOffset(0.0f)
     { }
 
     ActorBase::Result ActorBlockShock::create() {
@@ -62,6 +65,10 @@ namespace blox {
         
         if (!ActorBlockBase::init(true,true)) {
             return cResult_Failed;
+        }
+
+        if (mParam0 >> 0x1C & 1 && mType == cType_Hit) {
+            mDeleteRequestFlag = true;
         }
 
         // registerColliderActiveInfo();
@@ -118,12 +125,12 @@ namespace blox {
 
     void ActorBlockShock::calcMdl() {
         if (mModel != nullptr) {
-            mModel->update(sead::Vector3f(mPos.x, mPos.y, mPos.z + std::fmodf(mPos.x, 128.0f) + zPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
+            mModel->update(sead::Vector3f(mPos.x, mPos.y, mPos.z + std::fmodf(mPos.x, 128.0f) + mZPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
         }
     }
 
     void ActorBlockShock::preSpawnItem() {
-        zPosOffset = 128.0f;
+        mZPosOffset = 128.0f;
         ActorBlockBase::preSpawnItem();
         doRedPowQuake();
         return;
@@ -170,6 +177,14 @@ namespace blox {
 
         mExplosionActive = true;
         mExplosionTimer = 2;
+    }
+
+    void ActorBlockShock::onBumpDiff() { // Overriding this function in order to unlock the NSLU only feature of activating an event
+        if (mSwitchFlag1 == 0) {
+            return;
+        }
+        SwitchFlagMgr::instance()->set(mSwitchFlag1 - 1, 0, true, false, false, 0, SwitchFlagMgr::cFlagType_Normal);
+        return;
     }
 
     void ActorBlockShock::collisionCallback(ActorCollisionCheck *cc_self, ActorCollisionCheck *cc_other) {
