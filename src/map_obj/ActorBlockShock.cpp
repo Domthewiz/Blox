@@ -89,13 +89,23 @@ namespace blox {
             }
         }
         
-        updateModel();
+        if (mResidueRemovalTimer > 6) {
+            mDeleteRequestFlag = true;
+        }
 
+        if (mResidueRemovalTimer) {
+            mResidueRemovalTimer++;
+        }
+        calcMdl();
+        
         return true;
     }
-
+    
     bool ActorBlockShock::draw() {
         if (mType == cType_Hit) {
+            if (mParam0 >> 0x1C & 1 && !mResidueRemovalTimer) {
+                mResidueRemovalTimer = 1;
+            }
             mUnitID = cUnitID_BlockUsed;
             return ActorBlockBase::draw();
         }
@@ -106,7 +116,7 @@ namespace blox {
         return true;
     }
 
-    void ActorBlockShock::updateModel() {
+    void ActorBlockShock::calcMdl() {
         if (mModel != nullptr) {
             mModel->update(sead::Vector3f(mPos.x, mPos.y, mPos.z + std::fmodf(mPos.x, 128.0f) + zPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
         }

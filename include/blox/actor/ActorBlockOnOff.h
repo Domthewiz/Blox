@@ -8,23 +8,23 @@
 namespace blox {
     
     class ActorBlockOnOff : public Actor {
-            SEAD_RTTI_OVERRIDE(ActorBlockOnOff, Actor);
-        public:
-            static Profile* sProfile;
-            static const ActorCreateInfo cCreateInfo;
+        SEAD_RTTI_OVERRIDE(ActorBlockOnOff, Actor);
+    public:
+        static Profile* sProfile;
+        static const ActorCreateInfo cCreateInfo;
+    
+    public:
+        ActorBlockOnOff(const ActorCreateParam& param);
+        ~ActorBlockOnOff() override = default;
         
-        public:
-            ActorBlockOnOff(const ActorCreateParam& param);
-            ~ActorBlockOnOff() override = default;
-            
-        public:
-            Result create() override;
-            bool execute() override;
-            bool draw() override;
-            void calcMdl_();
-        
-        protected:
-            AnimModel* mModel;
-            ActorBoxBgCollision mCollider;
+    public:
+        Result create() override;
+        bool execute() override;
+        bool draw() override;
+        void calcMdl();
+    
+    protected:
+        AnimModel* mModel;
+        ActorBoxBgCollision mCollider;
     };
 }

@@ -82,7 +82,7 @@ namespace blox {
             mModel->getTexAnim(0)->getFrameCtrl().setFrame(2 * red::SpriteUtil::getNybble11(this));
         }
 
-        updateModel();
+        calcMdl();
 
         return true;
     }
@@ -94,7 +94,7 @@ namespace blox {
         return true;
     }
 
-    void ActorBlockOnOffSwitch::updateModel() {
+    void ActorBlockOnOffSwitch::calcMdl() {
         if (mModel != nullptr) {
             mModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z + mZInitialPosOffset + mZPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
         }

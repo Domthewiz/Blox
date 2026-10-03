@@ -22,7 +22,7 @@ namespace blox {
         bool execute() override;
         bool draw() override;
         
-        void calcMdl_();
+        void calcMdl();
         
         void spawnItemUp() override;
         void spawnItemDown() override;

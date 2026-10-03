@@ -235,6 +235,6 @@
         <value nybble="21-22" title="Movement ID" category="movement"/>
 	</sprite>
 	<sprite string_id="blox:actor_block_shock" name="Red Pow Block">
-
+		<checkbox nybble="5" title="No Residue" comment="When checked, the red pow block won't leave a used block behind"/>
 	</sprite>
 </sprites>

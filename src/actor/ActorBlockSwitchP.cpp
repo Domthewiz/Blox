@@ -94,7 +94,7 @@ namespace blox {
             }
         } 
 
-        calcMdl_();
+        calcMdl();
 
         return true;
     }
@@ -106,7 +106,7 @@ namespace blox {
         return true;
     }
 
-    void ActorBlockSwitchP::calcMdl_() {
+    void ActorBlockSwitchP::calcMdl() {
         if (mModel != nullptr) {
             mModel->update(mPos, mAngle, mScale);
         }

@@ -15,11 +15,14 @@ namespace blox {
         ActorBlockOnOffSwitch(const ActorCreateParam& param);
         ~ActorBlockOnOffSwitch() override = default;
         
+    public:
         Result create() override;
         bool execute() override;
         bool draw() override;
-        void updateModel();
+
+        void calcMdl();
         bool restoreState() override;
+
         void destroy() override;
         void destroy2() override;
         void toggleEvent();

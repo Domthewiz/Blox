@@ -20,7 +20,7 @@ namespace blox {
         Result create() override;
         bool execute() override;
         bool draw() override;
-        void calcMdl_();
+        void calcMdl();
 
         bool restoreState() override;
         void destroy() override;
@@ -37,12 +37,14 @@ namespace blox {
         DECLARE_STATE_ID(ActorBlockTurn, Flipping);
 
     protected:
+        void initializeFootSensor_();
+        void setBoxBgCollisionOfs_();
+        
+    protected:
         AnimModel* mCModel;
         AnimModel* mLModel;
         AnimModel* mRModel;
         AnimModel* mEModel;
-        void initializeFootSensor_();
-        void setBoxBgCollisionOfs_();
         s32 mFlipsRemaining;
         bool mFlipsInstantly;
         f32 mColliderExtra;

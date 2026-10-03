@@ -115,7 +115,7 @@ namespace blox {
             return false;
         }
 
-        calcMdl_();
+        calcMdl();
 
         return true;
     }
@@ -136,7 +136,7 @@ namespace blox {
         return true;
     }
 
-    void ActorBlockTurn::calcMdl_() {
+    void ActorBlockTurn::calcMdl() {
 
         if (mCModel != nullptr) {
             mCModel->update(sead::Vector3f(mPos.x, mPos.y + 8.0f, mPos.z), mAngle, sead::Vector3f(mColliderExtra,mScale.y,0.5));

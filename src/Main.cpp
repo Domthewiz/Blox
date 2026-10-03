@@ -8,5 +8,11 @@ red::Registrar* blox::getRegistrar() {
 }
 
 void main() {
-    tk::println("Welcome to Domthewiz' Blox!");
+    tk::println("Blox by domthewiz has loaded!");
 }
+
+#include <telkin/Telkin.h>
+
+using namespace tk::ppc;
+
+tPatch8u(0x024D3A63, 0);

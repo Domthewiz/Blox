@@ -208,7 +208,7 @@ namespace blox {
                 mUseHitModel = true;
             }
         }
-        calcMdl_();
+        calcMdl();
 
         return true;
     }
@@ -220,7 +220,7 @@ namespace blox {
         return true;
     }
 
-    void ActorBlockHatenaDuplicate::calcMdl_() {
+    void ActorBlockHatenaDuplicate::calcMdl() {
         f32 angleSin, angleCos;
         sead::Mathf::sinCosIdx(&angleSin, &angleCos, mAngle.z());
 

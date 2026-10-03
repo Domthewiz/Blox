@@ -1,9 +1,5 @@
 #pragma once
 
-#include "actor/Actor.h"
-#include "map_obj/BlockCoinBase.h"
-#include "system/TouchDrcMgr.h"
-#include "utility/Direction.h"
 #include <effect/EffectCreateUtil.h>
 #include <map_obj/BlockMgr.h>
 #include <actor/ActorMgr.h>
@@ -109,7 +105,7 @@ private:
                 continue;
             }
             
-            if (!targetActor->isActive() && targetActor->getBlockType() == ActorBlockBase::cType_Hit && targetActor->isState(ActorBlockBase::StateID_Wait)) {
+            if (!targetActor->isActive() && targetActor->isState(ActorBlockBase::StateID_Wait)) {
                 continue;
             }
             
@@ -149,7 +145,6 @@ private:
         // tx and ty are the target x and y relative to the origin (0, 0)
         for (s32 tx = -ring_radius; tx <= ring_radius; tx++) {
             for (s32 ty = -ring_radius; ty <= ring_radius; ty++) {
-                // Not a big fan of all this nesting
                 if ((tx == ring_radius) || (tx == -ring_radius) || ((ty == ring_radius) || (ty == -ring_radius)) && (tx != 0 || ty != 0)) {
 
                     getUnitCheckPos.x = (originUnsigned.x & ~0xF) + ((tx * 16));
@@ -184,35 +179,6 @@ private:
         }
     }
 
-    // void scanForBlockProfile(const sead::Vector2f& pos) {
-    //     ActorMgr* actorMgr = ActorMgr::instance();
-    //         for (auto it = actorMgr->getActorBegin(); it != actorMgr->getActorEnd(); it++) {
-    //             if (*it == nullptr) {
-    //                 continue;
-    //             }
-                
-    //             Block* targetActor = sead::DynamicCast<Block>(*it);
-    //             if (!targetActor) {
-    //                 continue;
-    //             }
-    
-    //             // if (!targetActor->getParent()) {
-    //             //     continue;
-    //             // }
-    //             if (targetActor->getProfile() == red::ProfileEx::get(ProfileInfo::cProfileID_Block)) {
-    //                 continue;
-    //             }
-
-    //             if (pos.x == targetActor->getPos().x && pos.y == targetActor->getPos().y) {
-    //                 continue;
-    //             }
-
-    //             targetActor->getPos().x += 16.0f;
-    
-    //             return;
-    //         }
-    // }
-    
 protected:
     sead::Vector3f mOriginPosition;
     u8 mTimer;
