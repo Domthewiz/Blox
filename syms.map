@@ -13,6 +13,7 @@
 
 // ChangeBlockCoinBase
     _ZN19ChangeBlockCoinBase17getMultiCoinStateEv = 0x02726644;
+    _ZN19ChangeBlockCoinBase10onDrcTouchEv = 0x02726654;
 
 // ActorBlockHatena
     _ZN16ActorBlockHatenaC2ERK16ActorCreateParam = 0x026A4FAC;
