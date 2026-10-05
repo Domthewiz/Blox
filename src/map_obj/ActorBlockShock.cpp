@@ -22,21 +22,36 @@ namespace blox {
     };
 
     using CC = ActorCollisionCheck;
-    static const ActorCollisionCheck::CollisionData cCcData = {
+    static const ActorCollisionCheck::CollisionData cExplosionInfo = {
         .center_offset = { 0.0f, 0.0f },
         .half_size = { 72.0f, 72.0f },
         .shape_type = CC::cShapeType_Box,
-        .kind = CC::cKind_Item,
+        .kind = CC::cKind_Enemy,
         .attack = CC::cAttack_None,
-        .vs_kind = CC::cTargetKind_All,
-        .vs_damage = static_cast<CC::DamageFrom>(0xFFFBFFFF),
-        .status = CC::cStatus_None,
+        .vs_kind = CC::TargetKind(
+            CC::cTargetKind_Player |
+            CC::cTargetKind_Enemy |
+            CC::cTargetKind_ChibiYoshi |
+            CC::cTargetKind_DrcTouch
+            ),
+        .vs_damage = CC::DamageFrom(ActorCollisionCheck::cDamageFrom_All & ~ActorCollisionCheck::cDamageFrom_Intermittent),
+        .status = CC::cStatus_BurnerKill,
         .callback = &ActorBlockShock::collisionCallback
     };
 
+    //TODO - Make it damage enemies
+    void ActorBlockShock::collisionCallback(ActorCollisionCheck* cc_self, ActorCollisionCheck* cc_other) {
+        Actor* other = cc_other->getOwner();
+        if (cc_other->getOwner()->getKind() == cActorKind_Enemy) {
+            other->setBlockHitDirection(cDirType_Up);
+            other->setBlockHitTimer(8);
+            other->setBlockHitFace(static_cast<ActorBlockShock*>(cc_self->getOwner())->getBlockHitFace());
+        }
+    }
+
     Profile* ActorBlockShock::sProfile = blox::getRegistrar()->newProfile<ActorBlockShock>("actor_block_shock")
         .resources<"block_pow_red">(ProfileInfo::cResType_Course)
-        .drawPriority(1)
+        .drawPriority(232)
         .createInfo(cCreateInfo)
         .build();
 
@@ -67,13 +82,14 @@ namespace blox {
             return cResult_Failed;
         }
 
+        
         if (mParam0 >> 0x1C & 1 && mType == cType_Hit) {
             mDeleteRequestFlag = true;
         }
-
-        // registerColliderActiveInfo();
         changeState(StateID_Wait);
-        mCollisionCheck.set(this, cCcData);
+        registerColliderActiveInfo();
+        
+        mCollisionCheck.set(this, cExplosionInfo);
         
         execute();
         return cResult_Success;
@@ -103,7 +119,7 @@ namespace blox {
         if (mResidueRemovalTimer) {
             mResidueRemovalTimer++;
         }
-        calcMdl();
+        calcMdl_();
         
         return true;
     }
@@ -123,7 +139,7 @@ namespace blox {
         return true;
     }
 
-    void ActorBlockShock::calcMdl() {
+    void ActorBlockShock::calcMdl_() {
         if (mModel != nullptr) {
             mModel->update(sead::Vector3f(mPos.x, mPos.y, mPos.z + std::fmodf(mPos.x, 128.0f) + mZPosOffset), mAngle, sead::Vector3f(mScale.x, mScale.y, 0.01f));
         }
@@ -132,7 +148,7 @@ namespace blox {
     void ActorBlockShock::preSpawnItem() {
         mZPosOffset = 128.0f;
         ActorBlockBase::preSpawnItem();
-        doRedPowQuake();
+        doShock_();
         return;
     }
 
@@ -148,14 +164,14 @@ namespace blox {
 
     void ActorBlockShock::destroy() {
         changeState(StateID_Wait);
-        doRedPowQuake();
+        doShock_();
     }
     void ActorBlockShock::destroy2() {
         changeState(StateID_Wait);
-        doRedPowQuake();
+        doShock_();
     }
 
-    void ActorBlockShock::doRedPowQuake() {
+    void ActorBlockShock::doShock_() {
         if (mType == cType_Hit || mShock.isActive()) {
             return;
         }
@@ -164,7 +180,8 @@ namespace blox {
             Quake::cShockType_Pow, 
             Quake::cShockFlag_ShockCamera | Quake::cShockFlag_ShockMotor, 
             0, 
-            false);
+            false
+        );
         
         GameAudio::getAudioObjMap()->startSound("SE_OBJ_POW_BLOCK_QUAKE", mPos);
         
@@ -175,8 +192,8 @@ namespace blox {
 
         reviveCollisionCheck();
 
+        mExplosionTimer = 1;
         mExplosionActive = true;
-        mExplosionTimer = 2;
     }
 
     void ActorBlockShock::onBumpDiff() { // Overriding this function in order to unlock the NSLU only feature of activating an event
@@ -187,8 +204,6 @@ namespace blox {
         return;
     }
 
-    void ActorBlockShock::collisionCallback(ActorCollisionCheck *cc_self, ActorCollisionCheck *cc_other) {
-        (void)cc_self; (void)cc_other;
-    }
+   
 
 }

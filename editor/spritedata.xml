@@ -412,4 +412,170 @@
 		<value nybble="18" title="Width" comment="Determines the width of the area that is affected." category="behavior" />
 		<value nybble="20" title="Height" comment="Determines the height of the area that is affected." category="behavior" />
 	</sprite>
+	<sprite string_id="blox:coin_roulette_block" name="Custom Roulette Block">
+		<value bit="18-20" title="Number of powerups"/>
+		<list nybble="6" title="Content 1" category="behavior">
+			<entry value="0">Mushroom</entry>
+            <entry value="1">Star</entry>
+            <entry value="2">1-UP mushroom</entry>
+            <entry value="3">Fire Flower</entry>
+            <entry value="4">Propeller Mushroom</entry>
+            <entry value="5">Ice Flower</entry>
+            <entry value="6">Penguin Suit</entry>
+            <entry value="7">Acorn Mushroom</entry>
+            <entry value="8">Mini Mushroom</entry>
+            <entry value="9">Coin</entry>
+            <entry value="10">Yoshi</entry>
+            <entry value="11">Bubble Baby Yoshi</entry>
+            <entry value="12">Balloon Baby Yoshi</entry>
+            <entry value="13">Glow Baby Yoshi</entry>
+            <entry value="14">Spring</entry>
+            <entry value="15">3-UP moon</entry>
+		</list>
+		<list nybble="7" title="Content 2" category="behavior" requirednybble="5.2" requiredval="1-7">
+			<entry value="0">Mushroom</entry>
+            <entry value="1">Star</entry>
+            <entry value="2">1-UP mushroom</entry>
+            <entry value="3">Fire Flower</entry>
+            <entry value="4">Propeller Mushroom</entry>
+            <entry value="5">Ice Flower</entry>
+            <entry value="6">Penguin Suit</entry>
+            <entry value="7">Acorn Mushroom</entry>
+            <entry value="8">Mini Mushroom</entry>
+            <entry value="9">Coin</entry>
+            <entry value="10">Yoshi</entry>
+            <entry value="11">Bubble Baby Yoshi</entry>
+            <entry value="12">Balloon Baby Yoshi</entry>
+            <entry value="13">Glow Baby Yoshi</entry>
+            <entry value="14">Spring</entry>
+            <entry value="15">3-UP moon</entry>
+		</list>
+		<list nybble="8" title="Content 3" category="behavior" requirednybble="5.2" requiredval="2-7">
+			<entry value="0">Mushroom</entry>
+            <entry value="1">Star</entry>
+            <entry value="2">1-UP mushroom</entry>
+            <entry value="3">Fire Flower</entry>
+            <entry value="4">Propeller Mushroom</entry>
+            <entry value="5">Ice Flower</entry>
+            <entry value="6">Penguin Suit</entry>
+            <entry value="7">Acorn Mushroom</entry>
+            <entry value="8">Mini Mushroom</entry>
+            <entry value="9">Coin</entry>
+            <entry value="10">Yoshi</entry>
+            <entry value="11">Bubble Baby Yoshi</entry>
+            <entry value="12">Balloon Baby Yoshi</entry>
+            <entry value="13">Glow Baby Yoshi</entry>
+            <entry value="14">Spring</entry>
+            <entry value="15">3-UP moon</entry>
+		</list>
+		<list nybble="9" title="Content 4" category="behavior" requirednybble="5.2" requiredval="3-7">
+			<entry value="0">Mushroom</entry>
+            <entry value="1">Star</entry>
+            <entry value="2">1-UP mushroom</entry>
+            <entry value="3">Fire Flower</entry>
+            <entry value="4">Propeller Mushroom</entry>
+            <entry value="5">Ice Flower</entry>
+            <entry value="6">Penguin Suit</entry>
+            <entry value="7">Acorn Mushroom</entry>
+            <entry value="8">Mini Mushroom</entry>
+            <entry value="9">Coin</entry>
+            <entry value="10">Yoshi</entry>
+            <entry value="11">Bubble Baby Yoshi</entry>
+            <entry value="12">Balloon Baby Yoshi</entry>
+            <entry value="13">Glow Baby Yoshi</entry>
+            <entry value="14">Spring</entry>
+            <entry value="15">3-UP moon</entry>
+		</list>
+		<list nybble="10" title="Content 5" category="behavior" requirednybble="5.2" requiredval="4-7">
+			<entry value="0">Mushroom</entry>
+            <entry value="1">Star</entry>
+            <entry value="2">1-UP mushroom</entry>
+            <entry value="3">Fire Flower</entry>
+            <entry value="4">Propeller Mushroom</entry>
+            <entry value="5">Ice Flower</entry>
+            <entry value="6">Penguin Suit</entry>
+            <entry value="7">Acorn Mushroom</entry>
+            <entry value="8">Mini Mushroom</entry>
+            <entry value="9">Coin</entry>
+            <entry value="10">Yoshi</entry>
+            <entry value="11">Bubble Baby Yoshi</entry>
+            <entry value="12">Balloon Baby Yoshi</entry>
+            <entry value="13">Glow Baby Yoshi</entry>
+            <entry value="14">Spring</entry>
+            <entry value="15">3-UP moon</entry>
+		</list>
+		<list nybble="11" title="Content 6" category="behavior" requirednybble="5.2" requiredval="5-7">
+			<entry value="0">Mushroom</entry>
+            <entry value="1">Star</entry>
+            <entry value="2">1-UP mushroom</entry>
+            <entry value="3">Fire Flower</entry>
+            <entry value="4">Propeller Mushroom</entry>
+            <entry value="5">Ice Flower</entry>
+            <entry value="6">Penguin Suit</entry>
+            <entry value="7">Acorn Mushroom</entry>
+            <entry value="8">Mini Mushroom</entry>
+            <entry value="9">Coin</entry>
+            <entry value="10">Yoshi</entry>
+            <entry value="11">Bubble Baby Yoshi</entry>
+            <entry value="12">Balloon Baby Yoshi</entry>
+            <entry value="13">Glow Baby Yoshi</entry>
+            <entry value="14">Spring</entry>
+            <entry value="15">3-UP moon</entry>
+		</list>
+		<list nybble="12" title="Content 7" category="behavior" requirednybble="5.2" requiredval="6-7">
+			<entry value="0">Mushroom</entry>
+            <entry value="1">Star</entry>
+            <entry value="2">1-UP mushroom</entry>
+            <entry value="3">Fire Flower</entry>
+            <entry value="4">Propeller Mushroom</entry>
+            <entry value="5">Ice Flower</entry>
+            <entry value="6">Penguin Suit</entry>
+            <entry value="7">Acorn Mushroom</entry>
+            <entry value="8">Mini Mushroom</entry>
+            <entry value="9">Coin</entry>
+            <entry value="10">Yoshi</entry>
+            <entry value="11">Bubble Baby Yoshi</entry>
+            <entry value="12">Balloon Baby Yoshi</entry>
+            <entry value="13">Glow Baby Yoshi</entry>
+            <entry value="14">Spring</entry>
+            <entry value="15">3-UP moon</entry>
+		</list>
+		<list nybble="13" title="Content 8" category="behavior" requirednybble="5.2" requiredval="7">
+			<entry value="0">Mushroom</entry>
+            <entry value="1">Star</entry>
+            <entry value="2">1-UP mushroom</entry>
+            <entry value="3">Fire Flower</entry>
+            <entry value="4">Propeller Mushroom</entry>
+            <entry value="5">Ice Flower</entry>
+            <entry value="6">Penguin Suit</entry>
+            <entry value="7">Acorn Mushroom</entry>
+            <entry value="8">Mini Mushroom</entry>
+            <entry value="9">Coin</entry>
+            <entry value="10">Yoshi</entry>
+            <entry value="11">Bubble Baby Yoshi</entry>
+            <entry value="12">Balloon Baby Yoshi</entry>
+            <entry value="13">Glow Baby Yoshi</entry>
+            <entry value="14">Spring</entry>
+            <entry value="15">3-UP moon</entry>
+		</list>
+		<list nybble="14" title="Spin Delay" category="behavior">
+			<entry value="0">10 frames</entry>
+            <entry value="1">2 frames</entry>
+            <entry value="2">4 frames</entry>
+            <entry value="3">6 frames</entry>
+            <entry value="4">8 frames</entry>
+            <entry value="5">10 frames</entry>
+            <entry value="6">12 frames</entry>
+            <entry value="7">14 frames</entry>
+            <entry value="8">16 frames</entry>
+            <entry value="9">18 frames</entry>
+            <entry value="10">20 frames</entry>
+            <entry value="11">22 frames</entry>
+            <entry value="12">24 frames</entry>
+            <entry value="13">26 frames</entry>
+            <entry value="14">28 frames</entry>
+            <entry value="15">30 frames</entry>
+		</list>
+		<value nybble="21-22" title="Movement ID" comment="Pivotal rotation"/>
+	</sprite>
 </sprites>

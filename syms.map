@@ -82,3 +82,25 @@
 
 // Actor
     _ZN5Actor14screenOutCheckENS_13ScreenOutFlagE = 0x020007A0;
+
+// ShellDrcTouchCB
+    _ZTV15ShellDrcTouchCB = 0x100A6520;
+    _ZN15ShellDrcTouchCB9ccOnTouchEP19ActorCollisionCheckRKN4sead7Vector2IfEE = 0x0245213C;
+    _ZN15ShellDrcTouchCB16ccSetTouchNormalEP19ActorCollisionCheckRKN4sead7Vector2IfEE = 0x024520F4;
+
+// Enemy
+    _ZN5Enemy19setDeathInfo_HasamiEv = 0x0232DF14;
+    _ZN5Enemy17setDeathInfo_FallE7DirTypeiN8ScoreMgr9ScoreTypeE = 0x0232CBA4;
+
+// RouletteBlock
+    _ZN13RouletteBlockC2ERK16ActorCreateParam = 0x02879078;
+    _ZN13RouletteBlock6createEv = 0x02879570;
+    _ZN13RouletteBlock7executeEv = 0x028799B8;
+    _ZN13RouletteBlock4drawEv = 0x02879A40;
+    _ZN13RouletteBlock5vf2DCEv = 0x02879A94;
+    _ZN13RouletteBlock9sTypeInfoE = 0x101EB8C8;
+    _ZN13RouletteBlock10onDrcTouchEv = 0x02879C64;
+    _ZN13RouletteBlock11updateModelEv = 0x02879460;
+
+// ChibiYoshiMgr
+    _ZN13ChibiYoshiMgr8spawnEggERKN4sead7Vector3IfEEhj = 0x02743BB0;

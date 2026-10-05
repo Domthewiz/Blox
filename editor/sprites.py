@@ -297,6 +297,19 @@ class BloxSpriteImage_TileGod(SLib.SpriteImage_StaticMultiple):  # 237, 673
 
         painter.restore()
 
+class BloxSpriteImage_CoinRouletteBlock(SLib.SpriteImage_Static):  # 819
+    def __init__(self, parent):
+        super().__init__(
+            parent,
+            3.75,
+            ImageCache['CoinRouletteBlock'],
+            (-12, -12),
+        )
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('CoinRouletteBlock', 'custm_roulette.png')
+
 ImageClasses = {
     "blox:tripbk": BloxSpriteImage_ActorBlockHatenaLong,
     "blox:flip": BloxSpriteImage_flipblock,
@@ -306,5 +319,6 @@ ImageClasses = {
     "blox:htnamimic": BloxSpriteImage_HatenaMimic,
     "blox:actor_block_shock": BloxSpriteImage_ActorBlockShock,
     "blox:actor_block_hatena_switch": BloxSpriteImage_ActorBlockHatenaSwitch,
-    "blox:change_block_plus": BloxSpriteImage_TileGod
+    "blox:change_block_plus": BloxSpriteImage_TileGod,
+    "blox:coin_roulette_block": BloxSpriteImage_CoinRouletteBlock
 }

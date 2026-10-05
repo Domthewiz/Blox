@@ -1,3 +1,5 @@
+#include "telkin/Hooks.h"
+#include "telkin/Print.h"
 #include <blox/Blox.h>
 
 red::Registrar* blox::getRegistrar() {
@@ -10,4 +12,5 @@ void main() {
 }
 
 #include <telkin/Telkin.h>
-// tPatch8u(0x024D3A63, 0);
+
+tPatch8u(0x024D3A63, 1);

@@ -1,5 +1,8 @@
 #pragma once
 
+#include "map/UnitID.h"
+#include "map_obj/ActorCoinMgr.h"
+#include "utility/Direction.h"
 #include <effect/EffectCreateUtil.h>
 #include <map_obj/BlockMgr.h>
 #include <actor/ActorMgr.h>
@@ -115,6 +118,10 @@ class ShockBlockHitter {
 
                 if (targetActor->getBaseContent() == BlockCoinBase::Content::cContent_Empty && targetActor->getBlockType() == ActorBlockBase::cType_Renga) {
                     targetActor->destroy();
+                } else if (targetActor->getBaseContent() == BlockCoinBase::Content::cContent_Coin && (targetActor->getBlockType() == ActorBlockBase::cType_Renga || targetActor->getBlockType() == ActorBlockBase::cType_Hatena)) {
+                    targetActor->forceSpawnItemUp(mHitPlayerNo, mHitPlayerNo);
+                    targetActor->postBump();
+                    targetActor->getScale() = sead::Vector3f::ones;
                 } else {
                     targetActor->setBumpUpTimer(8);
                 }
@@ -170,6 +177,11 @@ class ShockBlockHitter {
                         } else if (unitCode == BgUnitCode::Type::cType_BreakBlock && blockHitParam.content.renga == BlockMgr::cRengaContent_None) {
                             BlockMgr::instance()->doDestroyAt(breakBlockParam);
                             *tile = cUnitID_Coin;
+                            
+                        } else if ((unitCode == BgUnitCode::Type::cType_BreakBlock && blockHitParam.content.renga == BlockMgr::cRengaContent_Coin) || 
+                                   (unitCode == BgUnitCode::Type::cType_Q_Block  && blockHitParam.content.hatena == BlockMgr::cHatenaContent_Coin)) {
+                            ActorCoinMgr::instance()->spawnItemCoin(sead::Vector3f(breakBlockParam.position.x + 8.0f, breakBlockParam.position.y - 16.0f, 0.0f), cDirType_Up, mHitPlayerNo);
+                            *tile = cUnitID_BlockUsed;
                             
                         } else if (unitCode == BgUnitCode::Type::cType_BreakBlock || unitCode == BgUnitCode::Type::cType_Q_Block) {
                             BlockMgr::instance()->feverModeHitBlockAt(blockHitParam.position);
