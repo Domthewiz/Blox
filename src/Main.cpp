@@ -13,4 +13,4 @@ void main() {
 
 #include <telkin/Telkin.h>
 
-tPatch8u(0x024D3A63, 1);
+// tPatch8u(0x024D3A63, 1);

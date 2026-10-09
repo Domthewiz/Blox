@@ -1,21 +1,25 @@
-#include "actor/Actor.h"
 #include "actor/ActorBase.h"
+#include "actor/ActorMgr.h"
+#include "container/seadSafeArray.h"
 #include "map_obj/BlockCoinBase.h"
 #include "map_obj/RouletteBlock.h"
-#include "map_obj/ChibiYoshiMgr.h"
-#include "player/PlayerMgr.h"
+#include "utility/Direction.h"
 #include <blox/map_obj/CoinRouletteBlock.h>
 #include <blox/Blox.h>
 #include <red/util/SpriteUtil.h>
 #include <player/PlayerObject.h>
+#include <blox/map_obj/ActorRouletteCoinJump.h>
 
-// Was originally going to be the NSMB2 roulette block, but it ended up being so much more.
-// TODO: Fix 3-up moon and baby yoshi y spawn offset
 namespace blox {
+
+    static sead::SafeArray<f32, 12> cCoinRouletteSpinArray1 { 
+        0.0f, 1.0f, 2.0f, 0.0f, 1.0f, 2.0f, 0.0f, 1.0f, 2.0f, 0.0f, 3.0f, 1.0f
+    };
+
     SEAD_RTTI_OVERRIDE_IMPL(CoinRouletteBlock, RouletteBlock);
 
     Profile* CoinRouletteBlock::sProfile = blox::getRegistrar()->newProfile<CoinRouletteBlock>("coin_roulette_block")
-        .resources<"block_roulette", "custm_roulette", "I_yoshichibi_egg", "YoshiChibi_TexBalloon", "YoshiChibi_TexBubble", "YoshiChibi_TexLight", "balloon">(ProfileInfo::cResType_Course)
+        .resources<"block_roulette", "coins_roulette", "ten_coin">(ProfileInfo::cResType_Course)
         .drawPriority(232)
         .build();
 
@@ -25,15 +29,16 @@ namespace blox {
         , mCustomSpinCountdown(0)
         , mCustomRouletteIndex(0)
         , mCustomCountdownApplied(false)
+        , mWasHitFromBelow(false)
     { }
 
     ActorBase::Result CoinRouletteBlock::create() {
         tk::println("a");
-        mModelCustom = AnimModel::create("custm_roulette", "block_roulette", 1, 1, 1);
+        mModelCustom = AnimModel::create("coins_roulette", "block_roulette", 1, 1, 1);
         mModelCustom->playTexAnim("block_roulette");
         // mTexAnim = mModelCustom->getTexAnim(0); // this might cause some problems
         // mModelCustom->getTexAnim(0)->getFrameCtrl().setFrame(0.0f);
-        mModelCustom->getTexAnim(0)->getFrameCtrl().setFrame(red::SpriteUtil::getNybble6(this));
+        mModelCustom->getTexAnim(0)->getFrameCtrl().setFrame(0.0f);
         mModelCustom->getTexAnim(0)->getFrameCtrl().setRate(0.0f);
 
         tk::println("a");
@@ -84,13 +89,16 @@ namespace blox {
             }
         } else if (mRouletteCountdown == 0) {
             mCustomCountdownApplied = false;
-            if (mCustomRouletteIndex >= (mParam0 >> 0x1C & 0x7)) {
+            if (mCustomRouletteIndex >= 11) {
                 mCustomRouletteIndex = 0;
             } else {
                 mCustomRouletteIndex++;
             }
             // tk::println("content index %u",mCustomRouletteIndex);
-            mModelCustom->getTexAnim(0)->getFrameCtrl().setFrame(red::SpriteUtil::getNybbleRange(this, mCustomRouletteIndex + 6, mCustomRouletteIndex + 6));
+            mModelCustom->getTexAnim(0)->getFrameCtrl().setFrame(cCoinRouletteSpinArray1[mCustomRouletteIndex]);
+            if (cCoinRouletteSpinArray1[mCustomRouletteIndex] == 3.0f) {
+                GameAudio::getAudioObjMap()->startSound("SE_OBJ_LIFT_LIMIT_0", mPos);
+            }
         }
         
         updateModel();
@@ -131,54 +139,38 @@ namespace blox {
     
     void CoinRouletteBlock::vf2DC() {
         RouletteBlock::vf2DC();
-        u8 customContentIndex = red::SpriteUtil::getNybbleRange(this, mCustomRouletteIndex + 6, mCustomRouletteIndex + 6);
+        mContent = cContent_Empty;
+    }
+
+    void CoinRouletteBlock::preSpawnItem() {
+        if (mWasHitFromBelow) {
+            mSpawnDirection = cDirType_Up;
+            // if (red::SpriteUtil::getNybble20(this) == 1) {
+            //     mBumpMode = cBumpMode_Up;
+            // }
+        } else {
+            mSpawnDirection = cDirType_Down;
+            // if (red::SpriteUtil::getNybble20(this) == 1) {
+            //     mBumpMode = cBumpMode_Down;
+            // }
+        }
+
+        u8 customContentIndex = cCoinRouletteSpinArray1[mCustomRouletteIndex];
         switch (customContentIndex) {
-            case cRouletteContent_Mushroom: {
-                mContent = cContent_Mushroom;
+            case cCoinRouletteContent_5: {
+                ActorBlockBase::spawnCoinShower();
                 break;
             }
-            case cRouletteContent_Star: {
-                mContent = cContent_Star;
+            case cCoinRouletteContent_10: {
+                spawnTenCoin(1, !mWasHitFromBelow);
                 break;
             }
-            case cRouletteContent_1UP: {
-                mContent = cContent_LifeMushroom;
+            case cCoinRouletteContent_30: {
+                spawnTenCoin(3, !mWasHitFromBelow);
                 break;
             }
-            case cRouletteContent_FireFlower: {
-                mContent = cContent_FireFlower;
-                break;
-            }
-            case cRouletteContent_PropellerMushroom: {
-                mContent = cContent_PropellerMushroom;
-                break;
-            }
-            case cRouletteContent_IceFlower: {
-                mContent = cContent_PropellerMushroom;
-                break;
-            }
-            case cRouletteContent_PenguinSuit: {
-                mContent = cContent_PropellerMushroom;
-                break;
-            }
-            case cRouletteContent_SquirrelMushroom: {
-                mContent = cContent_SquirrelMushroom;
-                break;
-            }
-            case cRouletteContent_MiniMushroom: {
-                mContent = cContent_MiniMushroom;
-                break;
-            }
-            case cRouletteContent_Coin: {
-                mContent = cContent_Coin;
-                break;
-            }
-            case cRouletteContent_Yoshi: {
-                mContent = cContent_Yoshi;
-                break;
-            }
-            case cRouletteContent_Spring: {
-                mContent = cContent_Spring;
+            case cCoinRouletteContent_50: {
+                spawnTenCoin(5, !mWasHitFromBelow);
                 break;
             }
             default: {
@@ -186,68 +178,39 @@ namespace blox {
                 break;
             }
         }
+        
+        mWasHitFromBelow = false;
+        return ActorBlockBase::preSpawnItem();
     }
 
-    void CoinRouletteBlock::spawnItemUp() {
-        RouletteBlock::spawnItemUp();
-        u8 customContentIndex = red::SpriteUtil::getNybbleRange(this, mCustomRouletteIndex + 6, mCustomRouletteIndex + 6);
-        switch (customContentIndex) {
-            case cRouletteContent_BubbleChibiYoshi: {
-                mContent = cContent_Empty;
-                ChibiYoshiMgr::spawnEgg(mPos, 0, 1);
-                break;
-            }
-            case cRouletteContent_BalloonChibiYoshi: {
-                mContent = cContent_Empty;
-                ChibiYoshiMgr::spawnEgg(mPos, 1, 1);
-                break;
-            }
-            case cRouletteContent_GlowChibiYoshi: {
-                mContent = cContent_Empty;
-                ChibiYoshiMgr::spawnEgg(mPos, 2, 1);
-                break;
-            }
-            case cRouletteContent_3UP: {
-                u32 playerCount = PlayerMgr::instance()->getNumInGame();
-                mContent = cContent_LifeMoon;
-                if (playerCount > 1) {
-                    spawnMultiPowerup(mPos, 0, 1, true);
-                    break;
-                }
-                spawnPowerup(mPos, 0, 1, true);
-                break;
-            }
+    void CoinRouletteBlock::onUpMoveStart() {
+        mWasHitFromBelow = true;
+        return ActorBlockBase::onUpMoveStart();
+    }
+
+    void CoinRouletteBlock::spawnTenCoin(u8 no, bool down) {
+        GameAudio::getAudioObjMap()->startSound("SE_OBJ_GET_COIN_SHOWER", mPos);
+        
+        ActorCreateParam item;
+        item.profile = ActorRouletteCoinJump::getProfile();
+        item.position = mPos;
+        if (down) {
+            item.position.y -= 8.0f;
+        } else {
+            item.position.y += 8.0f;
         }
-    }
 
-    void CoinRouletteBlock::spawnItemDown() {
-        RouletteBlock::spawnItemDown();
-        u8 customContentIndex = red::SpriteUtil::getNybbleRange(this, mCustomRouletteIndex + 6, mCustomRouletteIndex + 6);
-        switch (customContentIndex) {
-            case cRouletteContent_BubbleChibiYoshi: {
-                mContent = cContent_Empty;
-                ChibiYoshiMgr::spawnEgg(mPos, 0, 2);
-                break;
-            }
-            case cRouletteContent_BalloonChibiYoshi: {
-                mContent = cContent_Empty;
-                ChibiYoshiMgr::spawnEgg(mPos, 1, 2);
-                break;
-            }
-            case cRouletteContent_GlowChibiYoshi: {
-                mContent = cContent_Empty;
-                ChibiYoshiMgr::spawnEgg(mPos, 2, 2);
-                break;
-            }
-            case cRouletteContent_3UP: {
-                u32 playerCount = PlayerMgr::instance()->getNumInGame();
-                mContent = cContent_LifeMoon;
-                if (playerCount > 1) {
-                    spawnMultiPowerup(mPos, 0, 1, true);
-                    break;
-                }
-                spawnPowerup(mPos, 0, 1, true);
-                break;
+        if (!no || no > 10) {
+            tk::fatal("\"spawnTenCoin()\" number is out of range 1-10.");
+        }
+
+        for (u8 i = no; i > 0; i--) {
+            item.param_0 = 0x00000000;
+            item.param_0 += i;
+            ActorBase* tenCoin = ActorMgr::instance()->createImmediately(item);
+
+            if (down) {
+                static_cast<ActorRouletteCoinJump*>(tenCoin)->getSpeedVec().y *= -1;
             }
         }
     }
@@ -255,14 +218,15 @@ namespace blox {
 
 // CoinRoulette coin no
 // 5
+// 10
+// 30
+// 5
+// 10
+// 30
+// 5
+// 10
+// 30
+// 5
 // 50
 // 10
-// 5
-// 10
-// 30
-// 5
-// 10
-// 30
-// 5
-// 10
-// 30
+
