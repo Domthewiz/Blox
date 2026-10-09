@@ -14,6 +14,8 @@
 #include <blox/map_obj/ActorRouletteCoinJump.h>
 #include <player/Yoshi.h>
 
+// TODO: RE the star coin to find out how it overrides collecting and gives score
+// TODO: Also un-cook the sound effects for coin roulette block
 namespace blox {
 
     SEAD_RTTI_OVERRIDE_IMPL(ActorRouletteCoinJump, ActorCoinShowerJump);
