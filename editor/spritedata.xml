@@ -602,4 +602,14 @@
 		</list>
 		<value nybble="21-22" title="Movement ID" comment="Pivotal rotation"/>
 	</sprite>
+	<sprite string_id="blox:elastic_block_CSW6" name="World 6 Stretch Block">
+		<value nybble="3-4" title="Event ID"/>
+		<dualbox bit="20" title1="Red" title2="Blue"/>
+		<dualbox bit="19" title1="Horizontal" title2="Vertical"/>
+		<dualbox bit="18" title1="Up" title2="Down" requirednybble="5.3" requiredval="2-3"/>
+		<dualbox bit="18" title1="Right" title2="Left" requirednybble="5.3" requiredval="0-1"/>
+		<value nybble="6" title="Initial Size*" comment="value 15 crashes the game"/>
+		<value nybble="7" title="Final Size*" comment="value 15 crashes the game"/>
+		<!-- <value nybble="8" title="Speed"/> -->
+	</sprite>
 </sprites>

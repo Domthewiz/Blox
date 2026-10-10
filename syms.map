@@ -147,3 +147,12 @@
 
 // CourseTask
     _ZN10CourseTask8addCoinsEii = 0x024BFDB0;
+    
+// BgCollision
+    _ZN11BgCollision6updateEv = 0x021A5EB4;
+
+// RDashMgr
+    _ZN8RDashMgr9sInstanceE = 0x101E7D9C;
+
+// SaveMgr
+    _ZN7SaveMgr9sInstanceE = 0x101E7DA4;
