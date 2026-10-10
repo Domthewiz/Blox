@@ -31,6 +31,8 @@ namespace blox {
         static void callBackHead(BgCollision* cc_self, ActorBgCollisionCheck* cc_other);
         static void callBackWall(BgCollision* cc_self, ActorBgCollisionCheck* cc_other, u8 direction); 
 
+        void callbackGeneral(ActorRouletteCoinJump* _this);
+        
     private:
         void calcMdl_();
         

@@ -1,21 +1,7 @@
-#include "actor/Actor.h"
-#include "actor/ActorBase.h"
-#include "collision/BgCollision.h"
-#include "map_obj/ActorCoinShowerJump.h"
-#include "math/seadVector.h"
-#include "player/PlayerObject.h"
-#include "utility/Direction.h"
 #include <blox/Blox.h>
-#include <graphics/AnimModel.h>
-#include <red/util/SpriteUtil.h>
 #include <game/CourseTask.h>
-#include <map/SwitchFlagMgr.h>
-#include <audio/GameAudio.h>
 #include <blox/map_obj/ActorRouletteCoinJump.h>
-#include <player/Yoshi.h>
 
-// TODO: RE the star coin to find out how it overrides collecting and gives score
-// TODO: Also un-cook the sound effects for coin roulette block
 namespace blox {
 
     SEAD_RTTI_OVERRIDE_IMPL(ActorRouletteCoinJump, ActorCoinShowerJump);
@@ -76,9 +62,6 @@ namespace blox {
 
         calcMdl_();
 
-
-        
-
         return true;
     }
 
@@ -97,43 +80,22 @@ namespace blox {
 
     void ActorRouletteCoinJump::callBackFoot(BgCollision* cc_self, ActorBgCollisionCheck* cc_other) {
         ActorRouletteCoinJump* self = (ActorRouletteCoinJump*)cc_self->getOwner();
-        Actor* other = cc_other->getOwner();
-        s8 playerNo;
-        if (other->getKind() == cActorKind_Player || other->getKind() == cActorKind_Yoshi) {
-            if (other->getKind() == cActorKind_Yoshi && static_cast<Yoshi*>(other)->getPlayerRideOn() != nullptr) {
-                playerNo = static_cast<PlayerBase*>(static_cast<Yoshi*>(cc_other->getOwner())->getPlayerRideOn())->getPlayerNo();
-            } else {
-                playerNo = static_cast<PlayerObject*>(other)->getPlayerNo();
-            }
-            CourseTask::instance()->addCoins(self->mPlayerNo, 9);
-        }
+        self->callbackGeneral(self);
     }
 
     void ActorRouletteCoinJump::callBackHead(BgCollision* cc_self, ActorBgCollisionCheck* cc_other) {
         ActorRouletteCoinJump* self = (ActorRouletteCoinJump*)cc_self->getOwner();
-        Actor* other = cc_other->getOwner();
-        s8 playerNo;
-        if (other->getKind() == cActorKind_Player || other->getKind() == cActorKind_Yoshi) {
-            if (other->getKind() == cActorKind_Yoshi && static_cast<Yoshi*>(other)->getPlayerRideOn() != nullptr) {
-                playerNo = static_cast<PlayerBase*>(static_cast<Yoshi*>(cc_other->getOwner())->getPlayerRideOn())->getPlayerNo();
-            } else {
-                playerNo = static_cast<PlayerObject*>(other)->getPlayerNo();
-            }
-            CourseTask::instance()->addCoins(self->mPlayerNo, 9);
-        }
+        self->callbackGeneral(self);
     }
 
     void ActorRouletteCoinJump::callBackWall(BgCollision* cc_self, ActorBgCollisionCheck* cc_other, u8 direction) {
         ActorRouletteCoinJump* self = (ActorRouletteCoinJump*)cc_self->getOwner();
-        Actor* other = cc_other->getOwner();
-        s8 playerNo;
-        if (other->getKind() == cActorKind_Player || other->getKind() == cActorKind_Yoshi) {
-            if (other->getKind() == cActorKind_Yoshi && static_cast<Yoshi*>(other)->getPlayerRideOn() != nullptr) {
-                playerNo = static_cast<PlayerBase*>(static_cast<Yoshi*>(cc_other->getOwner())->getPlayerRideOn())->getPlayerNo();
-            } else {
-                playerNo = static_cast<PlayerObject*>(other)->getPlayerNo();
-            }
-            CourseTask::instance()->addCoins(self->mPlayerNo, 9);
+        self->callbackGeneral(self);
+    }
+
+    void ActorRouletteCoinJump::callbackGeneral(ActorRouletteCoinJump* _this) {
+        if (_this->mCoinCollectPlayerNo != -1) {
+            CourseTask::instance()->addCoins(_this->mCoinCollectPlayerNo, 9);
         }
     }
 

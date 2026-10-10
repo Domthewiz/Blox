@@ -1,15 +1,11 @@
-#include "actor/ActorBase.h"
-#include "actor/ActorMgr.h"
-#include "container/seadSafeArray.h"
-#include "map_obj/BlockCoinBase.h"
-#include "map_obj/RouletteBlock.h"
-#include "utility/Direction.h"
-#include <blox/map_obj/CoinRouletteBlock.h>
+#include <actor/ActorMgr.h>
+#include <blox/map_obj/ActorRouletteCoinJump.h>
 #include <blox/Blox.h>
 #include <red/util/SpriteUtil.h>
 #include <player/PlayerObject.h>
-#include <blox/map_obj/ActorRouletteCoinJump.h>
+#include <blox/map_obj/CoinRouletteBlock.h>
 
+// TODO: un-cook the sound effects for coin roulette block
 namespace blox {
 
     static sead::SafeArray<f32, 12> cCoinRouletteSpinArray1 { 
