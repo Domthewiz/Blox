@@ -603,7 +603,6 @@
 		<value nybble="21-22" title="Movement ID" comment="Pivotal rotation"/>
 	</sprite>
 	<sprite string_id="blox:elastic_block_CSW6" name="World 6 Stretch Block">
-		<value nybble="3-4" title="Event ID"/>
 		<dualbox bit="20" title1="Red" title2="Blue"/>
 		<dualbox bit="19" title1="Horizontal" title2="Vertical"/>
 		<dualbox bit="18" title1="Up" title2="Down" requirednybble="5.3" requiredval="2-3"/>
@@ -611,5 +610,8 @@
 		<value nybble="6" title="Initial Size*" comment="value 15 crashes the game"/>
 		<value nybble="7" title="Final Size*" comment="value 15 crashes the game"/>
 		<!-- <value nybble="8" title="Speed"/> -->
+	</sprite>
+	<sprite string_id="blox:switch_flag_w6_link" name="World 6 Switch - Event ID Linker">
+		<value nybble="3-4" title="Target Event ID" comment="When this Event ID is activated, the tiles affected by the sprite's area will be created/destroyed (depending on the Mode)." id_type="event" category="events" />
 	</sprite>
 </sprites>
