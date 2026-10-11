@@ -32,7 +32,7 @@ namespace blox {
 
     Profile* ElasticBlockEvent::sProfile = blox::getRegistrar()->newProfile<ElasticBlockEvent>("elastic_block_CSW6")
         .resources<"block_CSW6s">(ProfileInfo::cResType_Course)
-        .drawPriority(232)
+        .drawPriority(240)
         .createInfo(cCreateInfo)
         .build();
 
@@ -113,7 +113,12 @@ namespace blox {
         for (u8 i = mMaxSize; i > 0; i--) {
             if (mModel[i] != nullptr) {
                 sead::Vector3f posOffset(sead::Vector3f::zero);
-                posOffset.z = 16.0f * static_cast<f32>(i);
+
+                if (mParam0 >> 0x1F & 0x1) {
+                    posOffset.z = -16.0f * static_cast<f32>(i);
+                } else {
+                    posOffset.z = 16.0f * static_cast<f32>(i);
+                }
 
                 switch (mElasticType) {
                     case cElasticType_Horizontal: {

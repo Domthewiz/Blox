@@ -38,10 +38,9 @@ namespace blox {
         bool execute() override;
         bool draw() override;
 
-        void initModels();
         void initCollider();
         void changeStateOnSwitchStatus();
-
+        
         void setOfs_();
         void calcMdl_();
         
@@ -50,6 +49,7 @@ namespace blox {
         DECLARE_STATE_ID(ElasticBlockEvent, Expanded);
         DECLARE_STATE_ID(ElasticBlockEvent, Retracting);
         
+        virtual void initModels();
         virtual void getSwitchState();
         
     protected:
