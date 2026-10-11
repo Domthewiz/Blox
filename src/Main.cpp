@@ -14,3 +14,4 @@ void main() {
 #include <telkin/Telkin.h>
 
 // tPatch8u(0x024D3A63, 0);
+// tPatchBlr(0x0278FA94);

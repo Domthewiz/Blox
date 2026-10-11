@@ -3,9 +3,33 @@
 // ActorBlockBase
     _ZN14ActorBlockBase9initMoverEv = 0x0269fb30;
     _ZN14ActorBlockBase15StateID_HitWaitE = 0x1021E904;
+    _ZN14ActorBlockBase10getContentEj = 0x0269FAB0;
+    _ZN14ActorBlockBase9sTypeInfoE = 0x101E9CF8;
+    _ZN14ActorBlockBase12StateID_WaitE = 0x1021E8E0;
+    _ZN14ActorBlockBase4drawEv = 0x0269e77c;
+    _ZN14ActorBlockBase11spawnItemUpEv = 0x0269ebc0;
+    _ZN14ActorBlockBase13spawnItemDownEv = 0x0269ebc4;
+    _ZN14ActorBlockBase18onDownMove_DiffEndEv = 0x0269ec04;
+    _ZN14ActorBlockBase11onMove_DiffEv = 0x0269f674;
+    _ZN14ActorBlockBase20onDownMove_DiffStartEv = 0x0269f400;
+    _ZN14ActorBlockBase5vf2C4Ev = 0x0269f410;
+    _ZN14ActorBlockBase7destroyEv = 0x0269f25c;
+    _ZN14ActorBlockBase8destroy2Ev = 0x0269f33c;
+    _ZN14ActorBlockBase4initEbb = 0x0269f6c8;
+    _ZN14ActorBlockBase14updateMovementEv = 0x0269f078;
+    _ZN14ActorBlockBase12restoreStateEv = 0x0269ec1c;
+    _ZN14ActorBlockBase12preSpawnItemEv = 0x0269efe4;
+    _ZN14ActorBlockBase7executeEv = 0x0269e6c4;
+    _ZN14ActorBlockBaseC2ERK16ActorCreateParam = 0x0269E614;
+    _ZN14ActorBlockBase20initializeState_WaitEv = 0x026a061c;
+    _ZN14ActorBlockBase17executeState_WaitEv = 0x026a0068;
+    _ZN14ActorBlockBase18finalizeState_WaitEv = 0x026a0620;
+    _ZN14ActorBlockBase23initializeState_HitWaitEv = 0x026a0624;
+    _ZN14ActorBlockBase20executeState_HitWaitEv = 0x026a0074;
+    _ZN14ActorBlockBase21finalizeState_HitWaitEv = 0x026a0628;
+
     _ZN27LoopRideLineBgCollisionUtil6setOfsEP23LoopRideLineBgCollisionRKN4sead7Vector2IfEES6_ = 0x021AD25C;
     _ZN13SwitchFlagMgr12checkPSwitchENS_11PSwitchTypeE = 0x0269BF04;
-    _ZN14ActorBlockBase10getContentEj = 0x0269FAB0;
 
 // ActorBgCollisionMgr
     _ZN19ActorBgCollisionMgr7releaseERK11BgCollision = 0x0219282C;
@@ -156,3 +180,19 @@
 
 // SaveMgr
     _ZN7SaveMgr9sInstanceE = 0x101E7DA4;
+
+// _ZN3red15StaticInitEvent9subscribeERNS_14EventDelegatorIS0_E8ListenerE
+    //_ZN3red15StaticInitEvent9subscribeERNS_14EventDelegatorIS0_E8ListenerE;
+
+
+// RingBase
+    _ZN8RingBaseC2ERK16ActorCreateParam = 0x02871254;
+    _ZN8RingBase9sTypeInfoE = 0x101EB268;
+    _ZTV8RingBase = 0x1014F3CC;
+    _ZN8RingBase6createEv = 0x0287142C;
+    _ZN8RingBase7executeEv = 0x0287163C;
+    _ZN8RingBase4drawEv = 0x0287168C;
+    _ZN8RingBase19isPlayerWithinRangeEi = 0x02871864;
+
+// Effect
+    _ZN6Effect5spawnEiPKN4sead7Vector3IfEEPK6Angle3S4_ = 0x022AB980;

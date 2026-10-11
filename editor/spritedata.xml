@@ -625,4 +625,7 @@
 		<value nybble="6" title="Initial Size*" comment="Both of these cannot be one or else my code will try to divide by zero" category="behavior" />
 		<value nybble="7" title="Final Size*" comment="Both of these cannot be one or else my code will try to divide by zero" category="behavior" />
 	</sprite>
+	<sprite string_id="blox:coin_ring" name="Coin Ring">
+		<value nybble="3-4" title="Target Event ID" comment="When this Event ID is activated, the tiles affected by the sprite's area will be created/destroyed (depending on the Mode)." id_type="event" category="events" />
+	</sprite>
 </sprites>
