@@ -1,21 +1,30 @@
-#include "actor/ActorBase.h"
-#include "map_obj/BlockCoinBase.h"
-#include "map_obj/RouletteBlock.h"
-#include "map_obj/ChibiYoshiMgr.h"
-#include "player/PlayerMgr.h"
-#include <blox/map_obj/CustomRouletteBlock.h>
+#include <map_obj/ChibiYoshiMgr.h>
+#include <player/PlayerMgr.h>
 #include <blox/Blox.h>
 #include <red/util/SpriteUtil.h>
-#include <player/PlayerObject.h>
+#include <blox/map_obj/CustomRouletteBlock.h>
 
-// Was originally going to be the NSMB2 roulette block, but it ended up being so much more.
 // TODO: Fix 3-up moon and baby yoshi y spawn offset
 namespace blox {
     SEAD_RTTI_OVERRIDE_IMPL(CustomRouletteBlock, RouletteBlock);
 
+    using ACI = ActorCreateInfo;
+    const ActorCreateInfo CustomRouletteBlock::cCreateInfo = {
+        .offset_x = 8, .offset_y = -8,
+        .spawn_range = {
+            .offset_x = 0, .offset_y = 0,
+            .half_size_x = 0x100, .half_size_y = 0x100
+        },
+        .cull_range = { 
+            .up = 0, .down = 0, .left = 0, .right = 0
+        },
+        .flag = ACI::cFlag_None
+    };
+
     Profile* CustomRouletteBlock::sProfile = blox::getRegistrar()->newProfile<CustomRouletteBlock>("custom_roulette_block")
         .resources<"block_roulette", "custm_roulette", "I_yoshichibi_egg", "YoshiChibi_TexBalloon", "YoshiChibi_TexBubble", "YoshiChibi_TexLight", "balloon">(ProfileInfo::cResType_Course)
         .drawPriority(232)
+        .createInfo(cCreateInfo)
         .build();
 
     CustomRouletteBlock::CustomRouletteBlock(const ActorCreateParam& param)
@@ -251,17 +260,3 @@ namespace blox {
         }
     }
 }
-
-// CoinRoulette coin no
-// 5
-// 50
-// 10
-// 5
-// 10
-// 30
-// 5
-// 10
-// 30
-// 5
-// 10
-// 30

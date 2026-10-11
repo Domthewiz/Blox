@@ -1,13 +1,8 @@
-#include "actor/Actor.h"
-#include "actor/ActorBase.h"
-#include "actor/ActorState.h"
-#include "audio/GameAudio.h"
-#include "effect/EffectCreateUtil.h"
-#include "map/Bg.h"
-#include "telkin/Print.h"
+#include <audio/GameAudio.h>
+#include <effect/EffectCreateUtil.h>
+#include <map/Bg.h>
 #include <blox/Blox.h>
 #include <collision/ActorBgCollisionMgr.h>
-#include <red/util/SpriteUtil.h>
 #include <map/SwitchFlagMgr.h>
 #include <blox/actor/ChangeBlockPlus.h>
 #include <game_info/CourseInfo.h>

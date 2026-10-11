@@ -2,8 +2,6 @@
 
 #include <actor/Actor.h>
 #include <actor/Profile.h>
-#include <collision/ActorBoxBgCollision.h>
-#include <graphics/AnimModel.h>
 
 namespace blox {
     

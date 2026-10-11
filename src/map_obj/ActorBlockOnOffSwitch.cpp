@@ -12,7 +12,7 @@ namespace blox {
 
     using ACI = ActorCreateInfo;
     const ActorCreateInfo ActorBlockOnOffSwitch::cCreateInfo = {
-        .offset_x = 0, .offset_y = 0,
+        .offset_x = 8, .offset_y = -16,
         .spawn_range = {
             .offset_x = 0, .offset_y = 0,
             .half_size_x = 1000000, .half_size_y = 1000000

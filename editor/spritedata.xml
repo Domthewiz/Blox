@@ -112,7 +112,7 @@
 	</sprite>
 	<sprite string_id="blox:oob" name="On/Off Block">
 		<value nybble="1-2" title="Triggering Event ID" category="events"/>
-		<dualbox nybble="5" title1="Red" title2="Blue"/>
+		<dualbox nybble="5" title1="Red" title2="Blue" category="behavior"/>
 		<list nybble="11" title="Model" category="behavior">
 			<entry value="0">Overworld</entry>
 			<entry value="1">Underground</entry>
@@ -120,13 +120,14 @@
 			<entry value="3">Lava Underground</entry>
 		</list>
 	</sprite>
+	<!-- TODO: Make the flip block sprite image show width-->
 	<sprite string_id="blox:flip" name="Flip Block">
 		<value nybble="1-2" title="Target Event ID" category="events"/>
 		<checkbox nybble="5" title="Flips Instantly" category="behavior" comment="Skip the bumping animation and flip instantly"/>
-		<value nybble="6" title="Width" category="behavior"/>
+		<value nybble="6" title="Width" comment="Doesn't show properly in Pyamoto yet." category="behavior"/>
 	</sprite>
 	<sprite string_id="blox:psb" name="P Switch Block">
-		<dualbox nybble="5" title1="Solid" title2="Dotted"/>
+		<dualbox nybble="5" title1="Solid" title2="Dotted" category="behavior"/>
 		<list nybble="11" title="Model" category="behavior">
 			<entry value="0">Overworld</entry>
 			<entry value="1">Underground</entry>
@@ -134,7 +135,7 @@
 			<entry value="3">Lava Underground</entry>
 		</list>
 	</sprite>
-	<sprite string_id="blox:htnamimic" name="Question Block (Duplicate)" notes="Uses the code from the triple question block">
+	<sprite string_id="blox:htnamimic" name="Question Block (Triple Block base)" notes="Uses the code from the triple question block">
 		<value nybble="1-2" title="Target Event ID" category="events"/>
 		<checkbox nybble="5" title="60fps Animation" category="behavior"/>
 		<list nybble="8-9" title="Contents" category="behavior">
@@ -232,13 +233,13 @@
 			<entry value="10">Rolling Hill (265)</entry>
 			<entry value="11">Moving Mushroom Lift (210)</entry>
 		</list>
-        <value nybble="21-22" title="Movement ID" category="movement"/>
+        <value nybble="21-22" title="Movement ID" category="movement" id_type="movement"/>
 	</sprite>
 	<sprite string_id="blox:actor_block_shock" name="Red Pow Block">
 		<value nybble="1-2" title="Target Event ID" comment="The red pow will trigger this event ID when hit" id_type="event" category="events" />
-		<checkbox nybble="5" title="No Residue" comment="When checked, the red pow block won't leave a used block behind"/>
+		<checkbox nybble="5" title="No Residue" comment="When checked, the red pow block won't leave a used block behind" category="behavior"/>
 	</sprite>
-	<sprite string_id="blox:actor_block_hatena_switch" name="(WIP) Event Controller - Question Block Switch " notes="A question block containing a switch of your choice.">
+	<!--! TODO: Make this reliable, i'm omitting it for now because you pesants aren't knowledgable enough to make this sprite work  <sprite string_id="blox:actor_block_hatena_switch" name="(WIP) Event Controller - Question Block Switch " notes="A question block containing a switch of your choice.">
 		<value nybble="3-4" title="Target Event ID" comment="The switch will trigger this event ID when pressed. If the event if already active when this switch spawns, it'll be pressed from the get-go." id_type="event" category="events" />
 		<checkbox nybble="5" title="Affected by gravity" comment="If this is checked, the switch will be movable by the environment." category="behavior" />
 		<list nybble="6" title="Delay on Multi Use" comment="This will set how long the switch takes to pop up after the timer expires on a Multi Use switch" category="behavior">
@@ -261,7 +262,7 @@
 			<entry value="0">"?" Switch (Orange)</entry>
 			<entry value="1">"P" Switch (Blue)</entry>
 		</list>
-	</sprite>
+	</sprite> -->
 	<sprite string_id="blox:change_block_plus" name="Magic Tile God" notes="This sprite can spawn in tiles, or destroy tiles.">
 		<value nybble="3-4" title="Triggering Event ID" comment="When this Event ID is activated, the tiles affected by the sprite's area will be created/destroyed (depending on the Mode)." id_type="event" category="events" />
 		<checkbox nybble="6" mask="8" title="Don't destroy" comment="If this option is checked, if the current method is to destroy tiles, it won't" category="behavior" />
@@ -269,7 +270,7 @@
 		<checkbox nybble="5" mask="2" title="Silent" comment="If this option is checked, no sounds will play." category="behavior"/>
 		<checkbox nybble="5" mask="4" title="No Particles" comment="If this option is checked, no effects will play." category="behavior"/>
 		<checkbox nybble="5" mask="8" title="Use Location" comment="If this option is checked, no effects will play." category="behavior"/>
-		<value nybble="23-24" title="Location ID" comment="If using location id" category="behavior" requirednybble="5.1" requiredval="8-15"/>
+		<value nybble="23-24" title="Location ID" comment="If using location id" id_type="location" category="behavior" requirednybble="5.1" requiredval="8-15"/>
 		<list nybble="22" title="Scan location on layer" comment="Choose which layer of the location to scan" requirednybble="5.1" requiredval="8-15" category="behavior">
 			<entry value="0">Layer 1</entry>
 			<entry value="1">Layer 2</entry>
@@ -281,8 +282,8 @@
 			<entry value="2">Inverted Checkers</entry>
 		</list>
 		<dualbox nybble="9" title1="Destroys Tiles" title2="Spawns Tiles" comment="Determines the effect that is triggered when the event is activated. 'Destroy Tiles' can destroy all kinds of objects. It cannot destroy sprites. 'Spawns Tiles' will even create new tiles above other tiles or objects." category="behavior"/>
-		<value nybble="13-16" title="Raw: Tile ID" comment="*ONLY USE THIS IF YOU KNOW WHAT YOU'RE DOING!!!. The unmodified u16 that gets fed into Bg"/>
-		<value bit="51-54" title="Raw: Tile Content Index" comment="If the tile is a 48 or 49, you can use this to give it contents"/>
+		<value nybble="13-16" title="Raw: Tile ID" comment="*ONLY USE THIS IF YOU KNOW WHAT YOU'RE DOING!!!. The unmodified u16 that gets fed into Bg" category="behavior" />
+		<value bit="51-54" title="Raw: Tile Content Index" comment="If the tile is a 48 or 49, you can use this to give it contents" category="behavior" />
 		<list bit="55-56" title="Tile: Palette" comment="The palette of the target tile" category="behavior">
 			<entry value="0">Pa0 (Main)</entry>
 			<entry value="1">Pa1</entry>
@@ -376,10 +377,10 @@
 			<entry value="54">Steel Block</entry>
 		<!-- TODO: \n<entry value="64">Green Pipe Top</entry>\n<entry value="64">Green Pipe Top</entry>\n<entry value="62">Yellow Pipe Top</entry>\n<entry value="62">Yellow Pipe Top</entry>\n<entry value="68">Red Pipe Top</entry>\n<entry value="68">Red Pipe Top</entry>\n<entry value="57">Green Pipe Bottom</entry>\n<entry value="58">Green Pipe Left</entry>\n<entry value="59">Green Pipe Right</entry>\n<entry value="60">Green Pipe Vertical Center</entry>\n<entry value="61">Green Pipe Horizontal Center</entry>\n<entry value="63">Yellow Pipe Bottom</entry>\n<entry value="64">Yellow Pipe Left</entry>\n<entry value="65">Yellow Pipe Right</entry>\n<entry value="66">Yellow Pipe Vertical Center</entry>\n<entry value="67">Yellow Pipe Horizontal Center</entry>\n<entry value="69">Red Pipe Bottom</entry>\n<entry value="70">Red Pipe Left</entry>\n<entry value="71">Red Pipe Right</entry>\n<entry value="72">Red Pipe Vertical Center</entry>\n<entry value="73">Red Pipe Horizontal Center</entry>\n<entry value="74">Pipe Joint</entry>\n<entry value="75">Green Mini Pipe Top</entry>\n<entry value="76">Green Mini Pipe Bottom</entry>\n<entry value="77">Green Mini Pipe Left</entry>\n<entry value="78">Green Mini Pipe Right</entry>\n<entry value="79">Green Mini Pipe Vertical Center</entry>\n<entry value="80">Green Mini Pipe Horizontal Center</entry>\n<entry value="81">Mini Pipe Joint</entry>\n<entry value="83">Brick Block (Doesn't Break When Hit)</entry>\n<entry value="84">Rail: Horizontal</entry>\n<entry value="85">Rail: Vertical</entry>\n<entry value="86">Rail: Bottom-Right Corner</entry>\n<entry value="87">Rail: Top-Left Corner</entry>\n<entry value="88">Rail: Steep Upslope</entry>\n<entry value="89">Rail: Steep Downslope</entry>\n<entry value="90">Rail: Upslope</entry>\n<entry value="91">Rail: Downslope</entry>\n<entry value="92">Rail: Gentle Upslope</entry>\n<entry value="93">Rail: Gentle Downslope</entry>\n<entry value="94">Rail: 1x1 Circle</entry>\n<entry value="95">Rail: 2x2 Circle</entry>\n<entry value="96">Rail: 4x4 Circle</entry>\n<entry value="97">Rail: 2x2 Circle (Top-Left)</entry>\n<entry value="98">Rail: 2x2 Circle (Top-Right)</entry>\n<entry value="99">Rail: 2x2 Circle (Bottom-Left)</entry>\n<entry value="100">Rail: 2x2 Circle (Bottom-Right)</entry>\n<entry value="101">Rail: 4x4 Circle (Top-Left)</entry>\n<entry value="102">Rail: 4x4 Circle (Top-Right)</entry>\n<entry value="103">Rail: 4x4 Circle (Bottom-Left)</entry>\n<entry value="104">Rail: 4x4 Circle (Bottom-Right)</entry>\n<entry value="105">Rail: End (Top)</entry>\n<entry value="106">Rail: End (Bottom)</entry>\n<entry value="107">Rail: End (Left)</entry>\n<entry value="108">Rail: End (Right)</entry>\n<entry value="109">Rail: End (Top-Left)</entry>\n<entry value="110">Rail: End (Bottom-Left)</entry>\n<entry value="111">Rail: End (Top-Right)</entry>\n<entry value="112">Rail: End (Bottom-Right)</entry>\n<entry value="113">Rightward Conveyor Belt</entry>\n<entry value="114">Leftward Conveyor Belt</entry>\n<entry value="115">Rightward Conveyor Belt (Fast)</entry>\n<entry value="116">Leftward Fast Conveyor Belt (Fast)</entry>\n<entry value="117">Grass</entry>\n<entry value="118">Yellow Flower</entry>\n<entry value="119">Red Flower</entry>\n<entry value="120">Blue Flower</entry>\n<entry value="121">Yellow Flower with Grass</entry>\n<entry value="122">Red Flower with Grass</entry>\n<entry value="123">Blue Flower with Grass</entry>\n<entry value="124">Grass (Left)</entry>\n<entry value="125">Grass (Middle-Left)</entry>\n<entry value="126">Grass (Middle)</entry>\n<entry value="127">Grass (Middle-Right)</entry>\n<entry value="128">Grass (Right)</entry>\n<entry value="129">Destroyed Sky Grass Edge (Right)</entry>\n<entry value="130">Destroyed Sky Ground Edge (Right 1)</entry>\n<entry value="131">Destroyed Sky Ground Edge (Right 2)</entry>\n<entry value="132">Destroyed Sky Ground Edge (Right 3)</entry>\n<entry value="133">Destroyed Sky Ground Edge (Right 4)</entry>\n<entry value="134">Destroyed Sky Grass Edge (Left)</entry>\n<entry value="135">Destroyed Sky Ground Edge (Left 1)</entry>\n<entry value="136">Destroyed Sky Ground Edge (Left 2)</entry>\n<entry value="137">Destroyed Sky Ground Edge (Left 3)</entry>\n<entry value="138">Destroyed Sky Ground Edge (Left 4)</entry>\n<entry value="139">Steep Upsloped Bridge</entry>\n<entry value="140">Steep Downsloped Bridge</entry>\n<entry value="141">Gentle Upsloped Bridge</entry>\n<entry value="142">Gentle Downsloped Bridge</entry>\n<entry value="143">Red Block</entry>\n<entry value="144">Muncher Collision entry 2</entry>\n<entry value="145">Swinging Chain Anchor</entry>\n<entry value="146">Destroyed Airship Floor Edge (Right)</entry>\n<entry value="147">Destroyed Airship Plank Edge (Right 1)</entry>\n<entry value="148">Destroyed Airship Plank Edge (Right 2)</entry>\n<entry value="149">Destroyed Airship Plank Edge (Right 3)</entry>\n<entry value="150">Destroyed Airship Plank Edge (Right 4)</entry>\n<entry value="151">Destroyed Airship Floor Edge (Left)</entry>\n<entry value="152">Destroyed Airship Plank Edge (Left 1)</entry>\n<entry value="153">Destroyed Airship Plank Edge (Left 2)</entry>\n<entry value="154">Destroyed Airship Plank Edge (Left 3)</entry>\n<entry value="155">Destroyed Airship Plank Edge (Left 4)</entry> -->
 		</list>
-		<value nybble="15-16" title="Tile: ID" comment="The X position of the target tile on the palette" requirednybble="14.3" requiredval="0"/>
-		<value nybble="16" title="Tile: X on palette" comment="The X position of the target tile on the palette" requirednybble="14.3" requiredval="1-3"/>
-		<value nybble="15" title="Tile: Y on palette" comment="The Y position of the target tile on the palette" requirednybble="14.3" requiredval="1-3"/>
-		<list bit="51-54" title="Pa0 Brick: Content" comment="If the tile is 48, you can use this to give it content" requirednybble="15-16" requiredval="48">
+		<value nybble="15-16" title="Tile: ID" comment="The X position of the target tile on the palette" requirednybble="14.3" requiredval="0" category="behavior" />
+		<value nybble="16" title="Tile: X on palette" comment="The X position of the target tile on the palette" requirednybble="14.3" requiredval="1-3" category="behavior" />
+		<value nybble="15" title="Tile: Y on palette" comment="The Y position of the target tile on the palette" requirednybble="14.3" requiredval="1-3" category="behavior" />
+		<list bit="51-54" title="Pa0 Brick: Content" comment="If the tile is 48, you can use this to give it content" requirednybble="15-16" requiredval="48" category="behavior" >
 			<entry value="0">Empty</entry>
 			<entry value="1">Coin</entry>
 			<entry value="2">MultiCoin</entry>
@@ -395,7 +396,7 @@
 			<entry value="12">Thinks-its-empty</entry>
 			<entry value="13">SquirrelMushroom</entry>
 		</list>
-		<list bit="51-54" title="Pa0 ? Block: Content" comment="If the tile is 49, you can use this to give it content" requirednybble="15-16" requiredval="49">
+		<list bit="51-54" title="Pa0 ? Block: Content" comment="If the tile is 49, you can use this to give it content" requirednybble="15-16" requiredval="49" category="behavior" >
 			<entry value="0">Coin</entry>
 			<entry value="1">FireFlower</entry>
 			<entry value="2">Star</entry>
@@ -413,7 +414,7 @@
 		<value nybble="20" title="Height" comment="Determines the height of the area that is affected." category="behavior" />
 	</sprite>
 	<sprite string_id="blox:custom_roulette_block" name="Custom Roulette Block">
-		<value bit="18-20" title="Number of powerups"/>
+		<value bit="18-20" title="Number of powerups" category="behavior"/>
 		<list nybble="6" title="Content 1" category="behavior">
 			<entry value="0">Mushroom</entry>
             <entry value="1">Star</entry>
@@ -576,11 +577,11 @@
             <entry value="14">28 frames</entry>
             <entry value="15">30 frames</entry>
 		</list>
-		<value nybble="21-22" title="Movement ID" comment="Pivotal rotation"/>
+		<value nybble="21-22" title="Movement ID" comment="Pivotal rotation" id_type="movement" category="movement" />
 	</sprite>
-	<sprite string_id="blox:roulette_coin_jump" name="ActorRouletteCoinJump">
+	<!-- <sprite string_id="blox:roulette_coin_jump" name="ActorRouletteCoinJump">
 		<value nybble="12" title="Direction"/>
-	</sprite>
+	</sprite> -->
 	<sprite string_id="blox:coin_roulette_block" name="Coin Roulette Block">
 		<list nybble="14" title="Spin Delay" category="behavior">
 			<entry value="0">10 frames</entry>
@@ -600,16 +601,15 @@
             <entry value="14">28 frames</entry>
             <entry value="15">30 frames</entry>
 		</list>
-		<value nybble="21-22" title="Movement ID" comment="Pivotal rotation"/>
+		<value nybble="21-22" title="Movement ID" comment="Pivotal rotation" id_type="movement" category="movement" />
 	</sprite>
 	<sprite string_id="blox:elastic_block_CSW6" name="World 6 Stretch Block">
-		<dualbox bit="20" title1="Red" title2="Blue"/>
-		<dualbox bit="19" title1="Horizontal" title2="Vertical"/>
-		<dualbox bit="18" title1="Up" title2="Down" requirednybble="5.3" requiredval="2-3"/>
-		<dualbox bit="18" title1="Right" title2="Left" requirednybble="5.3" requiredval="0-1"/>
-		<value nybble="6" title="Initial Size*" comment="value 15 crashes the game"/>
-		<value nybble="7" title="Final Size*" comment="value 15 crashes the game"/>
-		<!-- <value nybble="8" title="Speed"/> -->
+		<dualbox bit="20" title1="Red" title2="Blue" category="behavior" />
+		<dualbox bit="19" title1="Horizontal" title2="Vertical" category="behavior" />
+		<dualbox bit="18" title1="Up" title2="Down" requirednybble="5.3" requiredval="2-3" category="behavior" />
+		<dualbox bit="18" title1="Right" title2="Left" requirednybble="5.3" requiredval="0-1" category="behavior" />
+		<value nybble="6" title="Initial Size*" comment="Both of these cannot be one or else my code will try to divide by zero" category="behavior" />
+		<value nybble="7" title="Final Size*" comment="Both of these cannot be one or else my code will try to divide by zero" category="behavior" />
 	</sprite>
 	<sprite string_id="blox:switch_flag_w6_link" name="World 6 Switch - Event ID Linker">
 		<value nybble="3-4" title="Target Event ID" comment="When this Event ID is activated, the tiles affected by the sprite's area will be created/destroyed (depending on the Mode)." id_type="event" category="events" />

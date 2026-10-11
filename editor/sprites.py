@@ -21,8 +21,8 @@ class BloxSpriteImage_ActorBlockHatenaLong(SLib.SpriteImage_Static):  # 819
             3.75,
         )
 
-        self.xOffset = -24
-        self.yOffset = -16
+        self.xOffset = -16
+        self.yOffset = 0
 
     @staticmethod
     def loadImages():
@@ -55,8 +55,8 @@ class BloxSpriteImage_oos(SLib.SpriteImage_Static):  # 819
             3.75,
         )
 
-        self.xOffset = -8
-        self.yOffset = -16
+        self.xOffset = 0
+        self.yOffset = 0
 
     @staticmethod
     def loadImages():
@@ -89,8 +89,8 @@ class BloxSpriteImage_oob(SLib.SpriteImage_Static):  # 819
             3.75,
         )
 
-        self.xOffset = -8
-        self.yOffset = -8
+        self.xOffset = 0
+        self.yOffset = 0
 
     @staticmethod
     def loadImages():
@@ -124,7 +124,7 @@ class BloxSpriteImage_flipblock(SLib.SpriteImage_Static):  # 819
             parent,
             3.75,
             ImageCache['flipblock'],
-            (0, -8),
+            (0, 0),
         )
 
     @staticmethod
@@ -138,8 +138,8 @@ class BloxSpriteImage_psb(SLib.SpriteImage_Static):  # 819
             3.75,
         )
 
-        self.xOffset = -8
-        self.yOffset = -8
+        self.xOffset = 0
+        self.yOffset = 0
 
     @staticmethod
     def loadImages():
@@ -172,8 +172,8 @@ class BloxSpriteImage_HatenaMimic(SLib.SpriteImage_Static):  # 819
             3.75,
         )
 
-        self.xOffset = -8
-        self.yOffset = -16
+        self.xOffset = 0
+        self.yOffset = 0
 
     @staticmethod
     def loadImages():
@@ -196,7 +196,7 @@ class BloxSpriteImage_ActorBlockShock(SLib.SpriteImage_Static):  # 819
             parent,
             3.75,
             ImageCache['ActorBlockShock'],
-            (-8, -16),
+            (0, 0),
         )
 
     @staticmethod
@@ -210,8 +210,8 @@ class BloxSpriteImage_ActorBlockHatenaSwitch(SLib.SpriteImage_Static):  # 819
             3.75,
         )
 
-        self.xOffset = -8
-        self.yOffset = -16
+        self.xOffset = 0
+        self.yOffset = 0
 
     @staticmethod
     def loadImages():
@@ -303,12 +303,137 @@ class BloxSpriteImage_CustomRouletteBlock(SLib.SpriteImage_Static):  # 819
             parent,
             3.75,
             ImageCache['CustomRouletteBlock'],
-            (-12, -12),
+            (-4, -4),
         )
 
     @staticmethod
     def loadImages():
         SLib.loadIfNotInImageCache('CustomRouletteBlock', 'custm_roulette.png')
+
+class BloxSpriteImage_CoinsRouletteBlock(SLib.SpriteImage_Static):  # 819
+    def __init__(self, parent):
+        super().__init__(
+            parent,
+            3.75,
+            ImageCache['CoinsRouletteBlock'],
+            (-4, -4),
+        )
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('CoinsRouletteBlock', 'coins_roulette.png')
+
+class BloxSpriteImage_CSW6StretchBlock(SLib.SpriteImage):  # 284
+    def __init__(self, parent):
+        super().__init__(parent, 3.75)
+        self.height = 16
+        self.spritebox.shown = False
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('CSW6StretchBlockRed', 'csw6_stretch_red_o.png')
+        SLib.loadIfNotInImageCache('CSW6StretchBlockRedT', 'csw6_stretch_red_t.png')
+        SLib.loadIfNotInImageCache('CSW6StretchBlockBlue', 'csw6_stretch_blue_o.png')
+        SLib.loadIfNotInImageCache('CSW6StretchBlockBlueT', 'csw6_stretch_blue_t.png')
+
+    def dataChanged(self):
+        super().dataChanged()
+        direction = (self.parent.spritedata[2] >> 6) & 0x1
+        verth = (self.parent.spritedata[2] >> 5) & 0x1
+        length = (self.parent.spritedata[2] & 0xF)
+        length2 = self.parent.spritedata[3] >> 4 & 0xF
+        totallength = 8
+
+        if verth == 1:
+            if direction == 0:
+                direction = 1
+            else:
+                direction = 0
+
+        if not length:
+            length = 8
+        if not length2:
+            length2 = 8
+
+        if length2 > length:
+            totallength = length2
+        else:
+            totallength = length
+
+        if verth == 0:
+            self.width = totallength * 16
+            self.height = 16
+        else:
+            self.height = totallength * 16
+            self.width = 16
+
+        if direction == 1:
+            if verth == 0:
+                self.xOffset = -(self.width) + 16
+                self.yOffset = 0
+            else:
+                self.yOffset = -(self.height) + 16
+                self.xOffset = 0
+        else:
+            self.xOffset = 0
+            self.yOffset = 0
+
+    def paint(self, painter):
+        super().paint(painter)
+
+        color = (self.parent.spritedata[2] >> 4) & 0x1
+        direction = (self.parent.spritedata[2] >> 6) & 0x1
+        verth = (self.parent.spritedata[2] >> 5) & 0x1
+        length = (self.parent.spritedata[2] & 0xF)
+        length2 = self.parent.spritedata[3] >> 4 & 0xF
+        totallength = 8
+
+        if verth == 1:
+            if direction == 0:
+                direction = 1
+            else:
+                direction = 0
+
+        if not length:
+            length = 8
+        if not length2:
+            length2 = 8
+
+        if length2 > length:
+            totallength = length2
+        else:
+            totallength = length
+
+        if color == 0:
+            if direction == 0:
+                if verth == 0:
+                    painter.drawTiledPixmap(0, 0, round(length2 * 60), 60, ImageCache['CSW6StretchBlockRedT'])
+                    painter.drawTiledPixmap(0, 0, round(length * 60), 60, ImageCache['CSW6StretchBlockRed'])
+                else:
+                    painter.drawTiledPixmap(0, 0, 60, round(length2 * 60), ImageCache['CSW6StretchBlockRedT'])
+                    painter.drawTiledPixmap(0, 0, 60, round(length * 60), ImageCache['CSW6StretchBlockRed'])
+            else:
+                if verth == 0:
+                    painter.drawTiledPixmap((totallength * 60)-(length * 60), 0, round(length * 60), 60, ImageCache['CSW6StretchBlockRed'])
+                    painter.drawTiledPixmap(0, 0, round(length2 * 60), 60, ImageCache['CSW6StretchBlockRedT'])
+                else:
+                    painter.drawTiledPixmap(0, 0, 60, round(length2 * 60), ImageCache['CSW6StretchBlockRedT'])
+                    painter.drawTiledPixmap(0, (totallength * 60)-(length * 60), 60, round(length * 60), ImageCache['CSW6StretchBlockRed'])
+        else:
+            if direction == 0:
+                if verth == 0:
+                    painter.drawTiledPixmap(0, 0, round(length2 * 60), 60, ImageCache['CSW6StretchBlockBlueT'])
+                    painter.drawTiledPixmap(0, 0, round(length * 60), 60, ImageCache['CSW6StretchBlockBlue'])
+                else:
+                    painter.drawTiledPixmap(0, 0, 60, round(length2 * 60), ImageCache['CSW6StretchBlockBlueT'])
+                    painter.drawTiledPixmap(0, 0, 60, round(length * 60), ImageCache['CSW6StretchBlockBlue'])
+            else:
+                if verth == 0:
+                    painter.drawTiledPixmap((totallength * 60)-(length * 60), 0, round(length * 60), 60, ImageCache['CSW6StretchBlockBlue'])
+                    painter.drawTiledPixmap(0, 0, round(length2 * 60), 60, ImageCache['CSW6StretchBlockBlueT'])
+                else:
+                    painter.drawTiledPixmap(0, 0, 60, round(length2 * 60), ImageCache['CSW6StretchBlockBlueT'])
+                    painter.drawTiledPixmap(0, (totallength * 60)-(length * 60), 60, round(length * 60), ImageCache['CSW6StretchBlockBlue'])
 
 ImageClasses = {
     "blox:tripbk": BloxSpriteImage_ActorBlockHatenaLong,
@@ -320,5 +445,7 @@ ImageClasses = {
     "blox:actor_block_shock": BloxSpriteImage_ActorBlockShock,
     "blox:actor_block_hatena_switch": BloxSpriteImage_ActorBlockHatenaSwitch,
     "blox:change_block_plus": BloxSpriteImage_TileGod,
-    "blox:custom_roulette_block": BloxSpriteImage_CustomRouletteBlock
+    "blox:custom_roulette_block": BloxSpriteImage_CustomRouletteBlock,
+    "blox:coin_roulette_block": BloxSpriteImage_CoinsRouletteBlock,
+    "blox:elastic_block_CSW6": BloxSpriteImage_CSW6StretchBlock
 }

@@ -11,12 +11,26 @@ namespace blox {
     static sead::SafeArray<f32, 12> cCoinRouletteSpinArray1 { 
         0.0f, 1.0f, 2.0f, 0.0f, 1.0f, 2.0f, 0.0f, 1.0f, 2.0f, 0.0f, 3.0f, 1.0f
     };
+    
+    using ACI = ActorCreateInfo;
+    const ActorCreateInfo CoinRouletteBlock::cCreateInfo = {
+        .offset_x = 8, .offset_y = -8,
+        .spawn_range = {
+            .offset_x = 0, .offset_y = 0,
+            .half_size_x = 0x100, .half_size_y = 0x100
+        },
+        .cull_range = { 
+            .up = 0, .down = 0, .left = 0, .right = 0
+        },
+        .flag = ACI::cFlag_None
+    };
 
     SEAD_RTTI_OVERRIDE_IMPL(CoinRouletteBlock, RouletteBlock);
 
     Profile* CoinRouletteBlock::sProfile = blox::getRegistrar()->newProfile<CoinRouletteBlock>("coin_roulette_block")
         .resources<"block_roulette", "coins_roulette", "ten_coin">(ProfileInfo::cResType_Course)
         .drawPriority(232)
+        .createInfo(cCreateInfo)
         .build();
 
     CoinRouletteBlock::CoinRouletteBlock(const ActorCreateParam& param)

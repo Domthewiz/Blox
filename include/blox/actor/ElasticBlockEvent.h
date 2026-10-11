@@ -1,9 +1,8 @@
 #pragma once
 
-#include "actor/Profile.h"
-#include "collision/ActorBoxBgCollision.h"
-#include "graphics/AnimModel.h"
-#include "state/FStateID.h"
+#include <actor/Profile.h>
+#include <collision/ActorBoxBgCollision.h>
+#include <graphics/AnimModel.h>
 #include <actor/ActorState.h>
 
 namespace blox {

@@ -1,6 +1,6 @@
-#include "collision/ActorBgCollisionMgr.h"
-#include "map/SwitchFlagMgr.h"
-#include "system/MainGame.h"
+#include <audio/GameAudio.h>
+#include <collision/ActorBgCollisionMgr.h>
+#include <system/MainGame.h>
 #include <blox/Blox.h>
 #include <blox/actor/ElasticBlockEvent.h>
 
@@ -19,10 +19,10 @@ namespace blox {
 
     using ACI = ActorCreateInfo;
     const ActorCreateInfo ElasticBlockEvent::cCreateInfo = {
-        .offset_x = 0, .offset_y = 0,
+        .offset_x = 8, .offset_y = -8,
         .spawn_range = {
             .offset_x = 0, .offset_y = 0,
-            .half_size_x = 128, .half_size_y = 128
+            .half_size_x = 512, .half_size_y = 512
         },
         .cull_range = { 
             .up = 0, .down = 0, .left = 0, .right = 0
@@ -52,10 +52,10 @@ namespace blox {
         mElasticExpandDir.vertical = static_cast<VerticalElasticExpandDir>(mParam0 >> 0x1E & 0x1);
         
         mInitialSize = mParam0 >> 0x18 & 0xF;
-        mInitialSize++;
+        mInitialSize = (mInitialSize) ? mInitialSize : 8;
 
         mFinalSize = mParam0 >> 0x14 & 0xF;
-        mFinalSize++;
+        mFinalSize = (mFinalSize) ? mFinalSize : 8;
 
         mMaxSize = mFinalSize;
         if (mInitialSize > mFinalSize) {
@@ -75,13 +75,11 @@ namespace blox {
         } else {
             changeState(StateID_Retracted);
         }
-        // // executeState();
 
         initModels();
         initCollider();
         setOfs_();
 
-        // changeStateOnSwitchStatus();
         calcMdl_();
         
         return cResult_Success;
@@ -253,6 +251,7 @@ namespace blox {
     /** STATE: Expanding */
     
     void ElasticBlockEvent::initializeState_Expanding() {
+        GameAudio::instance()->getAudioObjMap()->startSound("SE_OBJ_CS_SWITCH_BLOCK", mPos);
     }
 
     void ElasticBlockEvent::executeState_Expanding() {
@@ -279,6 +278,7 @@ namespace blox {
     /** STATE: Retracting */
     
     void ElasticBlockEvent::initializeState_Retracting() {
+        GameAudio::instance()->getAudioObjMap()->startSound("SE_OBJ_CS_SWITCH_BLOCK", mPos);
     }
 
     void ElasticBlockEvent::executeState_Retracting() {

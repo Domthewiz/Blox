@@ -1,8 +1,6 @@
 #pragma once
 
-#include "map/UnitID.h"
-#include "map_obj/ActorCoinMgr.h"
-#include "utility/Direction.h"
+#include <map_obj/ActorCoinMgr.h>
 #include <effect/EffectCreateUtil.h>
 #include <map_obj/BlockMgr.h>
 #include <actor/ActorMgr.h>

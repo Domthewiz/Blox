@@ -1,4 +1,4 @@
-#include "system/MainGame.h"
+#include <system/MainGame.h>
 #include <blox/actor/SwitchFlagW6Link.h>
 #include <blox/Blox.h>
 #include <red/util/SpriteUtil.h>

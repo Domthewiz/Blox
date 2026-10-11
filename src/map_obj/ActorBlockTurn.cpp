@@ -27,7 +27,7 @@ namespace blox {
 
     using ACI = ActorCreateInfo;
     const ActorCreateInfo ActorBlockTurn::cCreateInfo = {
-        .offset_x = 8, .offset_y = -8,
+        .offset_x = 8, .offset_y = -16,
         .spawn_range = {
             .offset_x = 0, .offset_y = 0,
             .half_size_x = 0x100, .half_size_y = 0x100
