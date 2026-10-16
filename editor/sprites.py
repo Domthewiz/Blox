@@ -547,6 +547,63 @@ class BloxSpriteImage_OnOffStretchBlock(SLib.SpriteImage):  # 284
                     painter.drawTiledPixmap(0, 0, 60, round(length2 * 60), ImageCache['OnOffStretchBlockBlueT'])
                     painter.drawTiledPixmap(0, (totallength * 60)-(length * 60), 60, round(length * 60), ImageCache['OnOffStretchBlockBlue'])
 
+class BloxSpriteImage_CoinRing(SLib.SpriteImage_Static):  # 44, 402, 470, 662
+    def __init__(self, parent):
+        super().__init__(
+            parent,
+            3.75,
+        )
+        self.parent.setZValue(200000)
+
+        self.image = ImageCache['GoldRing']
+
+        self.yOffset = -12
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('GoldRing', 'coin_ring.png')
+
+    def dataChanged(self):
+        self.xOffset = -12
+        if self.parent.spritedata[5] & 1:
+            self.xOffset += 8
+
+        super().dataChanged()
+
+class BloxSpriteImage_ActorBlockHatenaLongItemCustom(SLib.SpriteImage_Static):  # 819
+    def __init__(self, parent):
+        super().__init__(
+            parent,
+            3.75,
+        )
+
+        self.xOffset = -16
+        self.yOffset = 0
+
+    @staticmethod
+    def loadImages():
+        SLib.loadIfNotInImageCache('TripleBlock_standard_custom', 'triple_block_standard_custom.png')
+        SLib.loadIfNotInImageCache('TripleBlock_chika_custom', 'triple_block_chika_custom.png')
+        SLib.loadIfNotInImageCache('TripleBlock_yougan_custom', 'triple_block_yougan_custom.png')
+        SLib.loadIfNotInImageCache('TripleBlock_yougan2_custom', 'triple_block_yougan2_custom.png')
+          
+    def dataChanged(self):
+        animationStyle = self.parent.spritedata[5] >> 4 & 0xF
+            
+        if animationStyle == 1:
+            self.image = ImageCache['TripleBlock_chika_custom']
+
+        elif animationStyle == 2:
+            self.image = ImageCache['TripleBlock_yougan_custom']
+
+        elif animationStyle == 3:
+            self.image = ImageCache['TripleBlock_yougan2_custom']
+    
+        else:
+            self.image = ImageCache['TripleBlock_standard_custom']
+
+        super().dataChanged()
+
 ImageClasses = {
     "blox:tripbk": BloxSpriteImage_ActorBlockHatenaLong,
     "blox:flip": BloxSpriteImage_flipblock,
@@ -560,5 +617,7 @@ ImageClasses = {
     "blox:custom_roulette_block": BloxSpriteImage_CustomRouletteBlock,
     "blox:coin_roulette_block": BloxSpriteImage_CoinsRouletteBlock,
     "blox:elastic_block_CSW6": BloxSpriteImage_CSW6StretchBlock,
-    "blox:elastic_block_onoff": BloxSpriteImage_OnOffStretchBlock
+    "blox:elastic_block_onoff": BloxSpriteImage_OnOffStretchBlock,
+    "blox:coin_ring": BloxSpriteImage_CoinRing,
+    "blox:actor_block_triple_item_custom": BloxSpriteImage_ActorBlockHatenaLongItemCustom,
 }

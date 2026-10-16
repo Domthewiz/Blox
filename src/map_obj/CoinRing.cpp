@@ -1,5 +1,4 @@
-#include "effect/EffectID.h"
-#include <actor/ActorCreateParam.h>
+#include <map/SwitchFlagMgr.h>
 #include <actor/ActorMgr.h>
 #include <audio/GameAudio.h>
 #include <blox/map_obj/ActorCoinRingJumpQuintet.h>
@@ -10,7 +9,10 @@
 namespace blox {
 
     static const sead::Color4f cRingColor {
-        1.5f, 1.0f, 0.0f, 1.0f
+        1.0f, 3.5f, 0.0f, 1.0f
+    };
+    static const sead::Color4f cRingCollectColor {
+        1.0f, 2.0f, 0.0f, 1.0f
     };
 
     static sead::SafeArray<f32, 12> cCoinRouletteSpinArray1 { 
@@ -58,31 +60,48 @@ namespace blox {
     }
 
     bool CoinRing::createParticles() {
-        mEffect1.createEffect(RP_RingRed, &mPos, nullptr, nullptr);
-        mEffect1.setColor(cRingColor);
-        return mEffect2.createEffect(RP_Ring_Mask, &mPos, nullptr, nullptr);
 
+
+        mEffect1.createEffect(RP_RingRed, &mPos, nullptr, nullptr);
+        mEffect1.setColor(cRingColor );
+        return mEffect2.createEffect(RP_Ring_Mask, &mPos, nullptr, nullptr);
+        
     }
 
-    void CoinRing::collectSoundEffect() {
+    void CoinRing::onCollect() {
         Effect getParticles;
+        sead::Vector3f coinGetScale {
+            1.0f, 1.5f, 1.0f
+        };
+        EffectCreateUtil::createEffect(RP_Coinedit_StarCoin_on, &mPos, nullptr, &coinGetScale);
+        
+        GameAudio::instance()->getAudioObjMap()->startSound("SE_SYS_RED_RING", mPos);
+        GameAudio::instance()->getAudioObjMap()->startSound("SE_SYS_CB_TOTAL_COIN_NUM", mPos);
 
-        GameAudio::instance()->getAudioObjMap()->startSound("SE_SYS_GOAL_RING", mPos);
-        // getParticles.spawn(RP_Coinedit_StarCoin_on, &mPos, nullptr, nullptr);
-        getParticles.spawn(RP_RingRedGet, &mPos, nullptr, nullptr);
-        getParticles.setColor(cRingColor);
-        EffectCreateUtil::createEffect(RP_RingGet_Mask, &mPos, nullptr, nullptr);
+        // getParticles.spawn(RP_RingRedGet, &mPos, nullptr, nullptr);
+        // getParticles.setColor(cRingCollectColor);
+        // EffectCreateUtil::createEffect(RP_RingGet_Mask, &mPos, nullptr, nullptr);
 
-        spawnCoinQuintet();
+        SwitchFlagMgr::instance()->set(mSwitchFlag0 & 0x3f - 1, 0, true);
+
+        for (s8 i = 0; i < 4; i++) {
+            if (isPlayerWithinRange(i)) {
+                spawnCoinQuintet(i);
+                return;
+            }
+        }
+
+        tk::println("Couldn't find collected player");
     }
 
     void CoinRing::collectSetSwitchFlag() {
     }
     
-    void CoinRing::spawnCoinQuintet() {
+    void CoinRing::spawnCoinQuintet(s8 no) {
         ActorCreateParam ringJumpQuintet;
         ringJumpQuintet.profile = ActorCoinRingJumpQuintet::sProfile;
         ringJumpQuintet.position = mPos;
+        ringJumpQuintet.param_0 = no;
         ActorMgr::instance()->createImmediately(ringJumpQuintet);
     }
 

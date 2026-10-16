@@ -18,6 +18,9 @@ namespace blox {
     public:
         Result create() override;
         bool execute() override;
+
+        static void collisionCallback(ActorCollisionCheck* cc_self, ActorCollisionCheck* cc_other);
+        
     
     protected:
         bool mSet;

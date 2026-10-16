@@ -20,11 +20,10 @@ namespace blox {
         void loadActorRes() override;
         void playTexAnim() override;
         bool createParticles() override;
-        void collectSoundEffect() override;
+        void onCollect() override;
         void collectSetSwitchFlag() override;
 
-        void spawnCoinQuintet();
-    protected:
-        
+        void spawnCoinQuintet(s8 no);
+
     };
 }

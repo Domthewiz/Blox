@@ -1,12 +1,8 @@
-#include "audio/GameAudio.h"
-#include "game/CourseTask.h"
-#include "map_obj/ActorCoinMgr.h"
-#include "player/PlayerMgr.h"
-#include <system/MainGame.h>
+#include <effect/EffectCreateUtil.h>
+#include <game/CourseTask.h>
+#include <map_obj/ActorCoinMgr.h>
 #include <blox/map_obj/ActorCoinRingJumpQuintet.h>
 #include <blox/Blox.h>
-#include <red/util/SpriteUtil.h>
-#include <map/SwitchFlagMgr.h>
 
 namespace blox {
     SEAD_RTTI_OVERRIDE_IMPL(ActorCoinRingJumpQuintet, Actor);
@@ -34,33 +30,44 @@ namespace blox {
     { }
 
     ActorBase::Result ActorCoinRingJumpQuintet::create() {
+        coinPos1 = mPos + sead::Vector3f{
+            0.0f, 16.0f, 3000.0f
+        };
+        
+        coinPos2 = mPos + sead::Vector3f{
+            -16.0f, -8.0f, 3000.0f
+        };
+        
+        coinPos3 = mPos + sead::Vector3f{
+            16.0f, -8.0f, 3000.0f
+        };
         mTimer = 0;
         return cResult_Success;
     }
 
     bool ActorCoinRingJumpQuintet::execute() {
-        if (mTimer < 15) {
+        s8 no = mParam0 & 0xFF;
+
+        if (mTimer < 50) {
             mTimer++;
         } else {
-            GameAudio::instance()->getAudioObjMap()->startSound("SE_SYS_CB_RESULT_COIN_FINISH", mPos);
-            ActorCoinMgr::instance()->spawnItemCoin(mPos + sead::Vector3f(0.0f, -8.0f, 2000.0f), cDirType_Up, -1);
-            s8 noInGame = PlayerMgr::instance()->getNumInGame();
-            for (s8 i = noInGame; i > 0; i--) {
-                CourseTask::instance()->addCoins(i, 5);
-            }
+            EffectCreateUtil::createEffect(RP_CoinNormalGet, &coinPos3, nullptr, nullptr);
+            CourseTask::instance()->addCoins(no, 1);
             mDeleteRequestFlag = true;
         }
-        if (mTimer == 3) {
-            ActorCoinMgr::instance()->spawnItemCoin(mPos + sead::Vector3f(-14.0f, -20.0f, 2000.0f), cDirType_Up, -1);
+        if (mTimer == 10) {
+            ActorCoinMgr::instance()->spawnItemCoin(coinPos1 - sead::Vector3f(0.0f, 24.0f, 0.0f), cDirType_Up, no);
         }
-        if (mTimer == 6) {
-            ActorCoinMgr::instance()->spawnItemCoin(sead::Vector3f::zero, cDirType_Up, -1);
+        if (mTimer == 20) {
+            ActorCoinMgr::instance()->spawnItemCoin(coinPos2 - sead::Vector3f(0.0f, 24.0f, 0.0f), cDirType_Up, no);
         }
-        if (mTimer == 9) {
-            ActorCoinMgr::instance()->spawnItemCoin(mPos + sead::Vector3f(14.0f, -20.0f, 2000.0f), cDirType_Up, -1);
+        if (mTimer == 30) {
+            ActorCoinMgr::instance()->spawnItemCoin(coinPos3 - sead::Vector3f(0.0f, 24.0f, 0.0f), cDirType_Up, no);
+            EffectCreateUtil::createEffect(RP_CoinNormalGet, &coinPos1, nullptr, nullptr);
         }
-        if (mTimer == 12) {
-            ActorCoinMgr::instance()->spawnItemCoin(sead::Vector3f::zero, cDirType_Up, -1);
+        if (mTimer == 40) {
+            CourseTask::instance()->addCoins(no, 1);
+            EffectCreateUtil::createEffect(RP_CoinNormalGet, &coinPos2, nullptr, nullptr);
         }
         return true;
     }

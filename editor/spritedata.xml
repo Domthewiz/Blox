@@ -413,7 +413,7 @@
 		<value nybble="18" title="Width" comment="Determines the width of the area that is affected." category="behavior" />
 		<value nybble="20" title="Height" comment="Determines the height of the area that is affected." category="behavior" />
 	</sprite>
-	<sprite string_id="blox:custom_roulette_block" name="Custom Roulette Block">
+	<sprite string_id="blox:custom_roulette_block" name="Hybrid Roulette Block">
 		<value bit="18-20" title="Number of powerups" category="behavior"/>
 		<list nybble="6" title="Content 1" category="behavior">
 			<entry value="0">Mushroom</entry>
@@ -625,7 +625,187 @@
 		<value nybble="6" title="Initial Size*" comment="Both of these cannot be one or else my code will try to divide by zero" category="behavior" />
 		<value nybble="7" title="Final Size*" comment="Both of these cannot be one or else my code will try to divide by zero" category="behavior" />
 	</sprite>
-	<sprite string_id="blox:coin_ring" name="Coin Ring">
-		<value nybble="3-4" title="Target Event ID" comment="When this Event ID is activated, the tiles affected by the sprite's area will be created/destroyed (depending on the Mode)." id_type="event" category="events" />
+	<sprite string_id="blox:coin_ring" name="Coin Ring" notes="If a player collects the ring, 5 coins will be given">
+		<value nybble="3-4" title="Target Event ID" id_type="event" category="events" />
+		<!-- <list nybble="5" title="Count" category="behavior">
+			<entry value="0">5 Coins</entry>
+            <entry value="1">2 frames</entry>
+            <entry value="2">4 frames</entry>
+            <entry value="3">6 frames</entry>
+            <entry value="4">8 frames</entry>
+		</list> -->
+	</sprite>
+	<sprite string_id="blox:string_bank" name="Blox Powerup Block String Bank" notes="Stores an arbitrary 16-character string to be used by blox string-bank-based actors.">
+		<strybble nybble="1-24" title="String" category="behavior"/>
+		<layer title="Bank Type" mask="3" category="behavior" type="list">
+			<entry value="0">First in chain</entry>
+			<entry value="1">Second in chain</entry>
+			<entry value="2">Third in chain</entry>
+		</layer>
+		<layer title="Chain Count" mask="12" category="behavior" type="list">
+			<entry value="0">One</entry>
+			<entry value="1">Two</entry>
+			<entry value="2">Three</entry>
+		</layer>
+		<initialstate title="String Bank ID" type="value" category="behavior" id_type="string_bank"/>
+	</sprite>
+	<sprite string_id="blox:actor_block_item_custom" name="Custom Powerup Block" notes="Stores an arbitrary 16-character string to be used by blox actors.">
+		<value nybble="7-8" title="String Bank ID" comment="ID to link with a String Bank containing the namespaced string ID of the actor to spawn." id_type="string_bank" category="behavior"/>
+        <list nybble="5" title="Type" category="behavior">
+			<entry value="0">Question Block</entry>
+			<entry value="1">Brick Block</entry>
+			<entry value="2">Invisible Block</entry>
+		</list>
+		<checkbox nybble="6" title="Don't spawn mushroom if small"/>
+		<list nybble="18" title="Bolt Movement Speed" category="movement" requirednybble="20.1" requiredval="2">
+            <entry value="0">1.0</entry>
+			<entry value="4">0.0</entry>
+			<entry value="1">0.25</entry>
+			<entry value="2">0.5</entry>
+			<entry value="3">0.75</entry>
+            <entry value="0">1.0</entry>
+			<entry value="5">1.5</entry>
+			<entry value="6">2.0</entry>
+			<entry value="7">2.5</entry>
+			<entry value="8">3.0</entry>
+			<entry value="9">4.0</entry>
+			<entry value="10">5.0</entry>
+			<entry value="11">6.0</entry>
+			<entry value="12">7.0</entry>
+			<entry value="13">8.0</entry>
+			<entry value="14">9.0</entry>
+			<entry value="15">10.0</entry>
+		</list>
+        <list nybble="19" title="Rectangle Platform Info" category="movement" requirednybble="20.1" requiredval="8">
+            <entry value="0">Follow Top platform</entry>
+            <entry value="1">Follow Bottom platform</entry>
+            <entry value="2">Doesn't move</entry>
+        </list>
+        <list nybble="19" title="Bolt Direction" category="movement" requirednybble="20.1" requiredval="2">
+            <entry value="0">Right</entry>
+            <entry value="1">Left</entry>
+            <entry value="2">Up</entry>
+            <entry value="3">Down</entry>
+        </list>
+		<value nybble="19" title="Hill Distance" category="movement" requirednybble="20.1" requiredval="10"/>
+		<value nybble="17-18" title="Hill Angle" category="movement" requirednybble="20.1" requiredval="10"/>
+		<list nybble="18" title="Distance Multiplier" category="movement" requirednybble="20.1" requiredval="4">
+            <entry value="0">1.0</entry>
+            <entry value="1">0.1</entry>
+            <entry value="2">0.2</entry>
+            <entry value="3">0.3</entry>
+            <entry value="4">0.4</entry>
+            <entry value="5">0.5</entry>
+            <entry value="6">0.6</entry>
+            <entry value="7">0.7</entry>
+            <entry value="8">0.8</entry>
+            <entry value="9">0.9</entry>
+            <entry value="10">1.0</entry>
+            <entry value="11">1.1</entry>
+            <entry value="12">1.2</entry>
+            <entry value="13">1.3</entry>
+            <entry value="14">1.4</entry>
+            <entry value="15">1.5</entry>
+        </list>
+        <value nybble="19" title="Distance Multiplier (added) " comment="Value / 100" category="movement" requirednybble="20.1" requiredval="4"/>
+		<checkbox nybble="19" mask="1" title="Upside Down" category="behavior" requirednybble="20.1" requiredval="1"/>
+		<checkbox nybble="19" mask="2" title="Gyroscopic Movement" category="behavior" requirednybble="20.1" requiredval="1"/>
+		<checkbox nybble="19" mask="4" title="Tilted" category="behavior" requirednybble="20.1" requiredval="1"/>
+		<checkbox nybble="19" mask="8" title="Unknown Value 6 Mask 8" requirednybble="20.1" requiredval="1"/>
+		<list nybble="20" title="Movement Type" category="movement">
+			<entry value="0">None</entry>
+			<entry value="1">Sway Or Spin (68, 69, 116, 118)</entry>
+			<entry value="2">Bolt (238)</entry>
+			<entry value="3">Path (100)</entry>
+			<entry value="4">Two-Way (70)</entry>
+			<entry value="6">BoltMushroom (241)</entry>
+			<entry value="7">No-bolt Mushroom (242)</entry>
+			<entry value="8">Shifting Platform (132)</entry>
+			<entry value="9">Spinning (214, 484)</entry>
+			<entry value="10">Rolling Hill (265)</entry>
+			<entry value="11">Moving Mushroom Lift (210)</entry>
+		</list>
+        <value nybble="21-22" title="Movement ID" category="movement" id_type="movement"/>
+	</sprite>
+	<sprite string_id="blox:actor_block_triple_item_custom" name="Custom Powerup Triple Block" notes="Stores an arbitrary 16-character string to be used by blox actors.">
+		<value nybble="7-8" title="String Bank ID" comment="ID to link with a String Bank containing the namespaced string ID of the actor to spawn." id_type="string_bank" category="behavior"/>
+		<checkbox nybble="9" title="60fps Animation" category="behavior"/>
+		<checkbox nybble="10" title="Spawn Side Coins" category="behavior"/>
+		<list nybble="11" title="Model" category="behavior">
+			<entry value="0">Overworld</entry>
+			<entry value="1">Underground</entry>
+			<entry value="2">Lava</entry>
+			<entry value="3">Lava Underground</entry>
+		</list>
+		<checkbox nybble="6" title="Don't spawn mushroom if small"/>
+		<list nybble="18" title="Bolt Movement Speed" category="movement" requirednybble="20.1" requiredval="2">
+            <entry value="0">1.0</entry>
+			<entry value="4">0.0</entry>
+			<entry value="1">0.25</entry>
+			<entry value="2">0.5</entry>
+			<entry value="3">0.75</entry>
+            <entry value="0">1.0</entry>
+			<entry value="5">1.5</entry>
+			<entry value="6">2.0</entry>
+			<entry value="7">2.5</entry>
+			<entry value="8">3.0</entry>
+			<entry value="9">4.0</entry>
+			<entry value="10">5.0</entry>
+			<entry value="11">6.0</entry>
+			<entry value="12">7.0</entry>
+			<entry value="13">8.0</entry>
+			<entry value="14">9.0</entry>
+			<entry value="15">10.0</entry>
+		</list>
+        <list nybble="19" title="Rectangle Platform Info" category="movement" requirednybble="20.1" requiredval="8">
+            <entry value="0">Follow Top platform</entry>
+            <entry value="1">Follow Bottom platform</entry>
+            <entry value="2">Doesn't move</entry>
+        </list>
+        <list nybble="19" title="Bolt Direction" category="movement" requirednybble="20.1" requiredval="2">
+            <entry value="0">Right</entry>
+            <entry value="1">Left</entry>
+            <entry value="2">Up</entry>
+            <entry value="3">Down</entry>
+        </list>
+		<value nybble="19" title="Hill Distance" category="movement" requirednybble="20.1" requiredval="10"/>
+		<value nybble="17-18" title="Hill Angle" category="movement" requirednybble="20.1" requiredval="10"/>
+		<list nybble="18" title="Distance Multiplier" category="movement" requirednybble="20.1" requiredval="4">
+            <entry value="0">1.0</entry>
+            <entry value="1">0.1</entry>
+            <entry value="2">0.2</entry>
+            <entry value="3">0.3</entry>
+            <entry value="4">0.4</entry>
+            <entry value="5">0.5</entry>
+            <entry value="6">0.6</entry>
+            <entry value="7">0.7</entry>
+            <entry value="8">0.8</entry>
+            <entry value="9">0.9</entry>
+            <entry value="10">1.0</entry>
+            <entry value="11">1.1</entry>
+            <entry value="12">1.2</entry>
+            <entry value="13">1.3</entry>
+            <entry value="14">1.4</entry>
+            <entry value="15">1.5</entry>
+        </list>
+        <value nybble="19" title="Distance Multiplier (added) " comment="Value / 100" category="movement" requirednybble="20.1" requiredval="4"/>
+		<checkbox nybble="19" mask="1" title="Upside Down" category="behavior" requirednybble="20.1" requiredval="1"/>
+		<checkbox nybble="19" mask="2" title="Gyroscopic Movement" category="behavior" requirednybble="20.1" requiredval="1"/>
+		<checkbox nybble="19" mask="4" title="Tilted" category="behavior" requirednybble="20.1" requiredval="1"/>
+		<checkbox nybble="19" mask="8" title="Unknown Value 6 Mask 8" requirednybble="20.1" requiredval="1"/>
+		<list nybble="20" title="Movement Type" category="movement">
+			<entry value="0">None</entry>
+			<entry value="1">Sway Or Spin (68, 69, 116, 118)</entry>
+			<entry value="2">Bolt (238)</entry>
+			<entry value="3">Path (100)</entry>
+			<entry value="4">Two-Way (70)</entry>
+			<entry value="6">BoltMushroom (241)</entry>
+			<entry value="7">No-bolt Mushroom (242)</entry>
+			<entry value="8">Shifting Platform (132)</entry>
+			<entry value="9">Spinning (214, 484)</entry>
+			<entry value="10">Rolling Hill (265)</entry>
+			<entry value="11">Moving Mushroom Lift (210)</entry>
+		</list>
+        <value nybble="21-22" title="Movement ID" category="movement" id_type="movement"/>
 	</sprite>
 </sprites>

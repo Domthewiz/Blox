@@ -64,7 +64,6 @@ namespace blox {
     }
 
     ActorBase::Result ActorBlockTurn::create() {
-
         mFlipsInstantly = red::SpriteUtil::getNybble5(this);
 
         mForm = cForm_Block;

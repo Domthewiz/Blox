@@ -21,5 +21,8 @@ namespace blox {
     
     protected:
         u8 mTimer;
+        sead::Vector3f coinPos1;
+        sead::Vector3f coinPos2;
+        sead::Vector3f coinPos3;
     };
 }

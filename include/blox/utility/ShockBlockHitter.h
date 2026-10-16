@@ -1,5 +1,7 @@
 #pragma once
 
+#include "container/seadSafeArray.h"
+#include <effect/FollowEffect.h>
 #include <map_obj/ActorCoinMgr.h>
 #include <effect/EffectCreateUtil.h>
 #include <map_obj/BlockMgr.h>
@@ -13,8 +15,16 @@ static constexpr u8 cMaximumRingRadius = 4;
 static constexpr f32 cPowEffectScale = 0.5f;
 static constexpr f32 cQuake1EffectScale = 1.5f;
 static constexpr f32 cQuake2EffectScale = 3.0f;
+static constexpr f32 cQuake3EffectScale = 3.0f;
+static const sead::Color4f cQuakeEffectColor {
+    0.6f, 1.0f, 2.0f, 0.5f
+};
 
-// Not a port from NSMB2, made completely from scratch 
+static constexpr sead::SafeArray<s32, 2> cCoinSpawnBypassAllowedProfileIDs {
+    289, 291
+};
+
+// Not a port from NSMB2, made completely from scratch
 // TODO: somehow improve this
 class Block : public BlockCoinBase {};
 
@@ -39,19 +49,23 @@ class ShockBlockHitter {
             mTimer = cInitialDelay;
             mOriginPosition = origin;
             mHitPlayerNo = player_no;
-            
+
             // TODO: Make better effects lmao
             sead::Vector3f effectPos(mOriginPosition.x, mOriginPosition.y + 8.0f, 4500.0f);
             sead::Vector3f effectScale(cPowEffectScale, cPowEffectScale, cPowEffectScale);
             EffectCreateUtil::createEffect(RP_Pow, &effectPos, nullptr, &effectScale);
 
             effectScale = sead::Vector3f(cQuake1EffectScale,cQuake1EffectScale,cQuake1EffectScale);
-            EffectCreateUtil::createEffect(RP_Coinedit_StarCoin_on, &effectPos, nullptr, &effectScale);
-
+            FollowEffect quakeParticle1;
+            quakeParticle1.createEffect(RP_Coinedit_StarCoin_on, &effectPos, nullptr, &effectScale);
+            quakeParticle1.setColor(cQuakeEffectColor);
+            
             effectScale = sead::Vector3f(cQuake2EffectScale,cQuake2EffectScale,cQuake2EffectScale);
-            EffectCreateUtil::createEffect(RP_Coinedit_StarCoin_on, &effectPos, nullptr, &effectScale);
+            FollowEffect quakeParticle2;
+            quakeParticle2.createEffect(RP_Coinedit_StarCoin_on, &effectPos, nullptr, &effectScale);
+            quakeParticle2.setColor(cQuakeEffectColor);
         }
-        
+
         bool isActive() const {
             return mActive;
         }
@@ -66,9 +80,18 @@ class ShockBlockHitter {
                 return;
             }
 
+
             if (mTimer > 0) {
                 mTimer--;
                 return;
+            }
+
+            if (mRingRadius == 2) {
+                sead::Vector3f effectPos(mOriginPosition.x, mOriginPosition.y + 8.0f, 4500.0f);
+                sead::Vector3f effectScale = sead::Vector3f(cQuake3EffectScale,cQuake3EffectScale,cQuake3EffectScale);
+                FollowEffect quakeParticle3;
+                quakeParticle3.createEffect(RP_Coinedit_StarCoin_on, &effectPos, nullptr, &effectScale);
+                quakeParticle3.setColor(cQuakeEffectColor);
             }
 
             tryTilesetBlocks(mRingRadius);
@@ -81,22 +104,22 @@ class ShockBlockHitter {
         static bool isInQuakeRing(const sead::Vector3f& origin_position, const sead::Vector3f& block_position, u8 ring_radius) {
             u32 dy = sead::Mathi::abs(static_cast<u32>(block_position.y - origin_position.y));
             u32 dx = sead::Mathi::abs(static_cast<u32>(block_position.x - origin_position.x));
-            
+
             dy = ((dy / 4) + 1) / 4;
             dx = ((dx / 4) + 1) / 4;
-        
+
             const u32 outer = ring_radius + 1;
 
             return (dx < outer && dy < outer) && (dx >= ring_radius || dy >= ring_radius);
         }
-        
+
         void tryActorBlocks(u8 ring_radius) {
             ActorMgr* actorMgr = ActorMgr::instance();
             for (auto it = actorMgr->getActorBegin(); it != actorMgr->getActorEnd(); it++) {
                 if (*it == nullptr) {
                     continue;
                 }
-                
+
                 ActorBlockBase* targetActor = sead::DynamicCast<ActorBlockBase>(*it);
                 if (!targetActor) {
                     continue;
@@ -105,29 +128,46 @@ class ShockBlockHitter {
                 if (targetActor->isRequestedDelete()) {
                     continue;
                 }
-                
+
                 if (!targetActor->isActive() && targetActor->isState(ActorBlockBase::StateID_Wait)) {
                     continue;
                 }
-                
+
                 if (!isInQuakeRing(mOriginPosition, targetActor->getPos(), ring_radius)) {
                     continue;
                 }
 
-                if (targetActor->getBaseContent() == BlockCoinBase::Content::cContent_Empty && targetActor->getBlockType() == ActorBlockBase::cType_Renga) {
+                if (targetActor->getBaseContent() == BlockCoinBase::Content::cContent_Empty &&
+                    targetActor->getBlockType() == ActorBlockBase::cType_Renga
+                ) {
                     targetActor->destroy();
-                } else if (targetActor->getBaseContent() == BlockCoinBase::Content::cContent_Coin && (targetActor->getBlockType() == ActorBlockBase::cType_Renga || targetActor->getBlockType() == ActorBlockBase::cType_Hatena)) {
+
+                } else if (targetActor->getBaseContent() == BlockCoinBase::Content::cContent_Coin &&
+                          (targetActor->getBlockType() == ActorBlockBase::cType_Renga ||
+                           targetActor->getBlockType() == ActorBlockBase::cType_Hatena) &&
+                          (allowedCoinSpawnBypass(targetActor->getProfileID()))) {
                     targetActor->forceSpawnItemUp(mHitPlayerNo, mHitPlayerNo);
                     targetActor->postBump();
                     targetActor->getScale() = sead::Vector3f::ones;
+
                 } else {
                     targetActor->setBumpUpTimer(8);
+                    
                 }
             }
         }
-        
+
+        bool allowedCoinSpawnBypass(s32 profile_id) {
+            for (u32 i = 0; i < cCoinSpawnBypassAllowedProfileIDs.size(); i++) {
+                if (cCoinSpawnBypassAllowedProfileIDs[i] == profile_id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         void tryTilesetBlocks(u8 ring_radius) {
-            
+
             BlockMgr::DestroyParam breakBlockParam;
             breakBlockParam.fragment_type = 1; // renga
             breakBlockParam._c = 1;
@@ -167,7 +207,7 @@ class ShockBlockHitter {
                         u16* tile = Bg::getUnitCurrentCdFile(getUnitCheckPos.x,getUnitCheckPos.y, 0);
                         BgUnitCode::Type unitCode = Bg::instance()->getUnitType(breakPos.x,breakPos.y,0);
                         blockHitParam.content.index = *tile >> 10 & 0xF;
-                        
+
                         // Do this check in order to avoid breaking bricks with boost mode, hence spawning a coin
                         if (unitCode == BgUnitCode::Type::cType_BreakBlock && blockHitParam.content.renga == BlockMgr::cRengaContent_Empty) {
                             BlockMgr::instance()->doDestroyAt(breakBlockParam);
@@ -175,12 +215,12 @@ class ShockBlockHitter {
                         } else if (unitCode == BgUnitCode::Type::cType_BreakBlock && blockHitParam.content.renga == BlockMgr::cRengaContent_None) {
                             BlockMgr::instance()->doDestroyAt(breakBlockParam);
                             *tile = cUnitID_Coin;
-                            
-                        } else if ((unitCode == BgUnitCode::Type::cType_BreakBlock && blockHitParam.content.renga == BlockMgr::cRengaContent_Coin) || 
+
+                        } else if ((unitCode == BgUnitCode::Type::cType_BreakBlock && blockHitParam.content.renga == BlockMgr::cRengaContent_Coin) ||
                                    (unitCode == BgUnitCode::Type::cType_Q_Block  && blockHitParam.content.hatena == BlockMgr::cHatenaContent_Coin)) {
                             ActorCoinMgr::instance()->spawnItemCoin(sead::Vector3f(breakBlockParam.position.x + 8.0f, breakBlockParam.position.y - 16.0f, 0.0f), cDirType_Up, mHitPlayerNo);
                             *tile = cUnitID_BlockUsed;
-                            
+
                         } else if (unitCode == BgUnitCode::Type::cType_BreakBlock || unitCode == BgUnitCode::Type::cType_Q_Block) {
                             BlockMgr::instance()->feverModeHitBlockAt(blockHitParam.position);
                         }
